@@ -617,7 +617,7 @@ C best estimate 1/2 of grey stuff is white
       REQUIV = SQRT((AREA+0.5*AREAG)/PI)
       TOL = REQUIV-RLOW
 
-      IF (SHORTO.LT.2) WRITE( NOUT, '(A,I3,A,F10.4,A,I5,10(A,F10.4)))') 
+      IF (SHORTO.LT.2) WRITE( NOUT, '(A,I3,A,F10.4,A,I5,10(A,F10.4))') 
      &'   Connolly area calc cycle', NCYCLE,
      &' Requiv= ',  REQUIV, 
      &' squares stored= ', SNO(ITO),

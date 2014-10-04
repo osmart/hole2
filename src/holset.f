@@ -246,7 +246,7 @@ C any skip?
      &' All positions from this file will be analyzed'//
      &       ' (as no CHARMS card read)'
           ELSE
-            WRITE( NOUT, '(A,I5,A))')
+            WRITE( NOUT, '(A,I5,A)')
      &' Will skip', CHSKIP(1), 
      &                     ' positions before starting to analyze',
      &' and      ', CHSKIP(2), 
