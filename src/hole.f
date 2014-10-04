@@ -334,7 +334,7 @@ C greetings
      &' ',
      &' If results of this run are reported or published, please', 
      &' cite the publication listed below.',
-     &' For the hole program:',
+     &' For the HOLE program:',
      &'   Smart, O.S., Goodfellow, J.M., Wallace, B.A. (1993). ',
      &'   The pore dimensions of gramicidin A. ',
      &'   Biophys. J., 65, 2455-2460.',
@@ -345,9 +345,9 @@ C greetings
 !     &'   Biophys. J. 72, 1109-1126.',
      &' ',
      &' Written by Oliver Smart at Birkbeck College from April 1992.',
-     &' Copyright 1993,1997 by Oliver Smart and Birkbeck College',
-     &' Copyright 2004,2005 by Oliver Smart ',
-     &' Program modification number 2.2 002'
+     &' Copyright 1993-2005 by Oliver Smart',
+     &' Copyright 2014 SmartSci Limited, All rights reserved.',
+     &' Program modification number 2.2 003'
      
 C write link time of program to screen
       CALL VERTIM( NOUT)
