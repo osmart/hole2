@@ -1,0 +1,24 @@
+C vbles for vt code - controls whether program uses vt terminal
+C control codes for emphasis
+
+C the whole code thing is turned on by VTON - default 
+      LOGICAL				VTON
+c      DATA				VTON /.FALSE./
+      
+C 12/11/1997 new really fancy option add change to bold after prompt
+C This must be turned off at start of next
+C turn on/off with lBOLD passed in common block (programs
+C will need quite a large rewrite)
+C common block for LBOLD (allow use of PROMPT without modifying calls - for
+C back compatibility)
+      LOGICAL				VTBOLD
+c      DATA				VTBOLD /.FALSE./
+      
+C also store the string required to get things back to normal -
+C if VTON is off this should be null string
+      CHARACTER*4			VTNORM
+c      DATA				VTNORM /''/
+
+
+      COMMON /VTLOGS/			VTBOLD, VTON
+      COMMON /VTCHAR/			VTNORM

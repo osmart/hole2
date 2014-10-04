@@ -1,0 +1,16 @@
+! 2nd example a more complex hole run on maltoporin
+!
+! first use standard spherical probe
+coord  03_1af6.pdb 
+radius ~/hole2/rad/simple.rad	! Use simple AMBER vdw radii
+!
+! now optional cards
+sphpdb spherical.sph            ! standard hole spherical probe in this run
+ignore FRU GLC MG HOH           ! ignore all water, MG ions and sugars in the structure
+cvect 0.0 0.0 1.0		! channel runs in Z direction
+! this structure is a trimer - the automatic HOLE guess procedure
+! fails to find a point in one of the three channels.
+! so overide with a CPOINT card - in this case use an atom
+! from one of the sugars bound in the channel:
+!HETATM 6858  C1  GLC B   1     -14.285  47.809  82.707  1.00 52.56           C
+cpoint -14.285  47.809  82.707

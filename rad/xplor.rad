@@ -1,0 +1,60 @@
+remark: van der Waals radii from XPLOR parameter file:param19x.pro
+remark: VDWR determined as sigma/2
+remark: Kindly provided by Ian Kerr, Molecular Biophysics, Oxford University
+remark:
+remark: CB ALA = CH3E, CB THR, VAL, ILE = CH1E
+remark: CB ??? = CH2E
+VDWR CB   ALA 1.929
+VDWR CB   THR 2.107
+VDWR CB   VAL 2.107
+VDWR CB   ILE 2.107
+VDWR CB   ??? 1.991
+remark: other CH2E atoms (carbon with two aliphatic hydrogens)
+VDWR CA   GLY 1.991
+VDWR CG   GLU 1.991
+VDWR CG   LYS 1.991
+VDWR CD   LYS 1.991
+VDWR CE   LYS 1.991
+VDWR CG   PRO 1.991
+VDWR CD   PRO 1.991
+VDWR CG   MET 1.991
+VDWR CG1  ILE 1.991
+VDWR CG   GLN 1.991
+VDWR CG   ARG 1.991
+VDWR CD   ARG 1.991
+remark: CH3E atoms (carbon with three aliphatic hydrogens)
+remark: smaller than CH2E ? I'm only copying from Xplor
+VDWR CD?  LEU 1.929
+VDWR CE   MET 1.929
+VDWR CG2  THR 1.929
+VDWR CD1  ILE 1.929
+VDWR CG2  ILE 1.929
+VDWR CG?  VAL 1.929
+remark: aromatic carbon atoms
+VDWR CE3  TRP 1.871
+VDWR CD1  TRP 1.871
+VDWR CZ?  TRP 1.871
+VDWR CH2  TRP 1.871
+VDWR CD?  PHE 1.871
+VDWR CE?  PHE 1.871
+VDWR CD?  TYR 1.871
+VDWR CE?  TYR 1.871
+VDWR CD2  HIS 1.871
+VDWR CE1  HIS 1.871
+VDWR CZ   ??? 1.871
+remark: ASN, GLN polar H (odd names for these atoms in xplor)
+VDWR E2?  GLN 0.713
+VDWR D2?  ASN 0.713
+remark: lysine terminal hydrogens
+VDWR HZ?  LYS 0.535
+remark: general last, all oxygens have same vdwr in XPLOR
+remark: all sulphurs have same vdwr in XPLOR
+remark: all nitrogens same vdwr IN XPLOR
+remark: all other H will be polar - same vdwr
+remark: remaining C, eg. CA, carbonyl C
+VDWR C??? ??? 1.871
+VDWR H??? ??? 0.713
+VDWR O??? ??? 1.425
+VDWR S??? ??? 1.684
+VDWR N??? ??? 1.425
+VDWR P??? ??? 1.800

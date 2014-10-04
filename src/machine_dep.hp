@@ -1,0 +1,915 @@
+C ********************************************************************
+C *                                                                  *
+C * This software is an unpublished work containing confidential and *
+C * proprietary information of Birkbeck College. Use, disclosure,    *
+C * reproduction and transfer of this work without the express       *
+C * written consent of Birkbeck College are prohibited. This notice  *
+C * must be attached to all copies or extracts of the software.      *
+C *                                                                  *
+C * (c) 1993 Oliver Smart & Birkbeck College, All rights reserved    *
+C *                                                                  *
+C ********************************************************************
+C
+C Modification history:
+C
+C Date	Author		Modification
+C 12/93	O.S. Smart	Original public release in HOLE suite beta1.0
+C
+C
+C File machine_dep.f contains all machine dependent routines used
+C silicon graphics version
+      INTEGER FUNCTION IMACH( IDUM)
+      IMPLICIT NONE 
+C this fn. returns a number to indicate which machine being run on
+C -1: IBM pc under ms dos
+C 0:  Vax under VMS
+C 1:  Convex, hp's
+C 2:  IBM RS6000, sg's (these machines need to have the input
+C			(stream rewound after EOF entered)
+C N.B. numbers gt zero for EOF = ctrl_D le zero for ctrl_Z
+      INTEGER			IDUM
+      IMACH = 1 
+      RETURN
+      END
+C
+      SUBROUTINE DISKFF (ISTR)
+      IMPLICIT NONE
+      SAVE
+C
+C This software is an unpublished work containing confidential and 
+C proprietary information of Imperial College. Use, disclosure,
+C reproduction and transfer of this work without the express
+C written consent of Imperial Collge are prohibited.
+C
+C (c) 1991 Oliver Smart; 
+C	   Imperial College of Science, Technology and Medicine; 
+C          University of London; London, United Kingdom.;
+C          All Rights Reserved.	
+C
+C this s/r updates a file to disk
+C                             NEW VERSION DOES NOT REQUIRE FILENAME
+C it closes the file, opens it once more and then reads the lines
+C until an eof occurs
+      CHARACTER*200		FNAME
+      INTEGER			ISTR
+      LOGICAL 			LEXIST
+
+C if unit is six this means screen so return
+      IF (ISTR.EQ.6) GOTO 55555
+
+C check that unit exists
+      INQUIRE( UNIT= ISTR, EXIST= LEXIST)
+
+      IF (LEXIST) THEN
+C find out filename
+      	INQUIRE( UNIT= ISTR, NAME= FNAME)
+      	CLOSE(ISTR)
+C rs6000 do not need 'append' or shared
+C as file positioned at EOF if next command is a write
+      	OPEN( ISTR, FILE= FNAME, 
+C   1        status='old')
+     1        STATUS='OLD', SHARED, ACCESS= 'APPEND')
+      ELSE
+C tell output stream
+        WRITE(*,99900) ISTR
+      ENDIF
+
+
+55555 RETURN
+99900 FORMAT(
+     1' *** WARNING ***',/
+     1' s/r DISKFF has been called with non-existent unit no.:',I5)
+      END
+C
+      SUBROUTINE DISKFB (ISTR)
+      IMPLICIT NONE
+      SAVE
+C
+C This software is an unpublished work containing confidential and 
+C proprietary information of Imperial College. Use, disclosure,
+C reproduction and transfer of this work without the express
+C written consent of Imperial Collge are prohibited.
+C
+C (c) 1991 Oliver Smart; 
+C	   Imperial College of Science, Technology and Medicine; 
+C          University of London; London, United Kingdom.;
+C          All Rights Reserved.	
+C
+C this s/r updates a BINARY file to disk
+C it closes the file, opens it once more and then reads the lines
+C until an eof occurs
+      CHARACTER*200		FNAME
+      INTEGER			ISTR
+      LOGICAL 			LEXIST
+
+C check that unit exists
+      INQUIRE( UNIT= ISTR, EXIST= LEXIST)
+
+      IF (LEXIST) THEN
+C find out filename
+      	INQUIRE( UNIT= ISTR, NAME= FNAME)
+      	CLOSE(ISTR)
+      	OPEN( ISTR, FILE= FNAME, FORM= 'UNFORMATTED', 
+C   1        status='old')
+     1        STATUS='OLD', SHARED, ACCESS= 'APPEND')
+      ELSE
+C tell output stream
+        WRITE(*,99900) ISTR
+      ENDIF
+
+
+55555 RETURN
+99900 FORMAT(
+     1' *** WARNING ***',/
+     1' s/r DISKFB has been called with non-existent unit no.:',I5)
+      END
+C
+      SUBROUTINE INTERF( USERI, USERO, 
+     &		         LOLD, ISTR, FTYPE, FNAME, LABORT, DEFEXT)
+      IMPLICIT NONE
+      SAVE
+C
+C This software is an unpublished work containing confidential and 
+C proprietary information of Imperial College. Use, disclosure,
+C reproduction and transfer of this work without the express
+C written consent of Imperial College are prohibited.
+C
+C (c) 1991 Oliver Smart; 
+C	   Imperial College of Science, Technology and Medicine; 
+C          University of London; London, United Kingdom.;
+C          All Rights Reserved.	
+C (c) 1993 Oliver Smart and Birkbeck College.
+C (c) 1995 Oliver Smart and Birkbeck College.
+C
+C this s/r is designed to be used in an interactive setting
+C to ask user (input stream useri, usually supplied as 5;
+C output stream useri, usually supplied as 6) for a filename.
+C An attempt is then made to open that file to a stream istr.
+C If the flag lold is set true then the file should
+C be opened readonly, otherwise as new.
+C The user can supply a default filename in fname
+C and a default file extension (usually '.abc') in defext.
+C If labort is set true then ctrl_Z will allow the user to abort
+C the request.
+C
+C March 1993 extensive modifications:  
+C (1) Test to see whether user specified filename can be opened
+C     if file name with extension added fails.
+C (2) Correct error caused by relative path specification having .'s 
+C     in unix (../data/new).
+C (3) Allow the user to append, overwrite or keep old version of file
+C     if a new file is being opened and the file already exists.
+C (4) A bit of a bodge!
+C     If fname is supplied with !*! as first three characters
+C     then these are stripped of default extension added (if necessary)
+C     and the file is opened (if possible) WITHOUT a prompt. (This
+C     is introduced for s/r ssopen in program series.
+C
+C Jan 1995 Read from input stream function replaced by call
+C          to s/r READSE, this does the history file recording/
+C          playback in program series - should be transparent to
+C          other applications e.g.,
+C          READSE(NIN,NOUT,*1,*2,COM) replaces a READ(NIN,'(A)',END=1,ERR=2)COM
+C
+C Feb 1996 added expansion of filenames containing ~ included using s/r DTILDA
+C
+C Note: some machine specific statements are commented in/out
+C       at around line 290.
+
+C input/output/file streams
+      INTEGER				USERI,
+     &				        USERO,
+     &					ISTR
+
+C old file/ abort flag
+      LOGICAL				LOLD, LABORT
+
+C ftype is the type of file to be opened 
+      CHARACTER*(*)			FTYPE
+C filename
+      CHARACTER*(*)			FNAME
+C default extension
+      CHARACTER*(*)			DEFEXT
+
+C internal vbles
+
+C to open files read only, same for readonly & binary
+      LOGICAL				OPENRO, OPENRB
+
+C fail to open indicator
+      LOGICAL				LFAIL
+
+C store for default filename.
+      CHARACTER*200			FDEF
+C store for originaly specified filename
+      CHARACTER*200			FORIG
+
+C the last character of: fname, ftype, defext
+      INTEGER				IEND, ENDTYP, ENDDEF
+
+C to supply old/new message
+      CHARACTER*3			COLD
+
+C to supply abort message
+      CHARACTER*21			CABORT
+      INTEGER				ENDABO
+
+C dummy integer
+      INTEGER				IDUM
+
+C binary file?
+      LOGICAL				LBIN
+
+C IMACH is a fn indicating machine type.
+C A value of 2 indicates ibm rs6000 - which deals with eof
+C characters on the input stream in an unusual manner.
+C All values 1 or over indicate a unix machine EOF entered by ctrl_D.
+      INTEGER				IMACH
+
+C iris objects to concatentation in s/r call use dumchar
+C variable to make call to prompt string
+      CHARACTER*80			DUMCHR
+
+C four character command
+      CHARACTER*4			COM4
+
+C Do prompt for initial filename? See note (4) above.
+      LOGICAL				LPROMP
+
+C end of decs **************************
+
+C prompt for initial filename? See note (4) at start of s/r.
+      IF (FNAME(1:3).EQ.'!*!') THEN
+        LPROMP = .FALSE.
+        CALL CHREND( FNAME, IEND)
+C strip off first three characters
+        FNAME(1:IEND) = FNAME(4:IEND)
+        IEND = 0
+      ELSE
+        LPROMP = .TRUE.
+      ENDIF
+
+C modification - if ftype contains the string 'binary'
+C then deal with a binary file
+      LBIN = .FALSE.
+      IF ( (INDEX(FTYPE,'BINARY').NE.0) .OR.
+     &     (INDEX(FTYPE,'binary').NE.0)     ) LBIN = .TRUE.
+
+C find a free stream no
+      CALL STREAM( ISTR)
+
+C reset fail indicator
+      LFAIL = .FALSE.
+C do we want an old or new file
+      IF (LOLD) THEN
+        COLD = 'old'
+      ELSE
+        COLD = 'new'
+      ENDIF
+C file type
+      CALL CHREND( FTYPE, ENDTYP)
+C default extension
+      CALL CHREND( DEFEXT, ENDDEF)
+
+C if a default extension has been supplied
+      IF (ENDDEF.GE.1) THEN
+C Add default extension to default filename.
+C Vms filenames can have dots in directory name
+C e.g., user:[user.fred]data. Unix filenames can
+C be begun with two dots - meaning diectory down.
+C Look for vms end of directory or unix beginning
+C of directory - to avoid ../new/ causing problem.
+        IDUM = MAX(INDEX(FNAME,']'),INDEX(FNAME,'/'),1)
+
+C Where to place extension if extension already on filename:
+        IDUM = INDEX(FNAME(IDUM:200),'.') + IDUM - 2
+C If no extension found place at the end:
+        IF (IDUM.LE.0) CALL CHREND( FNAME, IDUM)
+C Add default extension to filename:
+        FNAME = FNAME(1:IDUM)//DEFEXT
+      ENDIF
+
+C store default filename
+      FDEF = FNAME
+
+C Allow abort?
+      IF (LABORT) THEN
+        IF (IMACH(0).GT.0) THEN
+C unix uses ctrl-D
+	  CABORT= '(abort by EXIT or ^D)'
+	  ENDABO = 21
+        ELSE
+C vms ctrl-Z	   123456789012345678901
+	  CABORT= '(abort by EXIT or ^Z)'
+	  ENDABO = 21
+        ENDIF
+      ELSE
+        CABORT= ' '
+        ENDABO = 0
+      ENDIF
+
+C ask for filename ************
+
+C Jump back here if we cannot open specified file.
+10    CONTINUE
+
+C If on an ibm under aix then we have to
+C rewind input stream after an EOF has occured.
+C under old versions of IRIX this can cause problems - include err
+      IF (IMACH(0).EQ.2) REWIND( USERI, ERR= 25105)
+25105 CONTINUE
+
+
+C If this is the 2nd time around - tell user cannot open & bleep.
+      IF (LFAIL) THEN
+	CALL CHREND( FNAME, IEND)
+        WRITE( USERO, '(A,A)')
+     &' Sorry unable to open file: ', FNAME(1:IEND)
+C New feature (3/93):
+C now also try to open original name specified for old files
+        IF (LOLD) THEN
+	  CALL CHREND( FORIG, IEND)
+          WRITE( USERO, '(A,A)')
+     &'                   or file: ', FORIG(1:IEND)
+        ENDIF
+        WRITE( USERO, '(A,A)')
+     &' Please try again!', CHAR(7)
+C revert to original default
+        FNAME = FDEF
+      ENDIF	
+
+C prompt for file?
+      IF (LPROMP) THEN
+        CALL CHREND( FNAME, IEND) 
+        WRITE( USERO, '(A,A,A,A,A)' )
+     &' Please enter ', FTYPE(1:ENDTYP), ' (', COLD, ') filename'
+C prompting now dealt with in seperate routine
+        DUMCHR =
+     &'defaults <'//FNAME(1:IEND)//'> ext:<'//DEFEXT(1:ENDDEF)//
+     &   '> '//CABORT(1:ENDABO)//' :'
+        CALL PROMPT( USERO, DUMCHR)
+
+C read reply line 900 for abort
+C see initial comments - READSE call replaces READ (required for series)
+C old line "read( useri, '(a)', end= 900, err= 900) fname"
+        CALL READSE( USERI, USERO, *900, *900, FNAME)
+C abort by exit
+        IF ((FNAME(1:4).EQ.'exit').OR.(FNAME(1:4).EQ.'EXIT'))
+     &						     GOTO 900
+      ENDIF
+
+C make sure that prompting on if we fail and need to
+C ask for name
+      LPROMP = .TRUE.
+
+C fail indicator
+      LFAIL = .TRUE.
+
+C reply blank?
+      CALL CHREND( FNAME, IEND)
+      IF (IEND.EQ.0) THEN
+C default to fdef
+        FNAME = FDEF
+        FORIG = FDEF
+      ELSE
+C Have specified filename.
+C Store the specified string: may need if opening
+C old file and does not want the default extension.
+        FORIG = FNAME
+C Put on extension? - for details see comments
+C where same thing is done above.
+        IDUM = MAX(INDEX(FNAME,']'),INDEX(FNAME,'/'),1)
+        IDUM = INDEX(FNAME(IDUM:200),'.')
+        IF (IDUM.EQ.0) THEN
+          CALL CHREND( FNAME, IDUM)
+          FNAME = FNAME(1:IDUM)//DEFEXT
+        ENDIF
+      ENDIF
+
+C expand filenames if they contain a tilda
+      CALL DTILDA( FNAME)
+      CALL DTILDA( FORIG)
+
+C open as old or new?
+      IF (LOLD) THEN
+C Open as a readonly file.
+C Logical fn. openro opens as readonly (provides stream no. to)
+C  - if file cannot be opened then returns .false..
+        IF (LBIN) THEN
+C lbin indicates whether file should be opened as binary or normal.
+          IF (.NOT.OPENRB( ISTR, FNAME, USERO)) THEN
+C If cannot open file with extension put on try without
+C - forig stores the string supplied by the user.
+            IF (.NOT.OPENRB( ISTR, FORIG, USERO)) GOTO 10
+          ENDIF
+        ELSE
+          IF (.NOT.OPENRO( ISTR, FNAME, USERO)) THEN
+            IF (.NOT.OPENRO( ISTR, FORIG, USERO)) GOTO 10
+          ENDIF
+        ENDIF
+
+      ELSE
+
+C Open a new file.
+C New feature March 1993 test to see whether file can be opened
+C  as old and allow user options for what to do if it can.
+C For now only do on unix machines.
+        IF (IMACH(0).GT.0) THEN
+          OPEN( ISTR, FILE= FNAME, STATUS= 'OLD', ERR= 35)
+C close file
+          CLOSE( ISTR)
+C The file already exists!
+          CALL CHREND( FNAME, IEND)
+          WRITE( USERO, '(A,A,A,A/ A/ A/ A)')
+     &' File: ', FNAME(1:IEND), ' already exists', CHAR(7),
+     &' What do you want to do?  Options: ',
+     &'   * Specify new file name     - hit return',
+     &'   * Overwrite old file        - enter "o"'
+          WRITE( USERO, '(A,A,A/ A/ A)')
+     &'   * Keep old file as: ', FNAME(1:IEND), '.old',
+     &'                               - enter "k"',
+     &'   * Append to old file        - enter "a"'
+          IF (LABORT) WRITE(USERO,'(A,A)')
+     &'   * Abort:                    '//CABORT(1:ENDABO)
+          CALL PROMPT( USERO,
+     & 'Enter option <respecify file name>:')
+C read reply into com4
+C see initial comments - READSE call replaces READ (required for series)
+C old line "read( useri, '(a)', end= 900, err= 900) com4"
+          CALL READSE( USERI, USERO, *900, *900, COM4)
+C make upper case
+          CALL UCASE( COM4)
+
+C option - overwrite old file.
+          IF (COM4(1:1).EQ.'O') THEN
+C reopen file
+            OPEN( ISTR, FILE= FNAME, STATUS= 'OLD')
+C delete file
+            CLOSE( ISTR, STATUS= 'DELETE')
+C proceed
+
+C option - append to old file
+          ELSEIF (COM4(1:1).EQ.'A') THEN
+C On rs6000 files opened as old will automatically be
+C positioned at EOF if next operation on stream is a write.
+C On unix machines which support vax extensions use ACCESS= 'APPEND' keyword
+C use small comments to put correct statments
+            IF (LBIN) THEN
+C unformatted
+C rs6000's
+C              OPEN( ISTR, FILE= FNAME, STATUS= 'OLD', 
+C     &              FORM= 'UNFORMATTED')
+C vax extension
+              OPEN( ISTR, FILE= FNAME, STATUS= 'OLD', 
+     &              FORM= 'UNFORMATTED', ACCESS= 'APPEND')
+            ELSE
+C normal formatted file
+C rs6000's
+C              OPEN( ISTR, FILE= FNAME, STATUS= 'OLD')
+C vax extension
+              OPEN( ISTR, FILE= FNAME, STATUS= 'OLD', 
+     &              ACCESS= 'APPEND')
+      	    ENDIF
+
+C return without error
+            GOTO 55
+
+C option - keep old file as .old
+          ELSEIF (COM4(1:1).EQ.'K') THEN
+C Use call to system  - this s/r executes a unix command.
+C make up unix command
+            DUMCHR = 'mv '//FNAME(1:IEND)//' '
+     &                   //FNAME(1:IEND)//'.old'
+            CALL SYSTEM( DUMCHR)
+C proceed
+
+C option - abort
+          ELSEIF (COM4.EQ.'EXIT') THEN
+            GOTO 900
+
+C unrecognized option or blank return
+          ELSE
+
+C reset failure to open indicator
+            LFAIL = .FALSE.
+C revert to original default
+            FNAME = FDEF
+C get new file name
+            GOTO 10
+
+          ENDIF
+        ENDIF
+
+C Jump here if file does not yet exist.
+35      CONTINUE
+        IF (LBIN) THEN
+C unformatted
+          OPEN( ISTR, FILE= FNAME, STATUS= 'NEW', 
+     &          FORM= 'UNFORMATTED', ERR= 10)
+        ELSE
+	OPEN( ISTR, FILE= FNAME, STATUS= 'NEW', 
+C Pc version - no carriagecontrol statement as this is non-standard.
+     &                                ERR= 10)
+C     &	      CARRIAGECONTROL= 'LIST', ERR= 10)
+      	ENDIF
+      ENDIF
+
+C jump to here to return without error
+55    CONTINUE
+
+C return the fname as result of inquire
+      INQUIRE( ISTR, NAME = FNAME)
+
+C normal return - file is opened
+      LABORT = .FALSE.
+
+55555 RETURN
+
+C abort to here
+900   CONTINUE
+      IF (LABORT) THEN
+C jump to return
+        GOTO 55555
+      ELSE
+        WRITE( USERO, *) 'abort not available', CHAR(7)
+        GOTO 10
+      ENDIF
+
+      END
+C 
+      LOGICAL FUNCTION OPENRO( ISTR, FNAME, IMESS)
+      IMPLICIT NONE
+C logical fn. openro(nstream,filename)
+C   nstream gives stream no.
+C   filename is c*200
+C opens file filename to stream
+C    istr as 'old' and 'readonly'
+C if it succeeds openro .true. but if
+C file cannot be opened returns as false
+C if file can only be opened 'shared' then tells user on
+C stream imess
+      INTEGER			ISTR, IMESS
+C fname must be returned unchanged 
+      CHARACTER*(*)		FNAME
+C dummy name for filenmae
+      CHARACTER*200		FDUM
+
+C end of decs ******************
+
+C find an availible stream no.
+      CALL STREAM(ISTR)
+
+      OPENRO = .FALSE.
+C readonly is a vax extension (can be removed)
+C shared allows reading file being written to by another user
+C PC VERSION - NO READONLY
+      OPEN( UNIT= ISTR, FILE= FNAME, STATUS= 'OLD',
+C     &		      ERR= 10)
+     &	    READONLY, ERR= 10)
+      OPENRO = .TRUE.
+C successful open jump to return
+      GOTO 55555
+
+C shared means file is currently being written to by another
+C user - PC VERSION NO READONLY, SHARED
+10    OPEN( UNIT= ISTR, FILE= FNAME, STATUS= 'OLD',
+C     &			      ERR= 20)
+     &	    READONLY, SHARED, ERR= 20)
+C tell user
+      WRITE( IMESS, 99900) 
+C successful open jump to return
+      OPENRO = .TRUE.
+      GOTO 55555
+
+C in unix filenames are case sensistive so try to open lower
+C case if fname fails
+20    CONTINUE
+C - but put into dummy first
+      FDUM = FNAME
+      CALL LCASE(FDUM)
+      OPEN( UNIT= ISTR, FILE= FDUM, STATUS= 'OLD',
+C PC VERSION - NO READONLY
+C     &		      ERR= 30)
+     &	    READONLY, ERR= 30)
+C successful open jump to return
+      OPENRO = .TRUE.
+      GOTO 55555
+C shared means file is currently being written to by another
+C user - PC VERSION NO READONLY, SHARED
+30    OPEN( UNIT= ISTR, FILE= FDUM, STATUS= 'OLD',
+C     &			      ERR= 55555)
+     &	    READONLY, SHARED, ERR= 55555)
+C tell user
+      WRITE( IMESS, 99900) 
+C successful open jump to return
+      OPENRO = .TRUE.
+      GOTO 55555
+
+99900 FORMAT('  ** Warning file currently opened by another user')
+
+
+55555 RETURN
+      END
+C
+      LOGICAL FUNCTION OPENRB( ISTR, FNAME, IMESS)
+      IMPLICIT NONE
+C logical fn. openrB(nstream,filename) as a binary file
+C   nstream gives stream no.
+C   filename is c*200
+C opens file filename to stream
+C    istr as 'old' and 'readonly'
+C if it succeeds OPENRB .true. but if
+C file cannot be opened returns as false
+C if file can only be opened 'shared' then tells user on
+C stream imess
+      INTEGER			ISTR, IMESS
+C fname must be returned unchanged 
+      CHARACTER*(*)		FNAME
+C dummy name for filenmae
+      CHARACTER*200		FDUM
+
+C end of decs ******************
+
+C find an availible stream no.
+      CALL STREAM(ISTR)
+
+      OPENRB = .FALSE.
+C readonly is a vax extension (can be removed)
+C shared allows reading file being written to by another user
+C PC VERSION NO READONLY
+      OPEN( UNIT= ISTR, FILE= FNAME, STATUS= 'OLD',
+C     &		      FORM= 'UNFORMATTED', ERR= 10)
+     &	    READONLY, FORM= 'UNFORMATTED', ERR= 10)
+      OPENRB = .TRUE.
+C successful open jump to return
+      GOTO 55555
+
+C shared means file is currently being written to by another
+C user PC VERSION NO READONLY, SHARED
+10    OPEN( UNIT= ISTR, FILE= FNAME, STATUS= 'OLD',
+C     &			      FORM= 'UNFORMATTED', ERR= 20)
+     &	    READONLY, SHARED, FORM= 'UNFORMATTED', ERR= 20)
+C tell user
+      WRITE( IMESS, 99900) 
+C successful open jump to return
+      OPENRB = .TRUE.
+      GOTO 55555
+
+C in unix filenames are case sensistive so try to open lower
+C case if fname fails
+20    CONTINUE
+C - but put into dummy first
+      FDUM = FNAME
+      CALL LCASE(FDUM)
+      OPEN( UNIT= ISTR, FILE= FDUM, STATUS= 'OLD',
+C PC VERSION NO READONLY
+C     &		      FORM= 'UNFORMATTED', ERR= 30)
+     &	    READONLY, FORM= 'UNFORMATTED', ERR= 30)
+C successful open jump to return
+      OPENRB = .TRUE.
+      GOTO 55555
+C shared means file is currently being written to by another
+C user	PC VERSION NO READONLY
+30    OPEN( UNIT= ISTR, FILE= FDUM, STATUS= 'OLD',
+C     &			      FORM= 'UNFORMATTED', ERR= 55555)
+     &	    READONLY, SHARED, FORM= 'UNFORMATTED', ERR= 55555)
+C tell user
+      WRITE( IMESS, 99900) 
+C successful open jump to return
+      OPENRB = .TRUE.
+      GOTO 55555
+
+99900 FORMAT('  ** Warning file currently opened by another user')
+
+
+55555 RETURN
+      END
+C
+      SUBROUTINE STREAM(ISTR)
+      IMPLICIT NONE
+C finds the first stream no. not open (but not stream 0, 5 or 6)
+      INTEGER			ISTR
+C logical vble
+      LOGICAL			LOPEN
+
+      DO 10 ISTR = 1, 99
+        IF ((ISTR.EQ.5) .OR. (ISTR.EQ.6)) GOTO 10
+        INQUIRE( UNIT = ISTR, OPENED = LOPEN)
+        IF (.NOT.LOPEN) GOTO 55555
+10    CONTINUE
+
+C no availible unit
+      STOP
+     1's/r stream has found that no unit is availible to be opened'
+55555 RETURN
+      END
+C
+C RANDOM NUMBER ROUTINES ********************
+      SUBROUTINE GSEED( ISEED)
+      IMPLICIT NONE
+C this routine returns a seed integer for random number
+C routine - this is set by using 'date' shell command
+C machine (or unix?) specific!
+
+C seed integer to be returned
+      INTEGER			ISEED
+
+C stream number for file read
+      INTEGER			ISTR
+
+C a line to read results of date into
+      CHARACTER*80		LINE80
+
+C end of decs *******************
+
+C use unix specific system call
+      CALL SYSTEM('date > sr_gseed_tempfile')
+C open the file - first get stream number.
+      CALL STREAM( ISTR)
+C if we cannot open file then stop with error
+      OPEN( ISTR, FILE= 'sr_gseed_tempfile', STATUS= 'OLD', ERR= 10)
+      READ( ISTR, '(A)') LINE80
+C get the numbers from the line:
+C formats for different machines
+CFri 19 Nov 15:12:11 1993     aix (ibm)
+CFri Nov 19 15:18:34 GMT 1993 hp
+CFri Nov 19 15:19:03 GMT 1993 silicon graphics
+C12345678901234567890
+      LINE80 = LINE80(9:10)//LINE80(12:13)//LINE80(15:16)//LINE80(18:19)
+      READ( LINE80, '(I8)') ISEED
+C delete the temporary file:
+      CLOSE( ISTR, STATUS= 'DELETE')
+C return
+      RETURN
+
+C error cannot open the temporary file
+10    CONTINUE
+      WRITE( 0, *) 'ERROR s/r gseed cannot open temporary file:'
+      WRITE( 0, *) 'sr_gseed_tempfile - program halted'
+      STOP 'ERROR in s/r gseed'
+      END
+C
+      SUBROUTINE dRAND( RANDOM)
+      IMPLICIT NONE
+      SAVE
+C returns a random number 
+C SG verison 16/11/93
+      DOUBLE PRECISION		RANDOM
+
+C first call vbles:
+      LOGICAL                   LFIRST
+
+C SG function ran
+      REAL			RAN
+
+C seed for RAN this can be controlled via common block CSEED
+      INTEGER                   ISEED, FSEED
+
+C common block for first value of seed
+      COMMON /CSEED/		FSEED
+
+C end of decs ******************
+
+      IF (.NOT.LFIRST) THEN
+        LFIRST = .TRUE.
+C 24 October 1993 can set seed value by first seed value FSEED
+        IF (FSEED.NE.0) THEN
+          ISEED = FSEED
+        ELSE
+C get seed value - from date and time:
+          CALL GSEED( ISEED)
+C SG requires seed to be odd
+          IF (MOD(ISEED,2).EQ.0) ISEED = ISEED +1
+          FSEED = ISEED
+        ENDIF
+C SG requires seed to be odd
+        IF (MOD(ISEED,2).EQ.0) ISEED = ISEED +1
+      ENDIF
+
+C produce a random vector
+C SG version
+      RANDOM = RAN(ISEED)
+
+      RETURN
+      END
+C (next routine not actually machine dependent but included for completeness)
+      SUBROUTINE dURAN3( VEC)
+      IMPLICIT NONE
+C returns a random unit vector
+      DOUBLE PRECISION		VEC(3)
+
+C three random numbers between 0.0 and 1.0
+      CALL dRAND( VEC(1))
+      CALL dRAND( VEC(2))
+      CALL dRAND( VEC(3))
+
+C make no.'s lie between -0.5 and 0.5
+      VEC(1) = VEC(1) - 0.5
+      VEC(2) = VEC(2) - 0.5
+      VEC(3) = VEC(3) - 0.5
+
+C unit them
+      CALL dUVEC2( VEC)
+
+      RETURN
+      END
+C
+      SUBROUTINE FLUSH6
+      IMPLICIT NONE
+C this s/r flushes stream 6 the default output stream
+C h.p. version flush is a c function in "flush.c"
+      CALL FLUSH()
+      RETURN
+      END
+      SUBROUTINE DTILDA( FNAME )
+      IMPLICIT NONE
+C ********************************************************************
+C *                                                                  *
+C * This software is an unpublished work containing confidential and *
+C * proprietary information of Birkbeck College. Use, disclosure,    *
+C * reproduction and transfer of this work without the express       *
+C * written consent of Birkbeck College are prohibited. This notice  *
+C * must be attached to all copies or extracts of the software.      *
+C *                                                                  *
+C * (c) 1996 Oliver Smart & Birkbeck College, All rights reserved    *
+C *                                                                  *
+C ********************************************************************
+C
+C Modification history:
+C
+C Date  Author          Modification
+C 02/96 O.S. Smart      Original version
+
+C this s/r is for unix machines 
+C it resolves ~'s in filenames
+
+C filename
+      CHARACTER*(*)   		FNAME
+
+C character number of the tilda
+      INTEGER			ITILDA
+
+C character number of the following /
+      INTEGER			ISLASH
+
+C stream number for file i/o
+      INTEGER			SFILE
+C line for i/o
+      CHARACTER*132		LINE
+
+C last character of reply
+      INTEGER			LASTC
+
+C rs6000 get confused about replace bits of filenames
+      CHARACTER*200		FNEW
+
+C end of decs ******************
+
+C get the tilda from the filename
+      ITILDA = INDEX(FNAME,'~')
+      IF (ITILDA.NE.0) THEN
+C find end of the the username
+        ISLASH = INDEX(FNAME,'/')
+        CALL STREAM( SFILE)
+        OPEN( SFILE, FILE= 'dtilda_tempfile1', STATUS='UNKNOWN',
+     &        ERR = 900) 
+C use unix command echo to a temporary file
+	LINE = 
+     &'echo '//FNAME(ITILDA:ISLASH)//' > dtilda_tempfile2'
+        WRITE( SFILE, '(A)')
+     &'#!/bin/ksh', LINE
+        CLOSE( SFILE)
+
+C make script executable
+        CALL SYSTEM( 'chmod a+x dtilda_tempfile1')
+C now run the script
+        CALL SYSTEM( 'dtilda_tempfile1')
+       
+C now open the result
+        OPEN( SFILE, FILE= 'dtilda_tempfile2', STATUS='OLD',
+     &        ERR = 900) 
+        READ( SFILE, '(A)') LINE
+C find last character of reply
+        CALL CHREND( LINE, LASTC)
+
+C now replace the ~username with resolved path
+        FNEW = LINE(1:LASTC)//FNAME(ISLASH+1:LEN(FNAME))
+        FNAME = FNEW
+
+C get rid of both temp files
+        CLOSE( SFILE, STATUS= 'DELETE')
+        OPEN( SFILE, FILE= 'dtilda_tempfile1', STATUS='OLD')     
+        CLOSE( SFILE, STATUS= 'DELETE')
+      ENDIF
+
+55555 RETURN
+
+900   CONTINUE
+      WRITE( *, '(A)') 
+     &' ERROR found in s/r dtilda',
+     &' unable to decode filename: ',
+     & FNAME,
+     &' Restart program with full pathname',
+     &' Will try to continue'
+      GOTO 55555
+      END

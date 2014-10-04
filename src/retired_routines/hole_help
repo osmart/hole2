@@ -1,0 +1,11 @@
+echo " "
+echo "This is script hole_help"
+echo "idea is to fire up netscape with local file "
+echo "of hole help information"
+echo "if script fails:"
+echo "  (a) check that you can use netscape"
+echo "  (b) if you are not the person who installed"
+echo "      hole then get them to edit the script"
+echo "      to include their username after the ~"
+echo "netscape ~/hole2/doc/hole_d00.html"
+netscape ~/hole2/doc/hole_d00.html

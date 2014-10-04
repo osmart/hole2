@@ -1,0 +1,25 @@
+C common blocks used for freda
+
+C col: 	c*80		the command?
+C kl: 	int 		no of words inputed 0 then default
+C fn:	r*4(40) 	no.'s as they occur
+C kn:     int     	no. of no's
+C fl:     c*1(40,6)	words?
+
+C passed words?
+        CHARACTER*1 FL(40,6)
+
+C line for things to be extracted
+        CHARACTER*80 COL
+
+C numbers extracted
+        REAL	     	FN(40)
+
+C kl no of words extracted
+C kn no of no.'s
+        INTEGER		KL, KN
+
+        COMMON/FR1/  COL
+        COMMON/FR2/  FN, KN, KL
+C	save /fr1/,/fr2/
+ 

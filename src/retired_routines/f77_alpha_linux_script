@@ -1,0 +1,3 @@
+#!/bin/csh
+# script to effectively alias f77 to fort
+fort -arch host -fast -convert big_endian  $*

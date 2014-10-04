@@ -1,0 +1,22 @@
+#!/bin/ksh 
+echo "  This script compiles and links the extra utilities you "
+echo "  need to use gnuplot to do 2d maps of inside of channels "
+echo "  See section 6.5 of HOLE documentation for details"
+echo "  It is assumed you have already compilied and linked hole "
+echo "   before use. Script to be run from ~/hole2/f77/2dmap_with_gnuplot/"
+echo " "
+echo " for linux create softlink for f77"
+        if [  -f /usr/bin/g77 ]  
+        then 
+           echo "ln -s /usr/bin/g77 f77"
+           ln -s /usr/bin/g77 f77
+         else :
+         fi
+echo "f77 bln2gnu.f ../hole.a -o ../../exe/bln2gnu"
+f77 bln2gnu.f ../hole.a -o ../../exe/bln2gnu
+echo "f77 make_post2gnu.f ../hole.a -o ../../exe/make_post2gnu"
+f77 make_post2gnu.f ../hole.a -o ../../exe/make_post2gnu
+echo "f77 capost2gnu.f ../hole.a -o ../../exe/capost2gnu"
+f77 capost2gnu.f ../hole.a -o ../../exe/capost2gnu
+echo "f77 grd2gnu.f -o ../../exe/grd2gnu"
+f77 grd2gnu.f  -o ../../exe/grd2gnu

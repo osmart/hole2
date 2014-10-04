@@ -1,0 +1,7 @@
+echo " "
+echo "The HOLE suite of programs "
+echo "surface program has been replaced with sos_triangle"
+echo "please try again with this new command"
+echo "to get help on its use type:"
+echo "[7msos_triangle -h[0m"
+echo "at the command prompt"

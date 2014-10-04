@@ -1,0 +1,6 @@
+echo " "
+echo "sphqpt program has been replaced with sph_process"
+echo "please try again with this new command"
+echo "to get help on its use type:"
+echo "[7msph_process -h | more[0m"
+echo "at the command prompt"

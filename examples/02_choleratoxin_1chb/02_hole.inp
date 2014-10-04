@@ -1,0 +1,8 @@
+! run on cholera toxin
+coord 02_1chb.pdb 
+! n.b. no cpoint cvect specified - use new automated procedure to find
+radius ~/hole2/rad/simple.rad
+ignore hoh tip wat				! ignore all atoms from waters
+conn                                            ! use new connolly`
+shorto 2					! short output
+sphpdb 1chb_conn.sph
