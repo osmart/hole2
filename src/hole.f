@@ -346,8 +346,7 @@ C greetings
      &' ',
      &' Written by Oliver Smart at Birkbeck College from April 1992.',
      &' Copyright 1993-2005 by Oliver Smart',
-     &' Copyright 2014 SmartSci Limited, All rights reserved.',
-     &' Program modification number 2.2 003'
+     &' Copyright 2014 SmartSci Limited, All rights reserved.'
      
 C write link time of program to screen
       CALL VERTIM( NOUT)
