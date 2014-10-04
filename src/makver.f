@@ -45,12 +45,12 @@ C find out who linked it
 ! nov 2004 take out last modified (no source dist)
       if (index(line,'osmart').ne.0) then
          write( 1, '(a)')
-     &'     &'' built for hole web site binary download '',',
+     &'     &'' built for http://www.smartsci.uk/hole/''//',
+     &'     &'' not-for-profit version binary download '',',
      &'     &'' RESTRICTED TO NOT-FOR-PROFIT USAGE ONLY. '',',
      &'     &'' RESTRICTED TO NOT-FOR-PROFIT USAGE ONLY. '',',
      &'     &'' RESTRICTED TO NOT-FOR-PROFIT USAGE ONLY. '',',
-     &'     &'' RESTRICTED TO NOT-FOR-PROFIT USAGE ONLY. '',',
-     &'     &'' ''' 
+     &'     &'' RESTRICTED TO NOT-FOR-PROFIT USAGE ONLY. '''
       else
          write( 1, '(a)')
      &'     &'' by user '//line(1:index(line,'   ')-1)//''','
