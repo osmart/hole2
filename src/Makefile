@@ -7,10 +7,10 @@
 #     $OPTFLAGS set to complier flags
 #     OPTFLAGS = -O -c -w -mp1 -r8 
 #
-FC=g77
+FC=gfortran
 CC=gcc
-FFLAGS = -static
-CFLAGS = -static
+FFLAGS = -fd-lines-as-comments -static-libgfortran  -fbackslash
+CFLAGS = -static-libgfortran
 MACHINE_DEP=machine_dep.g77
 LIB_NAME = hole.a
 AR = ar -rcv
