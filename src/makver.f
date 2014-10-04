@@ -79,7 +79,7 @@ C find out who linked it
      &'      END'
       close(1)
 C compile this s/r
-      call system('f77 -c -O vertim.f')
+      call system('$FC -c -O vertim.f')
 C hole version
       call system('ar rv hole.a vertim.o')
       call system('rm makver.temp_file vertim.o')
