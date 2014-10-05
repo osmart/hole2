@@ -1,0 +1,321 @@
+<html>
+<header>
+<TITLE>Documentation for the HOLE suite of programs</TITLE>
+</header>
+<body BACKGROUND="raindrop.jpg" TEXT="#009900" VLINK="#aa0000" LINK="#FF0000"><a name="top"></a>
+<font color="000099">
+<hr size=4>
+
+<h3>Documentation for the HOLE suite of programs</h3>
+Oliver S. Smart and Guy Coates<br>
+Originally developed at School of Crystallography, Birkbeck College London.
+<!--	<a href="http://www.cryst.bbk.ac.uk/default.html">Crystallography</a>,
+	<a href="http://www.bbk.ac.uk/home.html">Birkbeck College London</a>-->
+<br>
+<a href="http://hole.biop.ox.ac.uk/hole">HOLE</a>
+ is now hosted by the Sansom Laboratory, University of Oxford.
+<p>
+<center>
+<img alt="pretty picture of HOLE cavity through the channel form of gramicidin" 
+      align=middle src="1grm_sos_vmd_small.jpg"> 
+<p>
+<small>
+Visualization of the cavity running through the channel structure of gramicidin A 
+determined by Arseniev and co-workers.
+The HOLE representation of the internal surface of the
+pore is shown in a multicoloured form produced by 
+sos_triangle program. 
+Red marks places where the pore radius is below
+0.6 &Aring;, green is used where it is in the range 0.6&Aring; to 1.15&Aring; and
+blue
+marks places where it is above 1.15&Aring.  AMBER values where used for van der Waals
+atomic radii (file simple.rad is used).  A radius of  1.15&Aring; is the minimum required for
+a water molecule showing that this form of gramicidin would be filled with
+a single file solvent molecules under normal conditions. 
+The vmd program was
+used to visualize the surface within the molecule -
+shown in a liquorice representation of bonds with
+yellow and tan ribbons marking the main chain of
+the dimer. The picture was rendered with the tachyon ray tracer 
+supplied with vmd. vmd homepage: <a href="http://www.ks.uiuc.edu/Research/vmd/">http://www.ks.uiuc.edu/Research/vmd/</a> 
+
+</small>
+</center><p>
+
+
+<dl>
+<dt><big><b>Contacts</b></big>
+	<dd>For all queries, comments and help on the HOLE program.
+	Look at the HOLE homepage on the web:
+	<a href="http://hole.biop.ox.ac.uk/hole">http://hole.biop.ox.ac.uk/hole</a>
+
+	<p>
+	<dd>HOLE documentation is now available on the web at:
+	<a href="http://hole.biop.ox.ac.uk/hole/doc">http://hole.biop.ox.ac.uk/hole/doc</a>
+
+</dl>
+
+
+<p>
+<dl>
+<dt><a name="contents"><big><b>Contents</b></big></a>
+	<dd><b><img alt="*" src="ballbrwn.gif">
+               <a href=#dist> 1.0 Distribution conditions</a></b> 
+        <dl>                                                        
+       		<dd><img alt="*" src="ballbrwn.gif"> 1.1 Formal Notice
+       		<dd><img alt="*" src="ballbrwn.gif">
+                    <a href=#ack>1.2 Acknowledgements</a>
+	</dl>                                                               
+
+	<dd><b><img alt="*" src="ballbrwn.gif">
+               <a href=hole_d02.html > 2.0  Introduction & Setup</a></b>
+	<dl>          		
+       		<dd><img alt="*" src="ballbrwn.gif">
+                    <a href=hole_d02.html#settingup>2.1 Acquiring, Unpacking and setting up the package</a>
+       		<dd><img alt="*" src="ballbrwn.gif">
+                    <a href=hole_d02.html#science>2.2 Brief scientific background to the hole method</a>
+		<dd><img alt="*" src="ballbrwn.gif">
+                    <a href="mgms_article/paper.html">2.3 Copy of J. Mol. Graphics article giving overview of HOLE</a>
+		<dd><img alt="*" src="ballbrwn.gif">
+                    <a href=hole_d02.html#newfeat>2.4 New features for release 2.0</a>
+	</dl>
+
+        <dd><b><img alt="*" src="ballbrwn.gif">
+               <a href="hole_d03.html">3.0  Control of HOLE</a></b>
+        <dl>
+                <dd><img alt="*" src="ballbrwn.gif">
+                    <a href=hole_d03.html#card_must>3.1 Cards which must be specified:</a> 
+		    <a href=hole_d03.html#COORD>COORD</a>,  
+                    <a href=hole_d03.html#RADIUS>RADIUS</a>
+       	 	<dd><img alt="*" src="ballbrwn.gif">
+                    <a href=hole_d03.html#card_may>3.2 Cards which may be specified:</a> 
+		<dl>
+		<dd><i>The most useful cards: </i>
+                	<a href=hole_d03.html#CPOINT>CPOINT</a>,
+			<a href=hole_d03.html#CVECT>CVECT </a>, 
+			<a href=hole_d03.html#SPHPDB>SPHPDB</a>,
+			<a href=hole_d03.html#ENDRAD>ENDRAD</a>,  
+			<a href=hole_d03.html#CONN>CONN</a>,
+			<a href=hole_d03.html#IGNORE>IGNORE</a>
+		<dd><i>Other cards: </i>
+			<a href=hole_d03.html#SHORTO>SHORTO</a>, 
+                	<a href=hole_d03.html#SAMPLE>SAMPLE</a>, 
+			<a href=hole_d03.html#MCDISP>MCDISP</a>,   
+			<a href=hole_d03.html#MCKT>MCKT</a>,   
+			<a href=hole_d03.html#MCSTEP>MCSTEP</a>,   
+			<a href=hole_d03.html#RASEED>RASEED</a>, 
+	      	  	<a href=hole_d03.html#CHARMD>CHARMD/CHARMS</a>.
+	        	<a href=hole_d03.html#2DMAPS>2DMAPS</a>,
+			<a href=hole_d03.html#CAPSULE>CAPSULE</a>
+		</dl>
+       	 	<dd><img alt="*" src="ballbrwn.gif">
+                    <a href=hole_d03.html#delete>3.3 Cards which are deprecated</a> 
+	<!--	<a href=hole_d03.html#PLTOUT>PLTOUT</a>, 
+                <a href=hole_d03.html#DOTDEN>DOTDEN</a>, 
+                <a href=hole_d03.html#DOTOFF>DOTOFF</a>, 
+		<a href=hole_d03.html#CENOFF>CENOFF</a>.   
+		<a href=hole_d03.html#MOLQPT>MOLQPT</a>,  
+		<a href=hole_d03.html#SPIKES>SPIKES</a>,  
+               	<a href=hole_d03.html#LINON>LINON</a>, 
+                <a href=hole_d03.html#STOP>STOP</a>.  -->
+	</dl>
+ 
+        <dd><b><img alt="*" src="ballbrwn.gif">
+               <a href="hole_d04.html">4.0 Visualization of HOLE results</a></b>
+	<dl>          		
+       		<dd><img alt="*" src="ballbrwn.gif">
+                    <a href=hole_d04.html#graph2D>4.1 Plotting a 2D graph of pore radius
+                                                  vs channel coordinate</a>
+       		<dd><img alt="*" src="ballbrwn.gif">
+                    <a href=hole_d04.html#sph_process>4.2 sph_process - a program to produce surface
+                                                      information from .sph file</a>
+       		<dd><img alt="*" src="ballbrwn.gif">
+                    <a href=hole_d04.html#qpt_conv>4.3 qpt_conv - a program to convert .qpt graphics
+                                                   files for use with a wide variety of molecular 
+                                                   graphics programs </a>
+       		<dd><img alt="*" src="ballbrwn.gif">
+                    <a href=hole_d04.html#sos_triangle>4.4 sos_triangle - a program to produce solid rendered
+                                                       surfaces for hole objects</a>
+	</dl>
+
+
+        <dd><b><img alt="*" src="ballbrwn.gif">
+               <a href="hole_d05.html">5.0  van der Waals radii files</a></b>
+
+</dl>
+<p>
+22 Dec 2004 - rewrite still incomplete but at least covers how to get rendered surface
+              into vmd OSS.
+<p>
+ 
+
+
+<!--
+        <h3><dd><img alt="*" src="ballbrwn.gif"><a href="hole_d04.html"> 4.0  Tips on using HOLE, Sample input file</a></h3> 
+        <h3><dd><img alt="*" src="ballbrwn.gif"><a href="hole_d06.html"> 6.0  Visualization of HOLE results</a></h3>
+	<dl>
+                <dd><img alt="*" src="ballbrwn.gif"><a href=hole_d06.html#graph2D>
+		6.1 Plotting 2D Graphs</a>
+                <dd><img alt="*" src="ballbrwn.gif"><a href=hole_d06.html#molgraph>
+		6.2 Using molecular graphics:</a>
+		<dl><i>
+			<dd>with: <a href=hole_d06.html#quanta>quanta</a>,
+			          <a href=hole_d06.html#sybyl>sybyl</a>, 
+			          <a href=hole_d06.html#O>O</a>, 
+			          <a href=hole_d06.html#mage>mage</a>, 
+			          <a href=hole_d06.html#insight>insightII</a>, 
+			          <a href=hole_d06.html#rasmol>rasmol</a>, 
+			          <a href=hole_d06.html#VRML>VRML</a> 
+		</i></dl>
+                <dd><img alt="*" src="ballbrwn.gif"><a href=hole_d06.html#hole_colour>
+		6.3 Colours used in HOLE</a>
+                <dd><img alt="*" src="ballbrwn.gif"><a href=hole_d06.html#hardcopy>
+		6.4 Getting hard copy pictures</a>
+                <dd><img alt="*" src="ballbrwn.gif"><a href=hole_d065.html>
+		6.5 Creating 2D Maps of the internal surface of a pore</a>
+        </dl><p>
+        <h3><dd><img alt="*" src="ballbrwn.gif"><a href="hole_d07.html"> 7.0  Ancillary programs</a></h3>
+        <dl>
+                <dd><img alt="*" src="ballbrwn.gif"><a href=hole_d07.html#qpt_conv>
+		7.1 qpt_conv</a> convert HOLE .qpt file for use with another program (<i>e.g.,</i> sybyl)
+                <dd><img alt="*" src="ballbrwn.gif"><a href=hole_d07.html#sphqpt>
+		7.2 sphqpt</a> (produce HOLE .qpt from a ".sph" file)
+                <dd><img alt="*" src="ballbrwn.gif"><a href=hole_d07.html#qplot>
+		7.3 qplot</a> (produce postscript picture of .qpt files)
+                <dd><img alt="*" src="ballbrwn.gif"><a href=hole_d07.html#labqpt>
+		7.4 labqpt</a> (produce .qpt file with labels 
+					for particular atoms)
+                <dd><img alt="*" src="ballbrwn.gif"><a href=hole_d07.html#vdwdot>
+		7.5 vdwdot</a> (calculate internal van der Waals surface)
+                <dd><img alt="*" src="ballbrwn.gif"><a href=hole_d07.html#sph2vml>
+		7.6 sph2vrml</a> (produce pretty vrml file from a sph file)
+                <dd><img alt="*" src="ballbrwn.gif"><a href=hole_d07.html#make_post_map>
+		7.7 make_post_map, bln2gnu, capost2gnu, grd2gnu,
+		make_post2gnu</a><br>
+		 ......(programs used in making <a href="hole_d065.html">2D surface map</a> of the inside of a channel)
+ 	</dl><p>
+        <h3><dd><img alt="*" src="ballbrwn.gif"><a href="hole_d08.html"> 
+                 8.0  Using HOLE to predict conductance properties of ion channels </a></h3>
+	<dl>
+                <dd><img alt="*" src="ballbrwn.gif"><a href="hole_d08.html#abscond">
+		8.1 Absolute conductance predictions in KCl</a>
+                <dd><img alt="*" src="ballbrwn.gif"><a href="hole_d08.html#PEG">
+		8.2 Predicting the effect of adding non-electrolytes to conductance experiments</a>
+	</dl>
+        <h3><dd><img alt="*" src="ballbrwn.gif"><a href="hole_d09.html"> 9.0  An example run: analyzing the cavity in
+			the Arseniev gramicidin structure</a></h3>
+        <h3><dd><img alt="*" src="ballbrwn.gif"><a href="hole_d10.html"> 10.0 Future Developments and Applications to date</a></h3>
+         <dl>
+                <dd><img alt="*" src="ballbrwn.gif"><a href=hole_d10.html#devel>
+		10.1 Potential Developments</a> 
+                <dd><img alt="*" src="ballbrwn.gif"><a href=hole_d10.html#appl>
+		10.2 Applications to date</a> 
+ 	</dl><p>
+</dl>
+-->
+
+<hr size=4>
+<a name="dist"><h2>1.0 Distribution conditions for the HOLE suite of programs</h2></a>
+
+HOLE and ancillary programs are supplied free to non-profit
+making organizations.  This is on the understanding that they will not be passed
+on to any third party.  
+If any one wants to use the program direct them to the HOLE homepage.
+Also details of any modification/improvement made must be sent to
+me - so that everyone else can benefit 
+(all rights to modified versions of any of
+the programs will remain with the author).  It should be
+noted that the code and notes are at an early stage of development and therefore
+the responsibility for their use and correctness of results lies with the 
+user rather
+than me or Birkbeck College.  
+If you wish to incorporate any of the routines supplied
+in software of your own please contact Oliver Smart for permission.
+<p>
+
+If anyone else has access to the code/executables mounted in your
+space then <b>it is your responsibility</b> to ensure that they abide
+by these conditions.
+
+<p>
+Use of the program by profit-making organizations is permitted on a trial
+basis for free. However, if you find the program useful then please contact
+Oliver Smart to arrange a contribution to support further development.
+<p>
+You must reference any use made of HOLE in published work by citing:
+<dl>
+	<dd> O.S. Smart, J.M. Goodfellow and B.A. Wallace (1993) 
+	<dd> The Pore Dimensions of Gramicidin A
+	<dd> <i>Biophysical Journal</i> <b>65</b>:2455-2460.
+	<dd>.
+	<dd> And any relevant subsequent publications.
+</dl>
+<p>
+
+<h2>1.1 Formal notices</h2>
+
+<b>Version 1, 2.0 and 2.1</b>: This documentation and software is an unpublished work containing confidential
+and proprietary information of Birkbeck College.  Use, disclosure, reproduction
+and transfer of this work without the express written consent of Birkbeck
+College are prohibited.  This notice must be attached to all copies or 
+extracts of the software.
+<p>
+
+<b>Version 2.2</b>: This documentation and software is an unpublished work containing confidential
+and proprietary information of Oliver Smart.  Use, disclosure, reproduction
+and transfer of this work without the express written consent of
+Oliver Smart are prohibited.  This notice must be attached to all copies or 
+extracts of the software.
+<p>
+
+
+
+<hr size=2>
+<a name="ack"><h2>1.2 Acknowledgements</h2></a>
+
+<dl>
+
+<dt>Original Release
+<dd>The support of the UK Science and Engineering Research Council under project
+grant GR/G49494 and from the Molecular Recognition and Computational
+Science Initiatives is gratefully acknowledged.  I should like to thank Julia
+Goodfellow and Bonnie Wallace for support and many discussions.  Thanks are
+also due to Mark Sansom and his group at the University of Oxford, and Karen
+Duca of Brandeis University for testing the first release.  In addition thanks to
+Rod Hubbard and Polygen/Molecular Simulations Inc. for providing the 3D plot
+file facility in HYDRA and QUANTA.  QUANTA is available from Molecular
+Simulations Inc., Waltham, MA 02154, USA.  InsightII is available from Biosym
+Technologies, 9685 Scranton Road, San Diego, CA 92121 - 2777 USA.<p>
+
+
+<dt>release v2.
+<img src="wellcomelogo.gif">
+<dd>The generous support of the Wellcome Trust by the provision of a Career Development Fellowship
+for the author is gratefully acknowledged.  Much of the work undertaken was encouraged 
+by <a href="http://indigo1.biop.ox.ac.uk/home.html">Dr Mark Sansom</a> and members of his group at the University of Oxford.
+Thanks to  Valeriu Niculae and Joe Neduvelil for contributing to the programming as students at Birkbeck.
+</dl><p>
+<hr size=4><p>
+
+
+<dl>
+<b>Navigation:</b>
+	<dd><a href=#top>Back to the Top</a>
+	<dd>Back to <a href=#contents>contents</a>
+	<dd>On to  next section <a href=hole_d02.html>2.0  Introduction & Setup</a>
+</dl>
+
+
+Copyright 1997, 2004 by Oliver S. Smart<br>
+<a href="#contents"><img src="buttons/button_hole_doc_index.gif" border=0 alt=" Hole Doc. Index^ "></a>
+<a href="http://hole.biop.ox.ac.uk/hole/"><img src="buttons/button_hole_home.gif" border=0 alt=" HOLE home "></a>
+<a href="hole_d02.html"><img src="buttons/button_nextsec.gif" border=0 alt=" Next Section>> "></a>
+<p>
+
+
+<hr size=4>
+
+</font>
+</body>
+</html>
+

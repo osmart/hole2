@@ -1,0 +1,322 @@
+<html>
+<header>
+<TITLE>Pore Dimensions of Ion Channels: methods</TITLE>
+</header>
+<body  VLINK="#6600CC" LINK="#770000" bgcolor="#ffffff">
+
+    
+
+<p>
+
+<center>
+<a href="sect1.html"><img src="prevsec.gif" border=0 alt="previous section"></a>
+<a href="sect3.html"><img src="nextsec.gif" border=0 alt="next section"></a>
+<a href="paper.html#index"><img src="index.gif" border=0 alt="paper index"></a>
+<a href="comment_form.html"><img src="comments.gif" border=0 alt="comments?"></a><br>
+<a href="../hole_d00.html#contents"><img src="../buttons/button_hole_doc_index.gif" border=0 alt=" Hole Doc. Index^ "></a>
+</center>
+
+<hr width=95% size=4 noshade><p>
+
+<h2>2. Methods</h2>
+
+
+<a name=mc</a>
+<h4><small>HOLE</small> Monte Carlo Simulated Annealing</h4>
+
+The <small>HOLE</small> method has been described in detail 
+elsewhere<sup><a href="refer.html#smart93">6</a>, 
+<a href="refer.html#smart96">11</a></sup>. 
+The program requires the user to supply the coordinates of the ion channel
+of interest in Brookhaven Protein Data Bank (pdb) format.  
+An initial point  <i><b>p</b></i> which lies anywhere within the central
+channel is also needed.  In addition the user specifies a vector <i><b>v</b></i> that is approximately in the direction
+of the channel (normally referred to as the channel direction vector).
+The program reads atoms from within the pdb file and sets up
+a van der Waals radius for each (various sets are available).
+It is normal to exclude solvent and ions during the read: the
+program allows this by the specification of a keyword stating the
+residue types to ignore.<p>
+
+It is easy to find the maximum radius <i>R(<b>p</b>)</i> of a sphere
+centred at a point <i><b>p</b></i> without overlap
+with the van der Waals surface of any atom:
+
+<center><i>
+R(<b>p</b>) = min<sub>i=1</sub><sup>Natom</sup>
+<big>[</big>|<b>X</b><sub>i</sub>-<b>p</b>|-
+             vdW<sub>i</sub><big>]</big>
+</i></center>
+where <i><b>X</b><sub>i</sub></i> is the position of atom number <i>i</i>,
+<i>vdW<sub>i</sub></i> its van der Waals radius and <i>Natom</i> the total 
+number of atoms.  The radius <i>R(<b>p</b>)</i> can be regarded as an objective function
+of the point <i><b>p</b></i>.  By using Monte Carlo simulated annealing,
+adjusting <i><b>p</b></i>, the radius
+of the sphere can be maximized within the pore of the channel.  In all cases
+<i><b>p</b></i> is kept on a plane normal to the channel direction vector
+<i><b>v</b></i>:
+<center><img src="mc1.gif" align=bottom></center>
+
+Note that all distance searches are conducted in three dimensions.
+Once the highest radius sphere centre on a particular plane has been
+established a new search is initiated by taking a step of length
+<i>s</i> in the direction of the channel direction vector <i><b>v</b></i>.
+This results in searches being conducted for a series of parallel planes
+with a sphere of maximum radius being found for each:
+<center><img src="mc2.gif" align=bottom></center>
+The net result can be thought of as producing the locus of
+a flexible sphere "squeezing" through the centre of the ion channel.
+The use of Monte Carlo Simulated Annealing reduces the possibility of
+the routine getting stuck in a local minimum. In addition it allows
+the mapping out of complex internal topologies (such as annexin 
+V<sup><a href="refer.html#smart94">12</a></sup>) 
+using multiple runs. <p>
+
+<a name=flowback></a>
+A <a href="flow.html">flow chart</a> giving a detailed description of
+the basic <small>HOLE</small> method is available.<p>
+<a name=visual1back></a>
+<h4>Visualization methods</h4>
+
+There are a number of ways to analyze and visualize the results of
+a <small>HOLE</small> run.  One of the most useful is plot a
+graph of pore radius against coordinate <i>z</i> along the channel
+direction vector <i><b>v</b></i>:
+<center><a href="visual1.html"><img src="visual1i.gif" align=bottom></a></center> 
+A graph can be used to examine issues such as how tight the central constriction
+of the channel is, whether water molecules could fit within the channel and
+how large the mouth of the pore is.  The <small>HOLE</small> package does not explicitly 
+produce graphs but instead provides easily accessible numerical information so
+that the user can use the graph plotting program of his/her choice.<p>
+
+Graphical presentation can be complimented by examination of <small>HOLE</small> objects
+using a molecular graphics program.  Two objects can be produced and
+displayed in conjunction with the ion channel structural model.
+<ul>
+	<li>The centre line of the channel can be shown by plotting
+	the locus of the centre of the sphere as it proceeds through
+	the channel.
+<a name=visual2back></a>
+	<li>The locus of the surface of the spheres define the
+	pore lining surface.  It is often useful to colour code
+	the surface. The standard scheme is to use red to
+	indicate parts of the pore where there is insufficient
+	room to accommodate a water molecule, green where a single
+	water molecule could be placed and blue for places
+	sufficiently large for two water molecules to be placed side
+	by side:
+<center><a href="visual2.html"><img src="visual2i.gif" align=bottom>
+	</a><small><i><br>(click to see picture full size)</i></small></center> 
+</ul>
+
+<p>
+The <small>HOLE</small> package is designed to be used primarily
+with the quanta molecular graphics program.  However, conversion
+routines are supplied to allow use with: 
+<ul>
+	<li>Sybyl
+	<li>InsightII
+	<li>O - Alwyn Jones crystallographic package.  For
+	further details see the 
+	<a href="http://kaktus.kemi.aau.dk/">O home page</a>.
+	<li>mage: 
+	Kinemage is a protein display and viewing language 
+	developed by David Richardson. Kinemages can be viewed by the mage program which is available in versions for
+     	MS-windows, mac and various unix machines.  Mage is available
+	by ftp from <a href="ftp://suna.biochem.duke.edu/pub/">
+	suna.biochem.duke.edu</a>.  (If you have mage then
+	you can use this <a href="smallex.kin">example</a>).
+	<li>Work which is still in progress allows the use of Virtual Reality 
+	Modeling Language (VRML) which may become standard way of
+	 representing 3D objects on the world wide web.
+	If you have a suitable
+	viewer (see <a href="http://www.ch.ic.ac.uk/VRML/">
+	http://www.ch.ic.ac.uk/VRML/</a> for details) then
+	try looking at the standard gramicidin <a href="example.wrl">example
+	in vrml format</a>.</ul>
+
+<p>
+A recent advance allows an alternative view of the internal surface
+of a pore - from the inside.  In this case we set up a cylindrical
+co-ordinate system working from the pore centreline:
+<center><a href="cylind.gif"><img src="cylindi.gif" align=bottom>
+	</a><small><i><br>(click to see picture full size)</i></small></center> 
+<p>
+<a name=k033gonback></a>
+This coordinate system can then be used to display properties
+of the pore lining in two dimensions.  A simple way of
+imagining how the maps are constructed is to
+imagine that the internal surface of the pore is
+cut down a line and then rolled flat.  A number of properties
+of the internal surface of the pore can then be displayed, for instance,
+whether the surface is lined by oxygen or nitrogen atoms.  The versatile 
+contour plotting program <a href="http://www.golden.com/golden/">surfer</a> is used to process data produced by
+<small>HOLE</small>.
+This provides
+a very different way of looking at the gramicidin channel:
+
+<center><a href="k033gon.html"><img src="k033goni.gif" align=bottom>
+	</a><small><i><br>(click to see picture full size)</i></small></center> 
+<p>
+<a name=anisotropy></a>
+
+<h4>Analyzing anisotropy</h4>
+The use of a spherical probe to analyse the pore dimensions of a channel has 
+proved to be extremely useful<sup><a href="refer.html#smart93">6</a>,
+<a href="refer.html#smart96">11</a></sup>.  However, the pores of many larger ion channels are clearly anisotropic as 
+exemplified by porins<sup>
+<a href="refer.html#cowan">15</a>,<a href="refer.html#weiss">16</a></sup>.  
+To be able to analyse and consistently measure such structural aspects an extension
+of the original <small>HOLE</small> method is introduced. <p>
+
+Instead of using a sphere to probe the internal surface of the channel in question
+a spherocylinder (capsule) 
+is considered.  This object can be considered to be a simple
+extension of a sphere where the centre is spread from a point onto a line section.
+It can be defined in terms of three properties: two centres and a radius (in comparison
+to a sphere which has a single centre and a radius):
+
+<center><a href="capsule.gif"><img src="capsulei.gif" align=bottom>
+	</a><small><i><br>(click to see picture full size)</i></small></center> 
+<p>
+In the <small>HOLE</small> method the axis of the capsule is held at 
+right angles to the channel direction vector <b>v</b>. 
+Only small adaptations are required to implement this: instead of
+a single centre being considered in the optimization, two independent
+centres are introduced.  Each of these is constrained to move on
+a plane normal to the channel direction vector <b>v</b>.  Instead
+of optimizing the radius of the sphere as in the original routine
+the area of the capsule on the plane normal to <b>v</b> is maximized
+(although this is converted in the program into an effective
+radius to ease comparisons).
+As the number of independent  variables is doubled from two to four,
+more steps of simulated annealing are required to achieve stability
+in results.  Despite this increased cpu requirement 
+most channels can be analyzed in well under one hour of cpu time on
+a modern workstation.  The result of optimizing a capsule inside the pore
+of gramicidin is shown below:
+
+<a name=capsule2back</a>
+<center><a href="capsule2.html"><img src="capsule2i.gif" align=bottom>
+        </a><small><i><br>(click to see picture full size)</i></small></center
+
+<p>
+The use of the capsule option allows the measurement of the
+anisotropy of a channel and properties such as the rotation of
+the capsule vector as it proceeds through the channel.
+Examples of this can be found in the <a href="sect3.html">Applications</a>
+section.  The more accurate delimitation of the cross-sectional area of
+the channel as a function of distance along the channel vector
+is also useful when making predictions of the conductance
+properties of channels as discussed below. 
+
+
+
+
+<h4>Predicting conductance properties 
+     using <small>HOLE</small></h4>
+
+<p>
+The difficulty in experimentally determining
+the three-dimensional structures of ion channels often make it necessary to
+resort to modelling techniques.  Although modelling can lead to insights
+into the functional and structural properties of channels there is
+always the problem of knowing what level of confidence to place
+in the model.  For this reason, tractable methods of validating 
+a given model of a channel are required.  HOLE has been adapted
+so that a reasonable prediction of the conductance of a channel
+can be rapidly made on the basis of its 
+structure<sup><a href="refer.html#smart96">11</a></sup>.
+<p>
+The method is based on simple Ohmic considerations.   The <small>HOLE</small>
+program can be thought of as measuring the cross section area 
+<big><i>A(z)</i></big> of a pore as a function of distance along the 
+channel direction vector <big><i>z</i></big>.  Consider the pore
+to be filled with an electrolytic solution of resisitivity 
+<big><i>&#222;</i></big>.  A reasonable approximation 
+of the resistance of the channel is given by:</br>
+
+
+<center><big><i>G<sup>-1</sup><sub><small>macro</small></sub> = 
+<img src="sumz.gif" border=0 align=middle>&#222; s/A(z) </i></big></center>
+
+where <big><i>s</i></big> is the width between parallel planes used in
+<small>HOLE</small> (see <a href="#mc">above</a>).  Note that 
+in ion channel patch
+clamping studies it is normal to consider conductance (<big><i>G</i></big>)
+measured in Siemens (S) rather than resistance.  This type of approach 
+was pioneered by Hille<sup><a href="refer.html#hille">2</a></sup> and introduced
+into the <small>HOLE</small> methodology by Sansom and Kerr
+<sup><a href="refer.html#sansom95">17</a></sup>.
+<p>
+
+The above equation assumes that the conductivity of an ionic solution
+within a channel is equal to that of bulk solution.  This would
+be true if ion channels had macroscopic dimensions (much larger
+than a water molecule).  In practice it is found that real channels
+have a conductance which is around five times lower than that expected
+from the above equation giving the macroscopic limit 
+<big><i>G<sub><small>macro</small></sub></i></big>.
+In order to make a reasonable estimate of the conductance of
+a channel, an empirically-based correction factor is used,
+which is chosen to be dependent on the minimum radius of
+the channel:
+</br>
+
+
+<center><big><i>
+G<sub><small>pred</small></sub> =
+G<sub><small>macro</small></sub>/C(R<sub><small>min</small></sub>)</i></big></center>
+
+<a name=predictgback</a>
+
+<p>
+The correction factor was parameterized<sup><a href="refer.html#smart96">11</a></sup> 
+on the results obtained
+for the gramicidin channel<sup><a href="refer.html#arseniev">14</a></sup> 
+and the <i>E. coli</i> OmpF porin<sup><a href="refer.html#cowan">15</a></sup>.
+The prediction routine was tested by "predicting" the conductance
+found for all channel-forming proteins and peptides where an experimental
+structure is available<sup><a href="refer.html#smart96">11</a></sup>.
+Results are summarized in the following graph:
+ 
+<center><a href="predictg.html"><img src="predictgi.gif" align=bottom><br>
+	<small><i>(click to see picture full size)</i></small></a></center> 
+<p>
+Overall, the algorithm yield good results with predictions accurate
+to within a average factor of 1.8 to the experimental values. This accuracy is sufficient
+to make the method a useful part in validating model structures.
+ Further 
+work has been undertaken to reparameterize the correction function
+on the basis of all well defined structures which were 
+considered<sup><a href="refer.html#smart96">11</a></sup>.
+Future work will involve include using molecular dynamics
+simulation procedures to find quantities such as the variation
+of the self-diffusion co-efficient of water molecules within the channel
+and including such effects within the prediction methodology.  <p>
+
+It is also possible to adapt the procedure to predict the effect of
+adding non-electrolytes such as PEG to conductance measurements.
+Such experiments can be interpreted in terms of a radius profile
+for a channel.  Encouraging preliminary 
+results<sup><a href="refer.html#smart96">11</a></sup> have been obtained
+comparing the expected profile calculated by <small>HOLE</small>
+from the X-ray structure of cholera toxin B 
+subunit<sup><a href="refer.html#merritt">19</a></sup> with the
+experimental result<sup><a href="refer.html#krasilnikov">21</a></sup>.
+
+<hr width=95% size=4 noshade><p>
+
+<p>
+<center>
+<a href="sect1.html"><img src="prevsec.gif" border=0 alt="previous section"></a>
+<a href="sect3.html"><img src="nextsec.gif" border=0 alt="next section"></a>
+<a href="paper.html#index"><img src="index.gif" border=0 alt="paper index"></a>
+<a href="comment_form.html"><img src="comments.gif" border=0alt="comments?"></a><br>
+<a href="../hole_d00.html#contents"><img src="../buttons/button_hole_doc_index.gif" border=0 alt=" Hole Doc. Index^ "></a>
+</center>
+<p>
+<i><a href="http://www.cryst.bbk.ac.uk/~ubcg8ab/smart.html">Oliver S. Smart</a></i>
+ (last modified 20/12/96)
+</body>
+</html>

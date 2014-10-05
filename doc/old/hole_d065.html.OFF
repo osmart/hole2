@@ -1,0 +1,482 @@
+<html>
+<header>
+<TITLE>Documentation for the HOLE: 6.5 Creating 2D Maps of the internal surface of a pore</TITLE>
+</header>
+<body BACKGROUND="raindrop.jpg" TEXT="#009900" VLINK="#aa0000" LINK="#FF0000"><a name="top"></a>
+<font color="000099">
+
+
+Copyright 1997, 2004 by Oliver S. Smart<br>
+<a href="hole_d05.html"><img src="buttons/button_prevsec.gif" border=0 alt=" <<Previous Section"></a>
+<a href="hole_d06.html#maps"><img src="buttons/button_calling_section.gif" border=0 alt="Calling Section^ "></a>
+<a href="index.html#contents"><img src="buttons/button_hole_doc_index.gif" border=0 alt=" Hole Doc. Index^ "></a>
+<a href="http://hole.biop.ox.ac.uk/hole/"><img src="buttons/button_hole_home.gif" border=0 alt=" HOLE home "></a>
+
+
+<a href="hole_d07.html"><img src="buttons/button_nextsec.gif" border=0 alt=" Next Section>> "></a>
+<p>
+<b>Navigation:</b>
+	<dd>Back to <a href=index.html#contents>contents</a>
+	<dd>Back to section <a href="hole_d06.html#maps">6.0 Visualization of results</a>
+	<dd>Back to  previous section <a href="hole_d05.html">5.0  van der Waals radii files</a>
+	<dd>On to  next section <a href="hole_d07.html">7.0  Ancillary programs</a>
+</dl>
+
+<a name="visualization"><h2>6.0 Visualization of results (continued...)</h2></a>
+
+
+<hr size=2>
+<a name="maps"><h3>6.5 Creating 2D Maps of the internal surface of a pore</h3>
+
+A recent advance allows an alternative view of the internal surface
+of a pore - from the inside.  In this case we set up a cylindrical
+co-ordinate system working from the pore centreline:
+<center><img src="mgms_article/cylind.gif" align=bottom></center> 
+<p>
+This coordinate system can then be used to display properties
+of the pore lining in two dimensions.  A simple way of
+imagining how the maps are constructed is to
+imagine that the internal surface of the pore is
+cut down a line and then rolled flat.  A number of properties
+of the internal surface of the pore can then be displayed, for instance,
+whether the surface is lined by oxygen or nitrogen atoms.  
+<a href="mgms_article/k033gon.html">An
+example</a> of such a picture is given in the J. Mol. Graphics
+article which forms part of this documentation.
+<p>
+<a name="phos"></a
+Another useful map to produce is one showing which residues line the pore:
+<p>
+<center>
+<img align=center src="1psl_surface.gif"></a>
+<p><b> The change in the residues lining
+internal surface of phospholamban model structure during a molecular dynamics run
+(thanks to Mark Sansom for the coordinates).  It is immediately apparent that 
+the model is a 5 helix bundle and the changes to which residues line the pore
+are obvious.   This picture was produced using surfer.
+</b>
+</center>
+<p>
+Such a map can be left monochrome or coloured according to residue properties.
+In this case a different colour is used for residues from different chains.
+Other possibilities are to colour residues according to residue number or
+charge.
+
+<h3>How to produce 2D maps in practice</h3>
+
+The routines included in HOLE to produce 2D maps were written to
+produce files suitable for use with <b>surfer</b> drawing program.
+This is a very flexible mapping program, primarily used by
+cartographers, geographers and similar 
+(who know better than most how to make a nice map).
+It is only available in for pc's running DOS or windows
+and costs $499.  If you want to produce pretty pictures and
+have the cash you can find further information at
+<a href="http://www.golden.com/">http://www.golden.com/</a>.
+I haven't provided any specific information about how to use
+the files produced by HOLE with surfer because (a) its pretty
+obvious once you have worked through the surfer tutorial (b) I seriously doubt
+whether you are going to shell out the money for the program anyway!  
+E-mail me if you do - and I'll address this deficiency.
+<p>
+Because I know how hard up all you researchers
+are I have gone to the trouble of digging around for a free
+more machine independent solution.  The best program which
+I found for the purpose was <b>gnuplot</b>
+
+<p>
+The first step is to do a hole run in which the 
+<a href="hole_d03.html#2DMAPS">2DMAPS card</a> is specified in
+the input file.  In the ~/hole2/example directory the file "2dmap.inp"
+shows such an input file (directly adapted from "example.inp"):
+<pre>
+! example input file run on Arseniev's gramicidin structure
+! Adapted from standard example.inp to produce 2D maps see section 6.5
+! of hole documentation for details.
+coord  1grm_single.pdb          
+radius ~/hole2/rad/simple.rad
+cvect  0 1 0                    
+cpoint 0 0 3             
+sample 0.25                     
+endrad 5.
+
+shorto 2            ! cut down on output
+2dmaps 2d_example   ! filename root - many files will be produced with
+                    ! this as a start
+</pre>
+Note that you cannot include the CAPSULE card when producing 2D maps -
+the routine cannot handle anisotropy.<p>
+
+The end of the output file (included as "2dmap.out") lists what has been
+produced:
+
+<pre>
+2d_example_touch.grd for map of touching distance
+2d_example_capost.dat for Calpha posting info
+2d_example_caline.bln for Calpha connecting lines (blanking format)
+2d_example_res.bln for contacting residue base map (blanking format)
+2d_example_on_map.grd for map Oxygen/Nitrogen neighbour presence
+  (value 1 for oxygen, -1 for nitrogen and zero for any other)
+2d_example_resno_map.grd for map of residue number
+2d_example_polar_map.grd for map of residue polarity
+  (1 for glu,asp; -1 for lys/arg; +0.1 tyr,ser,his,gln)
+2d_example_chain_map.grd for map of chain id
+  (number is the offset ascii value for the character
+   i.e. if chain id's go A, B, C numbers will go 1,2,3)
+2d_example_for_make_post_map.hole for file to be used with make_post_map to make
+ better post map
+2d_example_resid.dat for residue patch identities
+ HOLE: normal completion
+</pre>
+
+Note all the filenames begin with the root <tt>2d_example</tt> as specified
+by the <tt>2dmaps</tt> card.  The files can be directly read into surfer.
+Files of type .grd are grid files which contain information to produce a
+contour map (or mesh surface).  Type .bln ("blanking null") contains
+information to draw lines on a 2D surface.  Type .dat contain information
+for posting points on a 2D surface and labelling them.<p>
+
+Here is a more detailed description of what each file contains:
+
+<blockquote>
+<p>
+<bl><li><i>Files containing map type information:</i></bl>
+
+<dl>
+	<dt>fileroot_touch.grd
+	<dd>This contains information as to distance (in Angstroms)
+	from the centre line to the closest atom surface at that point.
+	Maps can display anisotropic features (such as side opening etc.).
+<p>
+	<dt>fileroot_on_map.grd
+	<dd>This contains information as to whether the closest non-hydrogen
+	atom to the HOLE surface at this coordinate is an oxygen (value +1),
+	a nitrogen (-1) or something else.  Used in the  
+	<a href="mgms_article/k033gon.html">gramicidin</a> map example
+<p>
+
+	<dt>fileroot_resno_map.grd
+	<dd>This contains information as the residue number of
+	the closest non-hydrogen atom to the HOLE surface at this coordinate
+	(value is the residue number).
+<p>
+	<dt>fileroot_chain_map.grd
+	<dd>This contains information as the chain identity of
+	the closest non-hydrogen atom to the HOLE surface at this coordinate.
+	Each chain with have a seperate numberical value starting at 1
+	 and then equal to the ichar(chain_id)-ichar(chain_id_1st_atom)+1
+	 (ichar() is fortran function giving the ascii number for any character).
+	This map is used in <a href="#phos">picture</a> of phospholamban above.
+<p>
+	<dt>fileroot_polar_map.grd
+	<dd>This contains information as the polarity of the residue for
+	the closest non-hydrogen atom to the HOLE surface at this coordinate.
+	Value 1 for glu,asp; -1 for lys/arg; +0.1 tyr,ser,his,gln.
+<p>
+</dl>
+
+<p>
+<bl><li><i>Files containing line drawing information:</i></bl>
+
+<dl>
+
+	<b><dt>fileroot_res.bln</b>
+	<dd>This is not a map file but contains information as to the
+	boundaries between different residues.  Similar pictures
+	can be gained by drawing maps with chain_id/residue number but
+	the .bln file is neat and easy.  In the 
+	<a href="#phos">phospholamban</a> and the 
+	<a href="mgms_article/k033gon.html">gramicidin</a> pictures this
+	is used to draw a black line between different residues in 
+	a neat way.  This is one of the most useful files
+	if you are limited to using gnuplot (see below).
+	
+<p>
+	<b><dt>fileroot_caline.bln</b>
+	<dd>This file contains the information for drawing lines connecting
+	the points of projection of Calpha atoms onto the surface.  Very
+	useful - shows the relation of the structure to the surface -
+	see <a href="#phos">pictures</a> of phospholamban above. 
+ 
+<p>
+</dl>
+
+<p>
+<bl><li><i>Files containing information for placing labels:</i></bl>
+<dl>
+	
+	<dt>fileroot_resid.dat
+	<dd>This file contains the information for placing labels stating
+	what residue each patch refers to.  The label is placed at the centroid
+	of the total positions for that residue.  For complex maps in which
+	a single residue has two or more patches this can mean that the label
+	lies outside any of the patches involved.  For this reason a way of
+	producing better labels was written:
+	
+<a name="make_post_map"></a>
+<p>
+<b><dt>fileroot_for_make_post_map.hole</b>
+	<dd>This file can be used with the seperate program make_post_map
+	(supplied with hole and automatically setup with the package)
+	to produce much better residue id labels than the ones above.
+	To use simply get to the directory containing the file
+	and type "make_post_map" (and the enter key) like in this example:
+	
+	<pre>
+jura> <b>cd ~/hole2/example</b>
+jura> <b>ls *.hole</b>
+2d_example_for_make_post_map.hole
+jura> <b>make_post_map</b>
+ *** Program make_post_map ***
+ 
+ Copyright 1997, 2004 by Oliver S. Smart<br>
+ Program modification number 0001 28-2-97
+ HOLE release 2beta001 (28 Feb 1997)
+ Program linked at Sat Mar  1 19:01:47 GMT 1997  
+ Last modified .f files: 
+          14 Mar  1 18:59 machine_dep.f -
+       15933 Mar  1 18:59 vdwdot.f       
+        2970 Mar  1 18:59 vdset.f        
+
+ Please enter input hole format (old) filename
+ defaults <2d_example_for_make_post_map.hole> ext:<.hole> (abort by EXIT or ^D) : <i><b> (hit enter key)</b></i>
+ Please enter output SURFER posting format (new) filename                   
+ defaults <2d_example_for_make_post_map.dat> ext:<.dat> (abort by EXIT or ^D) :   <i><b> (hit enter key)</b></i>
+
+ input file has info for    73 rows and   141 columns 
+ Data limits X=   -180.000   180.000
+ Data limits Y=    -17.500    17.500
+STOP - make_post_map normal completion.
+jura> 
+	</pre>
+	In this case a file "2d_example_for_make_post_map.dat" has been
+	produced.  This contains sensible labels for each patch on the 2D
+	map "occupied" by a different residue.  The label is positioned
+	at the point furthest from any other patch.  The label list starts
+	this the largest patch and goes to the smallest.  If the map is
+	rather cluttered simply delete the labels at the end of the file.
+	
+	<p>
+	<dt>fileroot_capost.dat
+	<dd>This file contains labels for the positions of Calpha atoms
+	projected onto the surface - useful in conjunction with 
+	fileroot_caline.bln which draws lines between the points.
+</dl>
+</blockquote>
+<p>
+
+<h3>Using gnuplot to draw maps</h3>
+
+As explained above the 2D map support in HOLE was written for use with the 
+program surfer but because of the cost of the package and its restriction to
+pc's the use of gnuplot is now supported.  It is not as easy to produce
+really pretty maps with gnuplot but with a bit of effort reasonable results
+can be obtained. <p>
+
+Gnuplot is a public domain quite reasonable 2D/3D graph plotter.  It is
+command line driven and is supported on wide range of machines.  The
+examples given here were run with gnuplot unix version 3.5 (pre 3.6)
+patchlevel beta 332 (run on a sg under IRIX5.2).  
+For more details of gnuplot see the 
+<a href="http://www.cs.dartmouth.edu/gnuplot_info.html">gnuplot homepage</a>,
+a convenient European place to download the latest version of gnuplot is
+from this <a href="ftp://cmpc1.phys.soton.ac.uk/pub/">ftp site</a> at the
+Department of  Physics & Astronomy at the University of Southampton, UK.<p>
+
+In order to use the surfer type files with gnuplot then they must be
+converted into a form suitable for gnu.  Conversion programs are
+supplied with HOLE and should have been setup automatically with hole.
+The following table describes how to convert each file produced by
+HOLE or make_post_map. 
+
+<p>
+   
+<center>
+<table border=4 cellpadding=8 cellspacing=8 align=center>
+     <tr>
+     <td valign=top>File</td>
+     <td align=center>How to convert (at unix prompt). </td>
+     <td align=center>How to use in gnuplot </td>
+     </tr>
+
+     <tr>
+     <td valign=top>All map type files: <br>
+     <i>fileroot_touch.grd,     fileroot_on_map.grd,<br>
+     fileroot_resno_map.grd, fileroot_chain_map.grd, <br>
+     fileroot_polar_map.grd</i>
+  
+     </td>
+     <td align=center>grd2gnu < fileroot_***.grd > fileroot_***.gnu
+     </td>
+
+     </td>
+     <td align=center>splot "fileroot_***.gnu" with lines
+     </td>
+
+     <tr>
+     <td valign=top>Files containing information for drawing lines <br>
+     <i>fileroot_caline.bln</i> (Calpha conecting lines),<br>
+     <i>fileroot_res.bln </i>(residue boundaries).
+  
+     </td>
+     <td align=center>bln2gnu < fileroot_***.bln > fileroot_***.gnu
+     </td>
+
+     </td>
+     <td align=center>plot "fileroot_***.gnu" with lines 
+                      <br><i>or</i><br>
+     		      splot "fileroot_***.gnu" with lines<br>
+     </td>
+  
+     </tr>
+     
+
+     <tr>
+     <td valign=top>Labels for residue patches<br>
+     <i>fileroot_for_make_post_map.dat</i> <br>
+     (output of program <a href="#make_post_map">make_post_map</a>).
+  
+     </td>
+     <td align=center>make_post2gnu < fileroot_for_make_post_map.dat > 
+     fileroot_for_make_post_map.gnu
+     </td>
+
+     </td>
+     <td align=center>load "fileroot_for_make_post_map.gnu" 
+     </td>
+  
+     </tr>
+     
+     <tr>
+     <td valign=top>Labels for Calpha positions<br>
+     <i>fileroot_capost.dat</i> 
+  
+     </td>
+     <td align=center>capost2gnu < fileroot_capost.dat > 
+     fileroot_capost.gnu
+     </td>
+
+     </td>
+     <td align=center>load "fileroot_capost.gnu"
+     </td>
+  
+     </tr>
+    
+</table>
+</center>
+<p>
+
+Note because gnuplot contour plotting allows only very limited features
+it may be best to concentrate on using the .bln and .dat type files
+in 2D mode (plot rather than splot). 
+
+<h3>Example application</h3>
+
+
+Example run in ~/hole2/example using files created in HOLE run and
+make_post_map application described above in this document.
+<p>
+
+The first thing to do is convert the files above into a suitable
+form:
+<pre>
+jura> <b>bln2gnu < 2d_example_caline.bln > 2d_example_caline.gnu</b>
+jura> <b>bln2gnu < 2d_example_res.bln > 2d_example_res.gnu      </b>
+jura> <b>make_post2gnu < 2d_example_for_make_post_map.dat > 2d_example_for_make_post_map.gnu</b>
+jura>
+</pre>
+<p>
+Then simply run gnuplot <i>(!indicates a comment do not enter yourself!!)</i>
+<pre>
+jura> <b>gnuplot</b>
+
+        G N U P L O T
+        unix version 3.5 (pre 3.6)
+        patchlevel beta 332
+        last modified Sat Apr 12 06:39:51 BST 1997
+
+        Copyright 1997, 2004 by Oliver S. Smart<br>
+        Thomas Williams, Colin Kelley and many others
+
+        Send comments and requests for help to info-gnuplot@dartmouth.edu
+        Send bugs, suggestions and mods to bug-gnuplot@dartmouth.edu
+
+Terminal type set to 'x11'
+gnuplot> <b>load "setup_gnu"</b>  <i>! setup file - see below</i>
+gnuplot> <b>load "2d_example_for_make_post_map.gnu"</b> <i>! labels </i>
+gnuplot> <b>plot "2d_example_res.gnu" with l, "2d_example_caline.gnu" with l linewidth 6 </b> <i>! plot both residue patch seperators and Ca lines  </i>
+gnuplot> <b>set yrange [-17:17] </b> <i>! visual inspection of picture in Xwindow suggests need to reduce range </i>
+gnuplot> <b>replot</b> <i>! yes that's better </i>
+gnuplot> <b>set output "2d_example_gnuplot.ps"</b>
+gnuplot> <b>set term post</b> <i>! output to postscript file </i>
+Terminal type set to 'postscript'
+Options are 'landscape noenhanced monochrome dashed defaultplex "Helvetica" 14'
+gnuplot> <b>replot</b>
+gnuplot> <b>exit</b>
+</pre>
+
+<p> The postscript file that results is included in the example directory
+and basically looks like this:
+<center>
+<img align=center src="2d_example_gnuplot.gif"></a>
+<p><b> Map of the internal surface of Arseniev and co-workers structure
+for the channel form of gramicidin D.   The surface is divided into seperate
+areas according to the residue of closest atom to the HOLE surface.  The dotted line marks the projection that a line joining the alpha carbons of each residue
+makes in the coordinate space.  The head to head dimer nature of the channel
+is immediately obvious.
+</b>
+</center>
+The file "setup_gnu" contains useful commands for using gnuplot with HOLE
+files.  It is included in example directory but for completeness contents
+listed here:
+
+<pre>
+# setup commands for using gnuplot with HOLE 
+# to use type 
+# gnuplot> load "setup_gnu"
+# at the gnuplot> prompt 
+# these are only a suggestion to get really pretty output you
+# will probably have to modify them.
+set parametric
+set view 0, 0
+set xtics -180, 90, 180
+set noclabel
+set nokey
+set xlabel "angle from x-axis in degrees"
+set ylabel "z coordinate in angstroms"
+set cntrparam levels auto 30
+set size square
+# for splot do not want original data - only contours
+# n.b. for plotting .bln (residue maps, calpha lines) use plot not splot
+set nosurface
+set contour
+</pre>
+
+
+
+<p>
+
+GOOD LUCK and let me know of any useful tips!
+
+<hr size=2>
+<dl>
+<b>Navigation:</b>
+	<dd>Back to <a href=index.html#contents>contents</a>
+	<dd>Back to section <a href="hole_d06.html#maps">6.0 Visualization of results</a>
+	<dd>Back to  previous section <a href="hole_d05.html">5.0  van der Waals radii files</a>
+	<dd>On to  next section <a href="hole_d07.html">7.0  Ancillary programs</a>
+</dl>
+<p>
+<a href="hole_d05.html"><img src="buttons/button_prevsec.gif" border=0 alt=" <<Previous Section"></a>
+<a href="hole_d06.html#maps"><img src="buttons/button_calling_section.gif" border=0 alt="Calling Section^ "></a>
+<a href="index.html#contents"><img src="buttons/button_hole_doc_index.gif" border=0 alt=" Hole Doc. Index^ "></a>
+<a href="http://hole.biop.ox.ac.uk/hole/"><img src="buttons/button_hole_home.gif" border=0 alt=" HOLE home "></a>
+
+
+<a href="hole_d07.html"><img src="buttons/button_nextsec.gif" border=0 alt=" Next Section>> "></a>
+
+<hr size=4>
+
+</font>
+</body>
+</html>

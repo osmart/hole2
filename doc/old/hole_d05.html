@@ -1,0 +1,80 @@
+<html>
+<header>
+<TITLE>Documentation for the HOLE: 5.0 van der Waals radii files</TITLE>
+</header>
+<body BACKGROUND="raindrop.jpg" TEXT="#009900" VLINK="#aa0000" LINK="#FF0000"><a name="top"></a>
+<font color="000099">
+
+<hr size=4>
+
+<a href="hole_d04.html"><img src="buttons/button_prevsec.gif" border=0 alt=" <<Previous Section"></a>
+<a href="index.html#contents"><img src="buttons/button_hole_doc_index.gif" border=0 alt=" Hole Doc. Index^ "></a>
+<a href="http://hole.biop.ox.ac.uk/hole/"><img src="buttons/button_hole_home.gif" border=0 alt=" HOLE home "></a>
+
+
+<a href="hole_d06.html"><img src="buttons/button_nextsec.gif" border=0 alt=" Next Section>> "></a>
+<!--
+<p>
+<dl>
+<b>Navigation:</b>
+	<dd>Back to <a href=index.html#contents>contents</a>
+	<dd>Back to  previous section <a href=hole_d04.html>4.0  Sample input file </a>
+	<dd>On to  next section <a href=hole_d06.html>6.0  Visualization of HOLE results</a>
+</dl>
+-->
+<hr size=2>
+
+<a name="vdw"><h2>5.0 van der Waals radii files</h2></a>
+
+At present five sets of van der Waals radii are supplied with HOLE (in separate
+files).  The files are supplied in the directory <b><tt>~/hole2/rad</b></tt>. 
+The choice of which to use is made by a <a href=hole_d03.html#RADIUS>radius</a>
+ card.<p>
+
+<ul>
+<li><b><tt>amberuni.rad</b></tt>: uses the van der Waals radii given by Weiner et al. (1984), J.
+       Am. Chem. Soc. 106:765-768, which form part of the AMBER united atom
+       potential energy function.  United atom carbon atoms (those to which
+       carbons are attached) are given different values.
+<li><b><tt>simple.rad</b></tt>: uses amber vdw radii but ignores united atom values.  This is the
+       file which I use and it allows comparison to the results of Smart,
+       Goodfellow and Wallace (1993).
+<li><b><tt>bondi.rad</b></tt>: uses vdw radii specified by Bondi (1964) J. Phys. Chem. 68:441-451.
+       These are the "classic" van der Waals radii a fair bit shorter than those
+       used in amber.
+<li><b><tt>hardcore.rad</b></tt>: This contains "hard core" radii given by Turano, Pear and Busath
+       (1992) Biophys. J., 63:152-161.  These radii are reduced variant of vdW
+       radii which give some kind of implicit representation of thermal motion. 
+<li><b><tt>xplor.rad</b></tt>:  This file has been kindly provided by Dr Ian Kerr, 
+	Molecular Biophysics, Oxford University and contains radii derived
+	from XPLOR parameter file param19x.pro.
+
+</ul>
+
+When reporting the results of hole don't forget to specify which set is used (to
+allow comparison between works).  If the you would prefer some other set of
+radii please make a .rad file (amberuni.rad explains the format) and 
+<a href="../help/index.html#contact">send it to me</a> 
+so that others can benefit. <p>
+
+
+<hr size=2>
+<!--<dl>
+<b>Navigation:</b>
+	<dd>Back to <a href=index.html#contents>contents</a>
+	<dd>Back to  previous section <a href=hole_d04.html>4.0  Sample input file </a>
+	<dd>On to  next section <a href=hole_d06.html>6.0  Visualization of HOLE results</a>
+</dl>-->
+<a href="hole_d04.html"><img src="buttons/button_prevsec.gif" border=0 alt=" <<Previous Section"></a>
+<a href="index.html#contents"><img src="buttons/button_hole_doc_index.gif" border=0 alt=" Hole Doc. Index^ "></a>
+<a href="http://hole.biop.ox.ac.uk/hole/"><img src="buttons/button_hole_home.gif" border=0 alt=" HOLE home "></a>
+
+
+<a href="hole_d06.html"><img src="buttons/button_nextsec.gif" border=0 alt=" Next Section>> "></a>
+
+<hr size=4>
+
+Copyright 1997, 2004 by Oliver S. Smart<br>
+</font>
+</body>
+</html>

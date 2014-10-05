@@ -1,0 +1,50 @@
+<html>
+<header>
+<TITLE>Pore Dimensions of Ion Channels: COMMENT FORM</TITLE>
+</header>
+<body  VLINK="#6600CC" LINK="#770000" bgcolor="#ffffff">
+<p>
+<H3>Comments and Suggestions on <br>
+<small>HOLE</small>: A Program for the Analysis of the Pore Dimensions of Ion
+Channel Structural Models</H3>
+<hr>
+Your comments and suggestions regarding the content of this
+paper are very welcome.  We are particularly grateful for any 
+reports of typographical errors, bugs or broken links,
+and invite your response in the form below.  
+Simply fill in the boxes and press the `Submit' button.  
+<hr>
+<FORM METHOD="POST" ACTION="mailto:o.smart@mail.cryst.bbk.ac.uk">
+<textarea name="textarea_stuff" rows=8 cols=60></textarea>
+<p>
+<select name="select_stuff">
+<option>Comment
+<option>Suggestion
+<option>Offer
+<option>Bug Report
+<option>Spelling Error
+<option>Get Back to Me
+<option>Graffiti
+</select>
+<p>
+Your Name . . . . . . . :- <input name="name"><p>
+Your email address :- <input name="email"><p>
+<p>
+<input type="submit" value="submit">
+</form>
+<p>
+Thanks for taking the time.  
+
+<hr width=95% size=4 noshade><p>
+
+<center>
+<a href="paper.html#index"><img src="index.gif" border=0 alt="paper index"></a>
+<a href="../hole_d00.html#contents"><img src="../buttons/button_hole_doc_index.gif" border=0 alt=" Hole Doc. Index^ "></a>
+</center>
+<p>
+<i><a href="http://www.cryst.bbk.ac.uk/~ubcg8ab/smart.html">Oliver S. Smart</a></i>
+ (last modified 20/12/96)
+
+</body>
+</html>
+

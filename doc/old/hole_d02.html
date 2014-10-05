@@ -1,0 +1,291 @@
+<html>
+<header>
+<TITLE>Documentation for the HOLE: 2.0 Introduction & Setup</TITLE>
+</header>
+<body BACKGROUND="raindrop.jpg" TEXT="#009900" VLINK="#aa0000" LINK="#FF0000"><a name="top"></a>
+<font color="000099">
+<hr size=4>
+
+Copyright 1997, 2004 by Oliver S. Smart<br>
+<a href="index.html"><img src="buttons/button_prevsec.gif" border=0 alt=" <<Previous Section"></a>
+<a href="index.html#contents"><img src="buttons/button_hole_doc_index.gif" border=0 alt=" Hole Doc. Index^ "></a>
+<a href="http://hole.biop.ox.ac.uk/hole/"><img src="buttons/button_hole_home.gif" border=0 alt=" HOLE home "></a>
+<a href="hole_d03.html"><img src="buttons/button_nextsec.gif" border=0 alt=" Next Section>> "></a>
+<p>
+<!--
+<dl>
+<b>Navigation:</b>
+	<dd>Back to <a href=index.html#contents>contents</a>
+	<dd>On to  next section <a href=hole_d03.html>3.0 Control of HOLE</a>
+	<dd>To subsection <a href=#newfeat>2.3 New features for release beta 2.0</a>
+	<dd>To subsection <a href=#acquiring>2.4 Acquiring the package</a>
+	<dd>To subsection <a href=#settingup>2.5 Setting up the package</a>
+</dl>
+-->
+<hr size=2>
+<a name=introduction><h3>2.0 Introduction & Setup</h3></a>
+
+<a name=settingup><h3>2.1 Acquiring, Unpacking and setting up the package</h3></a>
+
+<li>The HOLE suite is now distributed using the web from the 
+    HOLE homepage on the web:
+    <a href="http://hole.biop.ox.ac.uk/hole">http://hole.biop.ox.ac.uk/hole</a>
+    follow the instructions there for the download.
+<p>
+
+<li>Download the compressed tar ball relevant for your system
+    e.g., hole2.2_002_linux.tar.gz and place it in your home
+    directory.
+
+<li>Unpacking this tar ball will create the directory <tt>hole2</tt>
+    containing files for your distribution. Use the commands:
+<pre><b><font color=green>cd
+tar xzf hole2.2_002_linux.tar.gz
+</font></b>
+</pre>
+These commands will create the directories:
+<br>
+<tt><b>hole2/exe</b></tt> contains the main executables<br>
+<tt><b>hole2/rad</b></tt> contains a the radius set files needed by hole <br>
+<tt><b>hole2/examples</b></tt> contains a series of example input files for example
+                        runs with hole. <br>
+if you have a source code distribution (available by special request
+see the hole homepage) there will also be a source directory <b><tt>hole2/src</tt></b>.
+
+<br>
+<br>
+<li>To run the hole program and the other executables you can just type the 
+full name of the program. To test that the executable works on your
+computer by typing at the unix prompt:
+<pre><b><font color=green>~/hole2/exe/hole</font></b>
+ *** Program HOLE ***
+  
+ If results of this run are reported or published, please
+ cite the publications listed below.
+
+ <i>(edited for brevity)</i>
+  Control variables read:
+</pre>
+The hole program should start and wait for input - hit ctrl-d (the control and
+d keys together) to get out of this or ctrl-c to interupt.
+If the program fails to load then please goto the hole homepage help section:
+<a href="http://hole.biop.ox.ac.uk/hole/help">http://hole.biop.ox.ac.uk/hole/help</a>
+<br>
+<br>
+
+<li>It is normally most convenient to add the hole executable directory to the
+    the unix path (this would allow hole to be started by typing "hole").
+    Suppose user "mary" has set up the package.  
+
+<blockquote>
+<ol>
+    <li>If you are a tcsh or csh user add the following line at the end of your ~/.cshrc file 
+<pre>
+setenv PATH "$PATH":~mary/hole2/exe
+</pre>
+
+    <li>or otherwise if you are a bash user add the line that follows to
+        the file that is used to set your ENV. This file is normally
+        called following ~/.bash.profile or ~/.profile or ~/.kshrc
+<pre>
+PATH=$PATH:~mary/hole2/exe
+</pre>
+	(if unsure which shell you are running type <tt>echo $SHELL</tt>)
+                                                                                              
+</ol>
+</blockquote>
+<p>
+<li>Open a new shell (if unsure about this logout and then log back into
+    your terminal). You should be able to run the
+    hole executables by typing the command name - try it out
+    by typing <tt>hole</tt>  if nothing happens then make
+    sure that you have permission to use the executables
+    by typing <tt>"ls -l ~mary/hole2/exe"</tt>.
+    If you cannot see this directory then go and speak to mary
+    who should change the permissions for all the top hole2 directory
+    (get her to type <tt>chmod a+rx ~/hole2</tt>).
+<p>
+<li>Unless you have installed hole in your own space you will need to
+    modify the examples provided to point to the correct radius files.
+    When specifying a file for vdw radii (using a <a href="hole_d03.html#RADIUS">
+    RADIUS</a> card) you can use files in mary's area <i>e.g.,</i>
+    specify the following line in the control file:<br>
+    <tt>radius ~mary/hole2/rad/simple.rad</tt><br>
+    (HOLE now resolves ~'s for user names).
+</ul>
+
+<a name=science><h3>2.2 Brief scientific background to the hole method </h3>
+
+The first version of 
+HOLE was written at Birkbeck College from April 1992 to allow the visualization
+and analysis of the holes through atomic models of ion channels.  
+At the time a number of
+people have suggested that it may prove to be useful to other scientists working
+on ion channel models and it was publicly distributed with that hope.  
+This has proved to be true with many hundreds of downloads and literature
+citations to date.
+Its
+initial application was to four experimentally determined structures of gramicidin
+A, as described in Smart, Goodfellow and Wallace (1993).  Please refer to that
+work for a detailed description of the method and discussion as to the results. 
+This manual will concentrate on operational matters.<p>
+
+The user must supply a file containing the co-ordinates for the ion channel
+structure to be analyzed - in pdb format.  Atom records are read and the van der
+Waals radius of each atom is set up. In the original version
+the user had to supply an
+initial point in the channel cavity and a vector in the rough direction of the
+channel, now HOLE has the facility to make guesses for these.  
+HOLE then proceeds to move the point on the plane normal to the
+channel vector so as to find the largest sphere which can be accommodated 
+without overlap with the van der Waals surface of any atom.  The optimization
+is achieved by a Monte Carlo simulated annealing procedure.  This method was
+initially chosen to avoid becoming trapped in local "minima" but has
+subsequently proved to be useful in follow alternative routes through channels
+with a complex internal cavity, such as annexin V (Smart, Wallace and
+Goodfellow, 1993).  Once the largest sphere which can be accommodated on a
+particular plane is found a small displacement is taken in the direction of the
+channel vector and the process is repeated for the next plane.  The net result of
+the routines is a series of sphere positions that can be thought of a flexible
+sphere "squeezing" through the ion channel.<p>
+
+Output from the procedure is in three forms:
+<ol>
+       <li>Numerical information as to the radius found is given vs distance
+       along the channel is written to the text output file.  This can be input into
+       a graph plotting program.
+       <li>Graphical output is produced and output to a molecular graphics plot file.
+       The original version of HOLE directly produced a HYDRA/QUANTA binary
+       3D plot (.qpt) file.  This contained a dot surface showing the locus of the surface
+       of the moving sphere and a line showing the locus for the sphere centre. 
+       <!--Also available is an option which draws a line from the two atoms closest
+       to each sphere surface to that surface.  This is intended to be useful in
+       analyzing which atoms cause constrictions in the pore.-->  The file could be
+       displayed together with the ion channel with the program QUANTA. Conversion
+       programs were then developed to convert the qpt objects so they could be displayed
+       with other molecular graphics programs, such as sybyl, rasmol, mage and  
+       InsightII. The direct output of molecular graphics object is now phased
+       out of HOLE (see next paragraph).
+
+       <li>The sphere centre information is  output to a pdb format co-ordinate 
+       file (normally given the terminal identifier .sph).  This contains an atom record 
+       for each centre with the occupancies set to the sphere radii. 
+       This file is now used to produce molecular graphics objects rather than
+       directly producing them in HOLE. This has the advantage of allowing the
+       separation of the process allowing the combination of the results
+       of more than one  HOLE run and/or 
+       This is useful for analysis of the route found using
+       molecular graphics and combining the results of more that one run of
+       HOLE.  
+	</ol>
+
+<!--
+The program is written in reasonably standard FORTRAN 77. An exception to this
+is the use of machine specific random number generation routines. The original
+pre-release program improved the poor nature of the vendor supplied random
+numbers by using s/r RANO supplied in Numerical Recipes (1st ed., Press,
+Flannery, Teukolsky and Vetterling, CUP, 1986).  This has been eliminated from
+the released version to avoid problems of property rights.  I don't think this
+should matter as the method does not need very good random numbers -
+correlations should be of little consequence. -->
+
+The program was originally written
+on VAX under VMS and was then developed on an ibm rs6000 (under AIX). 
+It has been used on a variety of Unix workstations (convex, SGI, HPI,
+OSF1) it now primarily supported on linux.
+<p>
+<hr size=2>
+
+<h3><a href="mgms_article/paper.html">2.3 Copy of J. Mol. Graphics article giving
+		overview of HOLE</a></h3>
+		Follow (local) <a href="mgms_article/paper.html">link</a> to see article.<p>
+
+<hr size=2>
+<a name=newfeat><h3>2.4 New features for release 2.0</h3></a>
+
+HOLE2 has a large number of new features which should both
+ease the use of program and allow exploration of ion channel properties 
+in further depth.  Most notably:
+<dl>
+<font color="#009900">
+	<dt><img alt="*" src="ballbrwn.gif"> <b>(Release 2.002) 
+	          2D Maps of the internal surface of a pore</b>
+	<dd>This feature is now <a href="hole_d065.html">documented</a> 
+	and the use of the public domain program gnuplot is supported.
+</font>
+<br><br>
+	<dt><img alt="*" src="ballbrwn.gif"> <b>Speed</b>
+	<dd>You should notice that the new version of HOLE runs about 30% faster
+	as the calculation of unnecessary square root calculations have been eliminated.
+	<dt><img alt="*" src="ballbrwn.gif"> <b>Text output flushing.</b>
+	<dd>By default HOLE reads from the standard input (keyboard) and writes to the standard
+	output.  For obvious reasons it is normal to redirect input and output to files 
+	(using the &#60; and &#62;) keys.
+	One annoying consequence of this on Silicon Graphics and Hewlett Packard's machines
+	is that the text output arrives in "bursts" (caused by buffering the output).
+	This release of HOLE gets around this problem by flushing the output periodically.
+	Unfortunately there is no machine independent way of doing this so some
+	work may be needed to get this to work for non-supported machines.	
+	<dt><img alt="*" src="ballbrwn.gif"> <b>Reduced text output option.</b>
+	<dd> 	<a href="hole_d03.html#SHORTO">SHORTO</a>
+	<dt><img alt="*" src="ballbrwn.gif"> <b>Analysis of anisotropy</b>
+	<dd> <a href="hole_d03.html#CAPSULE">CAPSULE</a>
+	<dt><img alt="*" src="ballbrwn.gif"> <b>Prediction of K+ conductance</b>
+	<dd>
+	<dt><img alt="*" src="ballbrwn.gif"> <b>Better graphics</b>
+	<dt><img alt="*" src="ballbrwn.gif"> <b>Colour coding surfaces</b>
+	<dt><img alt="*" src="ballbrwn.gif"> <b>Better support for non-QUANTA users</b>
+	<dd>With conversions programs added for O, mage, rasmol and VRML.
+	<dt><img alt="*" src="ballbrwn.gif"> <b>Easy analysis of multiple files <i>e.g.,</i>  from Molecular Dynamics trajectories.</b>
+	<dd> Instead of HOLE being limited to the analysis of one input coordinate 
+	file it is now easy to apply HOLE to many input coordinate sets. This is
+	achieved by specifying a wildcard (*) in the file name specified after the
+	<a href="hole_d03.html#COORD">COORD</a> card, <i>e.g.,</i> <tt>coord ab*.pdb</tt>
+        will apply hole to all files in the directory whose name starts with <tt>ab</tt> and
+        ends with <tt>.pdb</tt>.  The hole procedure will
+        be applied to each file in turn with the same setup conditions (initial
+	point, sampling distance etc.).<p>
+
+	As well as being able to read from multiple pdb files HOLE
+	can now read from <small>CHARMm</small> .DCD format binary
+	trajectory files.  Details of this option can be found
+	by looking at the <a href="hole_d03.html#CHARMD">CHARMD</a>
+	and <a href="hole_d03.html#CHARMS">CHARMS</a> cards.
+
+	<dt><img alt="*" src="ballbrwn.gif"><b> Program <a href="hole_d07.html#qplot">qplot</a> is now much easier
+	to use and produces shorter postscipt files.</b>
+	<dd> qplot allows the user to produce high quality colour or monochrome
+	postscript files of HOLE objects.  In the original release the program
+	was difficult to use.  The program is now much more user friendly 
+	and has sensible defaults. For instance you can produce pictures
+	with views along the x or y axis very much more easily.
+
+</dl>
+
+
+
+<hr size=2>
+
+<!--
+<b>Navigation:</b>
+<dl>
+ 	<dd><a href=#top>Back to the top of this page</a>
+	<dd>Back to <a href=index.html#contents>contents</a>
+	<dd>On to  next section <a href=hole_d03.html>3.0 Control of HOLE</a>
+		<dd>To subsection <a href=#newfeat>2.3 New features for release beta 2.0</a>
+	<dd>To subsection <a href=#acquiring>2.4 Acquiring the package</a>
+	<dd>To subsection <a href=#settingup>2.5 Setting up the package</a>
+</dl>
+-->
+
+
+<a href="index.html"><img src="buttons/button_prevsec.gif" border=0 alt=" <<Previous Section"></a>
+<a href="index.html#contents"><img src="buttons/button_hole_doc_index.gif" border=0 alt=" Hole Doc. Index^ "></a>
+<a href="http://hole.biop.ox.ac.uk/hole/"><img src="buttons/button_hole_home.gif" border=0 alt=" HOLE home "></a>
+<a href="hole_d03.html"><img src="buttons/button_nextsec.gif" border=0 alt=" Next Section>> "></a>
+<hr size=4>
+
+</body>
+</font> 
+</html>
+

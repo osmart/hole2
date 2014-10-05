@@ -1,0 +1,303 @@
+<html>
+<header>
+<TITLE>Documentation for the HOLE: 9.0 An example run </TITLE>
+</header>
+<body BACKGROUND="raindrop.jpg" TEXT="#009900" VLINK="#aa0000" LINK="#FF0000"><a name="top"></a>
+<font color="000099">
+
+Copyright 1997, 2004 by Oliver S. Smart<br>
+<a href="hole_d08.html"><img src="buttons/button_prevsec.gif" border=0 alt=" <<Previous Section"></a>
+<a href="index.html#contents"><img src="buttons/button_hole_doc_index.gif" border=0 alt=" Hole Doc. Index^ "></a>
+<a href="http://hole.biop.ox.ac.uk/hole/"><img src="buttons/button_hole_home.gif" border=0 alt=" HOLE home "></a>
+
+
+<a href="hole_d10.html"><img src="buttons/button_nextsec.gif" border=0 alt=" Next Section>> "></a>
+<p>
+
+<dl>
+<b>Navigation:</b>
+	<dd>Back to <a href=index.html#contents>contents</a>
+	<dd>Back to  previous section <a href="hole_d08.html">8.0  Using HOLE to predict conductance properties of ion channels</a>
+	<dd>On to  next section <a href="hole_d10.html">10.0 Future Developments and Applications to date</a>
+</dl>
+
+<h2>9.0  An example run: analyzing the cavity in the Arseniev gramicidin structure</h2>
+
+<dl>
+        <dd><img alt="*" src="ballbrwn.gif">
+	All the files used in this example are supplied with hole 
+	and can be found in directory <tt>~/hole2/example</tt>. If you
+	want to work through the steps involved then
+	use the files in <tt>~/hole2/work</tt> as a starting point. <p>
+
+        <dd><img alt="*" src="ballbrwn.gif">
+The starting point of the run is the structure
+for the channel form of gramicidin A determined by Arseniev and co-workers
+(A.S.Arseniev,I.L.Barsukov,V.F.Bystrov,A.L.Lomize,  Yu.A.Ovchinnikov 
+<i>1H-NMR Study Of Gramicidin A Transmembrane Ion  Channel</i>
+Febs Letts. <b>186</b> 168-  1985).<p>
+
+        <dd><img alt="*" src="ballbrwn.gif">
+	As the pdb file of this structure contains an ensemble of five
+	structures the first stage was to select out one of these with an
+	editor.  The result is the file <a href="../example/1grm_single.pdb">
+	<tt>1grm_single.pdb</tt></a>.  Note
+	that if you wished to analyze all five structures at once this
+	would be possible by splitting the file into 5 seperate pdb
+	files and using a wildcard * in the <a href=hole_d03.html#COORD>coord</a> 
+	card.<p>
+
+ 
+        <dd><img alt="*" src="ballbrwn.gif">
+        This structure was then examined using <small>QUANTA</small>
+	- it is clear that the channel lies up the y axis.  To
+	obtain an approximate starting point within the channel
+	two atoms were picked on opposite sides of the pore at the
+	centre and their coordinates were averaged (the result was 0. 0. 3.).<p>
+  
+	<dd><img alt="*" src="ballbrwn.gif">
+	This information was then used to write a suitable hole control
+	file <tt>example.inp</tt>:
+
+<pre>
+! This is an example of how to run hole
+! example input file run on Arseniev's gramicidin structure
+! note everything preceeded by a "!" is a comment and will be ignored by HOLE
+!
+! This example run by line:
+! hole < example.inp > example.out &
+!
+! first cards which must be quoted 
+! note that HOLE is case insensitive (except file names)
+<a href=hole_d03.html#COORD>coord</a> 1grm_single.pdb           ! Co-ordinates in pdb format
+<a href=hole_d03.html#RADIUS>radius</a> ~/hole2/rad/simple.rad	! Use simple AMBER vdw radii
+				! n.b. can use ~ in hole
+<a href=hole_d03.html#CVECT>cvect</a>  0 1 0                    ! channel runs approx up Y axis
+<a href=hole_d03.html#CPOINT>cpoint</a> 0 0 3 		 	! a point in pore
+!
+! now optional cards
+<a href=hole_d03.html#SAMPLE>sample</a> 0.25                     ! distance between planes
+<a href=hole_d03.html#PLTOUT>pltout</a> example.qpt              ! quanta plot file output
+<a href=hole_d03.html#SPHPDB>sphpdb</a> example.sph              ! pdb format output of hole sphere centre 
+				! (for use in sphqpt program)
+<a href=hole_d03.html#ENDRAD>endrad</a> 5.			! to avoid having enormous ends
+<a href=hole_d03.html#MOLQPT>molqpt</a>  stick.qpt                ! qpt file of the molecule
+                                ! (stick plot in one colour)
+</pre><p>
+ 
+      <dd><img alt="*" src="ballbrwn.gif">
+	hole is run by typing the command:<pre>
+	<tt>hole < example.inp > example.out &</tt>
+	</PRE>
+	Four files are produced at the end of the run (which should take less than five
+	minutes on all but the slowest workstation):<p>
+	<ol>
+		<li> <a href="../example/example.out"><tt>example.out</tt></a>
+			which is the log file of the hole run and has
+			a table giving information for plotting graphs at the end.
+			In this case it shows that the minimum radius of the channel
+			is 1.20&Aring;. *** information to be added about how to
+			get a nice graph from sigmaplot ***<p>
+
+		<li> <tt>example.qpt</tt> a quanta format binary 3D plot format
+		 	file for the HOLE run (see  
+			<a href=hole_d03.html#PLTOUT>pltout</a> card for
+			format details).  The file will have a (green) dot surface
+			and a yellow centre line. This file can be 
+			<a href="hole_d06.html#quanta">displayed in quanta</a> or
+			<a href="hole_d07.html#qpt_conv">converted</a> for use with 
+			other packages.<p>
+		<li> <a href="../example/example.sph"><tt>example.sph</tt></a> 
+		This is a pdb format file which contains
+		the sphere centres as "ATOM" records.  It can be treated like a normal
+		pdb file (e.g., it can be displayed using a molecular graphics program). 
+		However, its primary purpose is to be used as input to the program
+		<a href="hole_d07.html#sphqpt">sphqpt</a> to produce colour coded
+		and gridded hole surfaces (see next paragraph).<p>
+
+		<li> <tt>stick.qpt</tt> this is qpt file containing a simple 
+			monocolour stick
+			plot of the molecule.  We have specified this card to produce a pretty
+			picture of the molecule together with the HOLE surface.
+			If you use <small>QUANTA</small>
+			you can produce better versions leaving out a number
+			of atoms (e.g., just plotting the main chain).
+
+	</ol><p>
+	<dd><img alt="*" src="ballbrwn.gif">
+	We will use the program <a href="hole_d07.html#sphqpt">sphqpt</a> to
+	produce a grid surface of the HOLE run colour coded according 
+	to pore radius.  Typed input is indicated <tt><strong><large>thus</large></strong></tt>
+	with the "Enter" or "Return" key indicated as 
+        <tt><strong><large>&reg;</large></strong>, 
+	<i># indicates a comment which should not be entered</i></tt>.
+
+<pre>
+jura&gt; <strong><large>sphqpt&reg;</large></strong>
+ *** Program sphqpt ***
+ Reads a pdb format file produced by hole
+ option SPHPDB which contains sphere centre info,
+ and outputs a quanta plot file with the hole surface
+ either as a dot or grid representation
+
+ Version H2alpha1
+ (c) 1996 Oliver Smart & Birkbeck College, All rights reserved.
+ Program linked at Mon Feb 26 16:24:34 GMT 1996
+ Last modified .f files:
+       24389 Feb 26 16:22 machine_dep.f
+       26903 Feb 26 16:21 sphqpt.f
+       10593 Feb 26 16:21 qplot.f
+
+ Please enter input pdb format (old) filename
+ defaults &lt;example.sph&gt; ext:&lt;.sph&gt; (abort by EXIT or ^D) : <strong><large>&reg;</large></strong><i> # the default name is correct just hit return</i>
+ Please enter output binary hydra/quanta plot (new) filename
+ defaults &lt;example.qpt&gt; ext:&lt;.qpt&gt; (abort by EXIT or ^D) : <strong><large>example_grid&reg;</large></strong><i> # new name</i>
+ Do you want the centre lines drawn in output file? (y/n) &lt;y&gt;:<strong><large>&reg;</large></strong><i> # (yes)</i>
+ It is possible to enter a number to which all the sphere
+   centre radii will be set regardless of value in file.
+ Enter value &lt;leave radii alone&gt;: <strong><large>&reg;</large></strong><i> # use default</i>
+ This program can either do a dot surface (which is fast) or
+    a curving grid surface (which is must slower).
+    Do you want a dot (D) or grid (G) surface? &lt;dot&gt;: <strong><large>g&reg;</large></strong><i> # enter g for grid</i>
+ The density of the grid surface is controlled by DMULT
+ A value of 2.0 will produce a rather rough surface, 1.3 a
+ rather dense surface - 1.8 is a reasonable compromise.
+ N.b. procedure takes much longer than dot surface.
+ What value for DMULT? &lt;1.8&gt;: <strong><large>&reg;</large></strong><i> # use default</i>
+ Do you want to colour surface according to pore radius? &lt;n&gt;:  <strong><large>y&reg;</large></strong><i> # colour according to radius</i>
+ What upper radius for low radius colour (red) &lt;1.15&gt;: <strong><large>&reg;</large></strong><i> # use default</i>
+ What upper radius for mid radius colour (green) &lt;2.30&gt;: <strong><large>&reg;</large></strong><i> # use default</i>
+ What upper radius for high radius colour (blue) &lt;999&gt;: <strong><large>&reg;</large></strong><i> # use default</i>
+ Outputing centre line to quanta colour 4 (default yellow)
+ Outputing low rad surface to quanta colour 3 (default red)
+ Pass     1 for this colour
+   Number of vertices output so far     0
+ Pass     2 for this colour
+   Number of vertices output so far     0
+ Outputing mid rad surface to quanta colour 7 (default green)
+ Pass     1 for this colour
+   Number of vertices output so far    70
+ Pass     2 for this colour
+   Number of vertices output so far    78
+ Outputing high rad surface to quanta colour 2 (default blue)
+ Pass     1 for this colour
+   Number of vertices output so far    81
+ Pass     2 for this colour
+   Number of vertices output so far    81
+STOP FORTRAN STOP - sphqpt normal completion. statement executed
+jura&gt;
+
+</pre>	  
+At the end of this we have produced a gridded hole surface in
+file <tt>example_grid.qpt</tt>.  It is coloured so that parts
+of the channel whose pore radius is below 1.15 &Aring; - which is
+the minimum radius to accommodate a water molecule - should
+be shown in red.  Where the pore radius is above 2.3 &Aring;
+- sufficient to fit two water molecules in side by side
+are going to be shown in blue.  The intermediate zone
+with a pore radius sufficient to fit just one water molecule
+will be displayed in green.<p>
+
+	<dd><img alt="*" src="ballbrwn.gif">For information about getting you molecular graphics
+	program to display the file <tt>example_grid.qpt</tt> (produced in the previous step)
+	in conjuction with your molecule, see <a href=hole_d06.html#molgraph>6.2 Using molecular graphics:</a><i>
+	with: <a href=hole_d06.html#quanta>quanta</a>,
+                                  <a href=hole_d06.html#sybyl>sybyl</a>, 
+                                  <a href=hole_d06.html#O>O</a>, 
+                                  <a href=hole_d06.html#mage>mage</a>, 
+                                  <a href=hole_d06.html#insight>insightII</a>.</i><p>
+	The files:
+	<ul>
+		<li><tt>example_grid.plt2</tt> has been converted for use with sybyl.
+		<li><tt>example_grid_line.usr</tt> has been converted for use with InsightII.
+		<li><tt>example_grid.obo</tt> has been converted for use with O.
+		<li><a href="../example/example_grid.kin"><tt>example_grid.kin</tt></a>
+		 has been converted for use with <a href=hole_d06.html#mage>mage</a>
+		 - and then combined with <a href="../example/1grm_single.kin"><tt>1grm_single.kin</tt></a>
+		 (which is the output of prekin on <tt>1grm_single.pdb</tt>) to produce final kinemage 
+		file <a href="../example/example_grid_edit.kin"><tt>example_grid_edit.kin</tt></a>.
+
+	</ul>
+	<p>
+ 
+	<dd><img alt="*" src="ballbrwn.gif">We will now use the files <tt>example_grid.qpt</tt>
+	and <tt>stick.qpt</tt> with the program <a href="hole_d07.html#qplot">qplot</a> to 
+	produce a colour postscript picture.
+
+<pre>
+jura&gt; <strong><large>qplot&reg;</large></strong>           
+ This is program qplot which reads hydra/quanta plot files
+   and produces postscript output
+ Version H2alpha1
+ (c) 1996 Oliver Smart & Birkbeck College, All rights reserved.
+ Program linked at Mon Feb 26 16:27:28 GMT 1996  
+ Last modified .f files: 
+       10587 Feb 26 16:27 qplot.f        
+       24389 Feb 26 16:22 machine_dep.f  
+       26903 Feb 26 16:21 sphqpt.f       
+ What level of questions/options do you want to be used?
+   Options:-  expert (E) or normal &lt;normal&gt;: <strong><large>&reg;</large></strong><i> # use default </i>
+ Please enter input binary hydra/quanta plot (old) filename
+ defaults &lt;example_grid.qpt&gt; ext:&lt;.qpt&gt; (abort by EXIT or ^D) : 
+ Have read a total of  2095 records so far
+ Do you want to read another input file? (y/n) &lt;n&gt;: <strong><large>y&reg;</large></strong><i># want 2nd file </i>
+ Please enter input next binary hydra/quanta plot (old) filename
+ defaults &lt;input.qpt&gt; ext:&lt;.qpt&gt; (abort by EXIT or ^D) : <strong><large>stick.qpt&reg;</large></strong>
+ Have read a total of  2667 records so far
+ Do you want to read another input file? (y/n) &lt;n&gt;: <strong><large>&reg;</large></strong><i> # use default </i>
+
+ Please enter output postscript file (new) filename
+ defaults &lt;stick.ps&gt; ext:&lt;.ps&gt; (abort by EXIT or ^D) : <strong><large>colour&reg;</large></strong><i> # outpt file colour.ps </i>
+ Do you wish to change the view with a rotation? (y/n) &lt;no&gt;: <strong><large>&reg;</large></strong><i> # use default </i>
+ Do you want colour postscript output? (y/n) &lt;n&gt;: <strong><large>y&reg;</large></strong>
+ Do you want a black or white background? (b/w) &lt;w&gt;: <strong><large>&reg;</large></strong><i> # use default </i>
+ Can either preserve default quanta colours
+   or map all non-HOLE objects to cyan? 
+   Preserve quanta colours(P) or map to magenta? &lt;map&gt;: <strong><large>&reg;</large></strong><i> # use default </i>
+ Do you want a Normal or Stereo picture? (n/s) &lt;normal&gt;: <strong><large>s&reg;</large></strong><i> # want stereo </i>
+
+STOP FORTRAN STOP qplot normal successful completion. statement executed
+jura&gt;
+
+</pre>
+	This results in a file <tt>colour.ps</tt> which I have converted to
+	a gif using xpsview, snapshot and xv on a Silicon Graphics:<br>
+	<center><img src="../example/colour_ps.gif"></center>
+
+Th hole surface is coloured so that parts
+of the channel whose pore radius is below 1.15 &Aring; - which is
+the minimum radius to accommodate a water molecule - are red.  
+Where the pore radius is above 2.3 &Aring;
+- sufficient to fit two water molecules in side by side
+the surface is blue.  The intermediate zone
+with a pore radius sufficient to fit just one water molecule
+will be displayed in green.  In this case the hole surface has
+no red parts showing that a water molecule can fit through the channel.
+Only the ends of the channel have blue surface showing that the
+Arseniev gramicidin structure is consistent with the single
+file water picture of gramicidin.<p>
+</dl>
+
+
+<hr size=2>
+
+<dl>
+<b>Navigation:</b>
+	<dd>Back to <a href=#top>top of this page</a>
+	<dd>Back to <a href=index.html#contents>contents</a>
+	<dd>Back to  previous section <a href="hole_d08.html">8.0  Using HOLE to predict conductance properties of ion channels</a>
+	<dd>On to  next section <a href="hole_d010.html">10.0 Future Developments and Applications to date</a>
+</dl>
+<p>
+<a href="hole_d08.html"><img src="buttons/button_prevsec.gif" border=0 alt=" <<Previous Section"></a>
+<a href="index.html#contents"><img src="buttons/button_hole_doc_index.gif" border=0 alt=" Hole Doc. Index^ "></a>
+<a href="http://hole.biop.ox.ac.uk/hole/"><img src="buttons/button_hole_home.gif" border=0 alt=" HOLE home "></a>
+
+
+<a href="hole_d10.html"><img src="buttons/button_nextsec.gif" border=0 alt=" Next Section>> "></a>
+
+<hr size=4>
+
+</font>
+</body>
+</html>

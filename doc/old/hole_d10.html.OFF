@@ -1,0 +1,116 @@
+<html>
+<header>
+<TITLE>Documentation for the HOLE: 10.0 Developments and Applications</TITLE>
+</header>
+<body BACKGROUND="raindrop.jpg" TEXT="#009900" VLINK="#aa0000" LINK="#FF0000"><a name="top"></a>
+<font color="000099">
+
+
+
+
+Copyright 1997, 2004 by Oliver S. Smart<br>
+<a href="hole_d09.html"><img src="buttons/button_prevsec.gif" border=0 alt=" <<Previous Section"></a>
+<a href="index.html#contents"><img src="buttons/button_hole_doc_index.gif" border=0 alt=" Hole Doc. Index^ "></a>
+<a href="http://hole.biop.ox.ac.uk/hole/"><img src="buttons/button_hole_home.gif" border=0 alt=" HOLE home "></a>
+
+
+<p>
+
+<dl>
+<b>Navigation:</b>
+	<dd>Back to <a href=index.html#contents>contents</a>
+	<dd>Back to  previous section <a href="hole_d09.html">9.0 An example run: analyzing the cavity in the Arseniev gramicidin structure</a>
+</dl>
+
+<h2> 10.0 Future Developments and Applications to date</h2>
+
+<a name=devel><h3>10.1 Potential Developments</h3>
+
+<i>this sub-section needs updating ***</i><p>
+
+The matter as to what improvements are to be made to HOLE is up to the users. 
+You are welcome to make improvements subject to the conditions set out in
+section 1.0.  Please also try to remain within the programming philosophy of the
+rest of the program.  In particular comments are very important to the usability
+of a piece of code and if a program hits an error it should produce a sensible
+error message and "die" elegantly not cause the operating system to produce an
+unintelligible message and useless "core" file.  Please send me details of any
+changes made by email.  <p>
+
+If you use a molecular graphics program other than those catered for by
+program <a href="hole_d07.html#qpt_conv">qpt_conv</a> then an obvious
+need is to convert the molecular graphics output of hole (a quanta format
+.qpt file) into to a suitable form.  I have tried to support the most common
+programs but if yours is not amoung them then try writing a new
+subroutine for qpt_conv. <p>
+
+Work is in progress to adapt the HOLE procedure to allow the visualization of
+paths of escape for ligands from the active site of proteins - I'll let users known
+when this becomes available.    It may also be possible to incorporate some
+kind of solid rendering facility for the surfaces.
+
+<a name=appl><h3>10.2 Applications to date</h3>
+
+<i>this sub-section needs updating ***</i><p>
+
+Please send me a copy of any publication using HOLE so that it can be added to
+this list.<p>
+
+<dl>
+<dt><img alt="*" src="ballbrwn.gif"> Gramicidin A
+<dd>Smart, O.S., Goodfellow, J.M., Wallace, B.A. (1993) The pore dimensions of
+       gramicidin A, Biophys. J., 65:2455-2460.<br>  
+       Paper gives a description of the
+       method.  Application is made to the four experimentally determined
+       structures of gramicidin A.  These are the NMR structure for the channel
+       form (determined by Arseniev A.S. et al. (1985) FEBS Lett. 186:168-174)
+       and X-ray crystal structures for two different antiparallel double-helical
+       pores (due to Langs, D.A. (1988) Science 241:188-191 and Wallace, B.A.
+       & K. Ravikumar. (1988) Science 241:182-187).<p>
+
+<dt><img alt="*" src="ballbrwn.gif"> Annexin V
+
+<dd>Smart, O.S., Wallace, B.A., Goodfellow, J.M. (1994). Preliminary analysis of
+       the pore dimensions of human annexin V. Biochem. Soc. Trans.,
+       649:146s. <br>
+       Preliminary application of HOLE to human annexin V crystal
+       structure due to Huber et al. (1992) J. Mol. Biol. 223:683-704.  Reveals
+       the complicated topology of the pore through this interesting molecule.<p>
+
+<dt><img alt="*" src="ballbrwn.gif"> Alamethicin
+<dd>Breed, J., Sansom, M.S.P. (1994). Alamethicin channels modelled by simulated
+       annealing and molecular dynamics.  Biochem. Soc. Trans. 649:157s.<p>
+
+<dt><img alt="*" src="ballbrwn.gif"> Bacteriorhodopsin
+<dd>
+<dd>to be included in new paper<p>
+
+<dt><img alt="*" src="ballbrwn.gif"> Porin
+<dd>to be included in new paper<p>
+
+Must be updated!%%%
+
+</dl>
+<p>
+
+<hr size=2>
+
+<dl>
+<b>Navigation:</b>
+	<dd>Back to <a href=#top>top of this page</a>
+	<dd>Back to <a href=index.html#contents>contents</a>
+	<dd>Back to  previous section <a href="hole_d09.html">9.0 An example run: analyzing the cavity in the Arseniev gramicidin structure</a>
+</dl>
+<p>
+<a href="hole_d09.html"><img src="buttons/button_prevsec.gif" border=0 alt=" <<Previous Section"></a>
+<a href="index.html#contents"><img src="buttons/button_hole_doc_index.gif" border=0 alt=" Hole Doc. Index^ "></a>
+<a href="http://hole.biop.ox.ac.uk/hole/"><img src="buttons/button_hole_home.gif" border=0 alt=" HOLE home "></a>
+
+
+
+
+<hr size=4>
+
+</font>
+</body>
+</html>

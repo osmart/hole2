@@ -1,0 +1,523 @@
+<html>
+<header>
+<TITLE>Documentation for the HOLE: 3.0 Control Cards </TITLE>
+</header>
+<body BACKGROUND="raindrop.jpg" TEXT="#009900" VLINK="#aa0000" LINK="#FF0000"><a name="top"></a>
+<font color="000099">
+<hr size=4>
+
+<a href="hole_d02.html"><img src="buttons/button_prevsec.gif" border=0 alt=" <<Previous Section"></a>
+<a href="index.html#contents"><img src="buttons/button_hole_doc_index.gif" border=0 alt=" Hole Doc. Index^ "></a>
+<a href="http://hole.biop.ox.ac.uk/hole/"><img src="buttons/button_hole_home.gif" border=0 alt=" HOLE home "></a>
+
+
+<a href="hole_d04.html"><img src="buttons/button_nextsec.gif" border=0 alt=" Next Section>> "></a>
+<!--<dl>
+<b>Navigation:</b>
+	<dd>Back to <a href=index.html#contents>contents</a>
+	<dd>Back to  previous section <a href=hole_d02.html>2.0 Introduction & Setup</a>
+	<dd>On to  next section <a href=hole_d04.html>4.0 Sample control file </a>
+	<dd>To subsection <a href=#control>3.0 Control of <small>HOLE</small></a>
+	<dd>To subsection <a href=#card_must>3.1 CARDS which MUST be specified</a>
+	<dd>To subsection <a href=#card_may>3.2 CARDS which may be specified</a>
+</dl>-->
+<hr size=2>
+
+<a name=control><h2>3.0 Control of <small>HOLE</small></h2></a>
+
+When <small>HOLE</small> is run the variables which the user can/must specify are read from
+the FORTRAN input stream number 5 (defaults to the keyboard).  The text output
+is to stream 6 (normally the screen).  The i/o streams should be redirected in the
+manner normal for the operating system used.   For unix machines this is
+achieved by typing the command: <p>
+<a name=reass>
+<b><tt>(nohup nice) hole < control_file.inp > log_file (&) </tt></b><p>
+
+where hole refers to the executable, your $PATH variable should have been
+modified so as point to this 
+(see <a href="hole_d02.html#settingup">setup</a> section>). 
+The <b><tt> > </tt></b> and <b><tt> < </tt></b> symbols reassign
+the standard input and output steams to the files specified. 
+<b><tt>control_file.inp</tt></b>  is a file
+containing input information in the format described below and 
+<b><tt>log_file.out</tt></b> is a file which will be created
+containing text output describing how the run is progressing.  
+(The nice and & put the program into the background
+with lowered priority).  
+The input is keyworded by the cards described below.
+In general input is case-insensitive, except for
+filenames - whose case is not changed on reading.  
+Comments must be preceded by a ! and are not read.  
+Comments can be placed at the end of any line
+(they will be striped off before the line is
+interpreted). 
+The user is told of any non-blank line read and not recognized. <p>
+
+<a name=card_must><h3>3.1 CARDS which MUST be specified:</h3></a>
+
+<dl>
+      <dt><tt><b><big><a name=COORD>COORD filename</a></big></b></tt>
+       <dd> This specifies the name of co-ordinate file to be used. This must be in
+       Brookhaven protein databank format or something closely approximating
+       this.  Both ATOM and HETATM records are read.  Note that if water
+       molecules or ions are present in the channel these can be ignored
+       on read by the use of an <a href="#IGNORE">IGNORE</a> card.
+
+        <p>
+	A new feature (in release 2.1) was the option
+	to include a wild card (*) in the filename. <i>e.g.,</i> <tt>coord ab*.pdb</tt>
+        will apply hole to all files in the directory whose name starts with <tt>ab</tt> and
+        ends with <tt>.pdb</tt>.  This intended to aid the analysis of
+	multiple copies of the same molecule - produced during molecular dynamics
+	or other method.
+	The hole procedure will
+        be applied to each file in turn with the same setup conditions (initial
+	point, sampling distance etc.).  Graphics files will contain
+	a combination of the individual runs, one after another.
+	Note that the pdb files are read independently so that they need
+	not have an identical number of atoms or atom order etc. (though
+	they should be sufficiently similar for a <small>HOLE</small> run from identical
+	starting conditions to be useful). 
+	It may be useful to cut down the information
+	written out to the text output by using a <a href=#SHORTO>SHORTO</a> 
+	card (perhaps with level 2) if multiple files are used.
+	Note that an alternative way to load in multiple files is
+	a direct read from a CHARMm binary dynamics coordinate file - using
+	a <a href=#CHARMD>CHARMD</a> card.
+<p>
+      <dt><tt><b><big><a name=RADIUS>RADIUS filename</a></big></b></tt>
+       <dd>This specifies the name for the file specifying van der Waals radii for
+       each atom.  A number of files with different values are supplied with
+       <small>HOLE</small>, <a href=hole_d05.html>see section 5.0</a>.  Note
+       	that HOLE unlike many programs now knows what a ~ means in unix
+       	<i>e.g.,</i>
+       	the to one can specify a radius file in user mary's directory:
+	<pre>radius ~mary/hole2/rad/simple.rad</pre>
+
+<dt><a name=card_may><h3>3.2 CARDS which may be specified</h3></a>
+
+<dt><h4>The most useful cards:</h4>
+
+       <dt><tt><b><big><a name=CPOINT>CPOINT x y z </a></big></b></tt> 
+	             <i>(where x y and z are real numbers - separated by spaces)</i>
+       <dd>This specifies a point which lies within the channel, for simple channels
+       such as gramicidin results do not show great sensitivity to the exact point
+       taken.  An easy way to produce an initial point is to use molecular
+       graphics to find two atoms which lie either side of the pore and to
+       average their co-ordinates. Or if the channel structure contains water molecules or
+       counter ions then take the coordinates of one of these (and use an
+       <a href="#IGNORE">IGNORE</a> card to ignore in the pore radius calculation).
+<p>
+       If this card is not specified then HOLE now (from 2.2) attempts to make a guess
+       where the channel will be. The procedure assumes the channel is reasonably
+       symmetric. The initial guess on cpoint will be the centroid of all
+       alpha carbon atoms (name 'CA' in pdb file). This is then refined by a crude
+       grid search up to 5 angstroms from the original position. This procedure
+       works most of the time but is clearly far from infallible - results should
+       be careful checked (with molecular graphics) if it is used.
+<p>
+       <dt><tt><b><big><a name=CVECT>CVECT x y z </a></big></b></tt> 
+	             <i>(where x y and z are real numbers - separated by spaces)</i>
+       <dd>This specifies a vector which lies in the direction of the channel/pore.
+
+<p>
+       If this card is not specified then HOLE now attempts to make a guess
+       where the channel will be. The procedure assumes the channel is reasonably
+       symmetric. The guess will be either along the X axis (1 0 0), Y axis (0 1 0)
+       or Z axis (0 0 1). If the structure is not aligned on one of these axis the
+       results will clearly be approximate. Once again if a guess is used then results
+       should be carefully checked.
+
+<p>
+      <dt><tt><b><big><a name=SPHPDB>SPHPDB filename</a></big></b></tt>
+       <dd>This card specifies the filename for output of the sphere centre
+       information in pdb form. I normally use the identifier <tt>.sph</tt> for such files. 
+        The co-ordinates are set to the sphere centres 
+	and the occupancies are the sphere radii. All centres are assigned the 
+        atom name QSS and residue
+        name SPH and the residue number is set to the storage number of the
+        centre. 
+	The file can be imported into molecular graphics programs
+	but are likely to be bonded together in a awful manner -
+        as the points are very close to one another. In vmd sph
+        objects are best displayed as "Points". Displaying .sph objects rather
+	than rendered or dot surfaces can be useful to analyze the distance
+	of particular atoms from the sphere-centre line.
+        <p>
+
+	Most usefully .sph files can be used to produce molecular graphical output
+	from a hole run. This is achieved by using the 
+        <a href="hole_d04.html#sph_process"><tt><b>sph_process</b></tt></a> 
+	program to read the .sph file.
+        (Previously <small>HOLE</small> could directly produce
+        surface information but this is being phased out.)
+
+<p>
+      <dt><tt><b><big><a name=ENDRAD>ENDRAD real number</a></big></b></tt>
+       <dd>
+       This card can be used to specify the radius above which the program
+       regards a result as an indicating that the end of the pore has been reached. 
+       The default value is 15.0 angstroms. This may need to be increased for
+       large channels or reduced for small.
+
+
+<p>
+      <dt><tt><b><big><a name=CONN>CONN</a></big></b></tt>
+	             <i>or options can be set by: </i> <tt><b><big>CONN R<sub>probe</sub></big></b></tt>
+	             <i>or</i> <tt><b><big>CONN R<sub>probe</sub>  D<sub>conn</sub></big></b></tt>
+       <dd>
+       This turns on the Connolly option. 
+       This option was introduced in release 2.2 of hole.
+       For each plane orthogonal to the channel vector cvect
+       the normal hole process is performed in which the radius of
+       a single probe sphere 
+       is maximized on ther plane. The Connolly procedure then extends
+       this to find the additional space accessible on the plane 
+       for a probe of radius <tt><b>R<sub>probe</sub></b></tt> starting from 
+       the normal hole final position. The surface produced by the HOLE Connolly
+       should be essentially the same as locally accessible part of the MSMS or the surf
+       procedure in vmd. The advantage of HOLE is that the external parts
+       of the surface are cut away and that a measure is made of the accessible
+       area for each plane.
+
+       <p>
+       <i>Brief description of the algorithm:</i>
+       The Connolly procedure in HOLE starts from the spherical
+       probe position. The procedure then constructs a 2D grid in the plane 
+       with a spacing of <tt><b>D<sub>conn</sub></b></tt>. The procedure then proceeds to find 
+       points on the grid that are adajacent to accepted points that can be 
+       accomodate spheres of radius <tt><b>R<sub>probe</sub></b></tt> or above.
+       The points are then added to accepted list. When no more points are added to
+       the grid the edge of the accepted area is then adjusted so that the radius
+       exactly matches <tt><b>R<sub>probe</sub></b></tt>.
+       </p>
+
+       <p> 
+       It should be noted that the Connolly procedure takes longer than normal HOLE and
+       it also results in many more sphere centres in the <a href="#SPHPDB">SPHPDB</a> file. 
+       The default value for <tt><b>R<sub>probe</sub></b></tt> is 1.15 &Aring; - this
+       is the radius necessary to accomodate a water molecule with the "simple.rad" set
+       of van der Waals radii. The default value for  <tt><b>D<sub>conn</sub></b></tt> =
+       0.7*<tt><b>R<sub>probe</sub></b></tt>. The only way to get molecular graphics
+       output from the CONN procedure is via <a href="#SPHPDB">SPHPDB</a> output.
+       </p>
+       <p>
+	<i>*** Should add a longer description of algorithm and results that can be
+	   obtained with CONN ***</i>
+	</p>
+
+      <dt><tt><b><big><a name=IGNORE>IGNORE list_of_3_character_residue_types</a></big></b></tt>
+       <dd>
+	For fairly obvious reasons, in general it is a good idea to not 
+	consider ions or water molecules within an ion channel during a <small>HOLE</small>
+	run.  In the bad old days the only way to this was to edit out these
+	records from the input file (specified by a <a href=#COORD>COORD</a> 
+	card). Now this can be achieved by specifying an IGNORE card followed
+	by a list of residue types (which are three character strings
+	<i>e.g.,</i> alanine = <tt>ALA</tt>). Any atom whose residue
+	name matches part of the list will be not be read in. Note that
+	wildcards are not allowed in the match (if this is a pressing 
+	problem tell me as this could be changed). <p>
+	To ignore all waters a line like: <p>
+	<tt><b>ignore hoh tip wat</b></tt><p>
+	should appear in the control input file.   
+
+
+<p>
+<dt><h4>Other cards:</h4>
+
+
+      <dt><tt><b><big><a name=SHORTO>SHORTO (optional integer)</a></big></b></tt>
+       <dd>
+	Normally during a <small>HOLE</small> run information as to the progress of the run is 
+	continuously written to the output stream (which is normally 
+	<a href=#reass>reassigned</a> to a file).
+	It is informative to look at this information if one is doing an initial
+	run as it can reveal such things as whether a sufficiently large number of
+	Monte Carlo steps/step size has been specified.  But if one is performing many
+	runs (e.g., repeated runs on a molecular dynamics trajectory) this information just 
+	takes up space.  
+	By specifying a SHORTO card the amount of information written out
+	can be reduced -  the optional integer controlling how much or little is
+	written: <p>
+	<dl>
+ 		<dt><i>SHORTO 0</i>
+		<dd> Full text output (equivalent of not specifying card!)
+		<dt><i>SHORTO 1</i>
+		<dd>All text output given except "run in progress" (<i>i.e.,</i>
+		detailed contemporary description of what <small>HOLE</small> is doing).
+		<dt><i>SHORTO 2</i>
+		<dd>Ditto plus no graph type output - only leaving
+		minimum radius and conductance calculations.
+		<dt><i>SHORTO 3</i>
+		<dd>All text output other than input card mirroring
+		and error messages turned off.
+	</dl>
+
+	<p></p>
+
+
+      <dt><tt><b><big><a name=SAMPLE>SAMPLE real_number</a></big></b></tt>
+       <dd>
+       Specifies the distance between the planes used in the HOLE procedure.  The default value is
+       0.25 &Aring;, this should be reasonable for most purposes. However, if 
+       you wish to visualize a very tight constriction then specify a smaller value.
+
+
+	<p></p>
+      	<dt><tt><b><big><a name=MCDISP>MCDISP real_number</a></big></b></tt>
+       	<dd>
+       Specifies the maximum step length to be taken in the Monte Carlo Simulated annealing
+       The
+       default value 0.1 &Aring;. For better sampling you can set this number higher:
+       a good starting point is 1/10th of the minimum radius of the channel.
+
+	<p></p>
+      	<dt><tt><b><big><a name=MCKT>MCKT real_number</a></big></b></tt>
+       	<dd>
+       Specifies the initial "Boltzmann factor" to be used by Monte Carlo
+       routine.  The default value 0.1 &Aring;.  The higher the value the more
+       likely that the routine will jump from any local minimum.  Use caution
+       as very high values will produce jumps through the wall of the pore. 
+       Generally its a good idea to do a number of initial exploratory runs with
+       high values of MCDISP and MCKT if you have a channel with a complex
+       network of routes.
+
+	<p></p>
+      	<dt><tt><b><big><a name=MCSTEP>MCSTEP integer</a></big></b></tt>
+       	<dd>
+       This card specifies the number of steps taken for the Metropolis Monte
+       Carlo simulated annealing optimization routine.  
+       The default value is 1000 steps which is normally adequate.
+
+	<p></p>
+      	<dt><tt><b><big><a name=RASEED>RASEED integer</a></big></b></tt>
+       	<dd>
+       This can be used to provide the random number generator used by the
+       program an initial seed.  Normally the seed number is provided by a
+       routine from the time of day.  HOLE will output the value of the seed it used.
+       You can use this card if you want to repeat a run
+
+	<p></p>
+      	<dt><tt><b><big><a name=CHARMD>CHARMD filename</a></big></b></tt>
+       	<dd>
+	 Does multiple HOLE run on positions taken from <small>CHARMm</small>
+	binary dynamics format .DCD trajectory file.  N.B. file must
+	have exactly the same number of atoms in exactly the same order
+	as the pdb file specified by the <a href="#COORD">COORD</a> card.
+	Note that if this option is used the pdb file is used as
+	a template only - the coordinates are ignored.  Note
+	that structural parameters determined for each individual
+	structure are written in a tagged format so that it is possible
+	to extract the information from the text output file using
+	a grep command. The reading of the file can be controlled by
+	a CHARMS card.
+
+
+	<p></p>
+      	<dt><tt><b><big><a name=CHARMS>CHARMS integer integer</a></big></b></tt>
+       	<dd>
+	Controls reading of the	 <small>CHARMm</small>
+	binary dynamics format .DCD trajectory file specified by the
+	<a href="#CHARMD">CHARMD</a> card.  The first number is the number
+	of positions to be skipped before analysis is to be performed.
+	The second number is the number of positions to be skipped
+	in between each analysis. <i>e.g.,</i> Suppose your
+	.DCD file had a position written every 0.5ps and you wanted
+	to analyze the run every 1 ps but ignoring the first 25ps
+	(as this is equilibriation).  In this case use a line:<br>
+	<tt>charms 49 2</tt>.
+
+
+	<p></p>
+      	<dt><tt><b><big><a name=2DMAPS>2DMAPS filename_root</a></big></b></tt>
+       	<dd>
+	This card is used to produce files which can be used to make 2d
+	contour maps of the inside surface of a channel.  For full
+	details <a href="hole_d065.html">see section 6.5</a>.  Note that this card is incompatible
+	with a CAPSULE card.
+
+
+	<p></p>
+      	<dt><tt><b><big><a name=CAPSULE>CAPSULE</a></big></b></tt>
+       	<dd>
+	Turns on the capsule option. This analyzes the anisotropy of the channel.
+	This also turns on a empirically corrected prediction of the conductance
+	of the channel in KCl: see <a href="hole_d08.html">Section 8</a> for
+	details.
+
+<p>
+<dt><a name=delete><h3>3.3 Cards which are deprecated</h3></a>
+
+<b>These cards are currently recognized by the hole program but are deprecated.
+   They were mainly used to directly produce molecular graphics output from hole:
+   this is now done by using <a href="#SPHPDB">SPHPDB</a> output
+   and the <a href="hole_d04.html#sph_process"><tt><b>sph_process</b></tt></a>
+   program. 
+   It is likely that these CARDS will be removed from the next (2.3) release of hole</b>
+
+<small>
+<small>
+<dt><a name= MOLQPT> MOLQPT filename</a><dd>
+	This facility is for people who do not use quanta but want to produce
+	a composite picture of the <small>HOLE</small> surface with the molecule.  If you 
+	specify a MOLQPT card then a quanta plot file will be written 
+	with a stick representation of the molecule written to colour number
+	1. This file can then be used with the file specified by a 
+	<a href=#PLTOUT>PLTOUT</a> card to produce colour/monochrome
+	hardcopy using the program <a href=hole_d07.html#qplot>qplot</a>.  
+	Quanta users can produce more sophisticated versions such
+	a file using the <i>plot molecules</i> option under the <i>file</i>
+	menu. 
+
+<dt><a name= PLTOUT> PLTOUT filename</a><dd>
+        specifies the filename for binary 3D <small>QUANTA</small> plot file output.  It is normal
+       to give the file the extension ".qpt" for compatibility with other programs. 
+	The binary plot file will contain a graphical representation of the 
+	hole run. It can be <a href="hole_d06.html#molgraph">directly 
+	displayed in conjuction with the molecule using the 
+	<small>QUANTA</small> program</a>,
+       or can be converted for use with other programs 
+	(see <a href="hole_d07.html#qpt_conv">qpt_conv</a>).
+       If card is NOT present
+       then no graphical output will be produced.  The file will contain records
+       consisting of 4 real numbers.  If you are interested in other commands please
+       consult Molecular Simulation documentation.  The commands
+       used in hole and ancillary programs are:<p>
+       <dl>
+		<dt>1.0 x y z
+		<dd>change to colour x.<br> 
+		<i>Extension to standard format used by <small>HOLE</small></i>
+		if y=-55 then z is an alternative colour number (in range 15
+		to twenty).  The alternative colour number is used by 
+		<a href="hole_d07.html#qplot">qplot</a>
+		so that <small>HOLE</small> objects are output to different 
+		colours: see
+		<a href="hole_d06.html#hole_colour">colours used in <small>HOLE</small></a>
+		section.
+              <dt>2.0 x y z     <dd>move to x y z
+              <dt>3.0 x y z     <dd>draw to x y z from present point
+              <dt>4.0 x y z     <dd>dot at x y z
+	      <dt>5.0 x y z	
+		<dd>write character string of length x characters
+		at the current point.  This record will be immediated followed by
+		a the character string (length x to be written).    <br>
+		<i>Extension to standard format used by <small>HOLE</small></i>
+		Program <a href="hole_d07.html#qplot">qplot</a> uses the number
+		z as a positioning indicator, if z=
+		<dl>
+		<dd>1 the label is placed below the atom to the left
+		<dd>2 the label is centred below the atom
+		<dd>...
+		<dd>5 the label is centred on the atom
+		<dd>...
+		<dd>9 the label is placed above the atom to the right.
+		</dl>
+		An easy way to remember what the integer means is to look at the 
+		keypad of any keyboard:
+<pre>789
+456
+123
+</pre>  
+		The use of this integer allows the production of pictures
+		in which atom labels are not obscured by the molecule.  The
+		program <a href="hole_d07.html#labqpt">labqpt</a> facilitates
+		the production of such labels. 	
+       </dl><p> 
+       The .qpt file produced by <small>HOLE</small> will contain a number of objects: 
+       <p><dl>
+       colour #
+        <dd><b>6</b> lines joining sphere surface to atoms causing constriction
+        <dd><b>4</b> 	The centre line of the pore (unless turned off by a 
+			<a href=#CENOFF>CENOFF</a> card).
+        <dd><b>7</b> 	Dots showing the surface of locus of the sphere 
+			as it squeezes through the channel
+			(unless turned off by a <a href=#DOTOFF>DOTOFF</a> card).
+       </dl><p>
+       	The numbers have been chosen so as to produce sensible 
+	<a href="hole_d06.html#hole_colour">colours when 
+	displayed in <small>QUANTA</small></a>. <p>
+
+
+Note that: 
+<ul>   	<li> .qpt files are binary and files produced by one               
+	machine may not be correctly read on another                      
+       	(see <a href="hole_d07.html#qpt_conv">qpt_conv</a> - option 'A')
+	<li> dots are not very visible in <small>QUANTA</small> 
+	(see <a href="hole_d07.html#qpt_conv">qpt_conv</a> - option 'C')
+	<li> to avoid the final surface appearing like a bone or dumb
+	bell dots are not draw for the first and last sphere centres
+	determined.
+	<li> the file can be converted for display with other programs
+	(see <a href="hole_d07.html#qpt_conv">qpt_conv</a>).
+</ul>
+<p>
+<dt><a name= DOTDEN> DOTDEN integer</a><dd>
+       This number controls the density of dots which will be used by the
+       program.  A sphere of dots is placed on each centre determined in the
+       Monte Carlo procedure.  Only dots which do not lie within any other
+       sphere are considered.  The actual number of dots written if therefore
+       controlled by dotden and sample.  Dotden should be set to between 5 (few
+       dots per sphere) and 35 (large number of dots per sphere).  The default
+       value is 10.
+<p>
+
+<dt><a name= DOTOFF > DOTOFF </a><dd>
+       This card will turn off the drawing of a dot surface representation of the
+       hole.  If not present then dot surface will be drawn.
+<p>
+<dt><a name= SPIKES > SPIKES </a><dd>
+       The presence of this keyword will cause the program to produce spikes
+       from the surfaces of spheres which go out until line hits an atom's surface
+       rather than dots.  This is intended to be useful in looking at channels
+       which are not locally cylindrically symmetrical.
+<p>
+<dt><a name= LINON > LINON </a><dd>
+	This will turn on the drawing of lines joining each sphere surface to the
+       	two closest atoms.  This can be use in showing which atoms cause
+	constrictions in an ion channel.
+       	In the previous version of <small>HOLE</small> the default option
+       	was to draw closest atom lines and a LINOFF card was specified not to do
+       	so - such a card is now ignored.
+<p>
+<dt><a name= CENOFF > CENOFF </a><dd>
+       The presence of this flag will turn off the drawing of the locus of sphere
+       centres as the <small>HOLE</small> sphere squeezes through the channel. 
+	This line can be regarded as the centre line for the channel.  
+	If a CENOFF card is not present the centre line will be output to
+	the quanta plot file specified by the PLTOUT card.
+<p>
+<dt><a name= STOP> STOP </a><dd>
+       Input of control data is stopped by reading an end of file or a "stop" card. 
+       This card is included because in the good old days of VAX/VMS this was
+       necessary.
+</small>
+</small>
+</dl>
+<p>
+
+<hr size=2>
+<!-- <dl>
+<b>Navigation:</b>
+	<dd>Back to <a href=#top>top of this page</a>
+	<dd>Back to <a href=index.html#contents>contents</a>
+	<dd>Back to  previous section <a href=hole_d02.html>2.0 Introduction </a>
+	<dd>On to  next section <a href=hole_d04.html>4.0 Sample control file </a>
+	<dd>To subsection <a href=#control>3.0 Control of <small>HOLE</small></a>
+	<dd>To subsection <a href=#card_must>3.1 CARDS which MUST be specified</a>
+	<dd>To subsection <a href=#card_may>3.2 CARDS which may be specified</a>
+</dl><p> -->
+<a href="hole_d02.html"><img src="buttons/button_prevsec.gif" border=0 alt=" <<Previous Section"></a>
+<a href="index.html#contents"><img src="buttons/button_hole_doc_index.gif" border=0 alt=" Hole Doc. Index^ "></a>
+<a href="http://hole.biop.ox.ac.uk/hole/"><img src="buttons/button_hole_home.gif" border=0 alt=" HOLE home "></a>
+
+
+<a href="hole_d04.html"><img src="buttons/button_nextsec.gif" border=0 alt=" Next Section>> "></a>
+
+<hr size=4>
+
+Copyright 1997, 2004 by Oliver S. Smart<br>
+</font>
+</body>
+</html>
+

@@ -1,0 +1,223 @@
+<html>
+<header>
+<TITLE>4.0 Visualization of HOLE results (hole documentation)</TITLE>
+</header>
+<body BACKGROUND="raindrop.jpg" TEXT="#009900" VLINK="#aa0000" LINK="#FF0000"><a name="top"></a>
+<font color="000099">
+<hr size=4>
+
+<a href="hole_d03.html"><img src="buttons/button_prevsec.gif" border=0 alt=" <<Previous Section"></a>
+<a href="index.html#contents"><img src="buttons/button_hole_doc_index.gif" border=0 alt=" Hole Doc. Index^ "></a>
+<a href="http://hole.biop.ox.ac.uk/hole/"><img src="buttons/button_hole_home.gif" border=0 alt=" HOLE home "></a>
+<a href="hole_d05.html"><img src="buttons/button_nextsec.gif" border=0 alt=" Next Section>> "></a>
+<hr size=2>
+
+<h3>4.0 Visualization of HOLE results</h3>
+
+The following diagram summarizes the main methods of visualizing hole results with release 2.2
+of hole using the vmd program. There is clear room for improvement and simplification -
+this will be addressed in the next release.
+
+<center>
+<img src="hole_visualization_2.2.jpg" alt="flow chart hole to vmd" width=616 height=429>
+
+</center>
+
+
+<a name="graph2D"><h3>4.1 Plotting a 2D graph of pore radius 
+                      vs channel coordinate</h3></a>
+                                                                                                                            
+<p>
+One of the more useful ways to visualize the results of HOLE is to plot a graph
+(all those school teachers/university demonstrators must have some influence).
+Raw data which can be used for this purpose is written at the end of the run log
+(this is normally <a href="hole_d03.html#control">redirected</a> to a text file).  
+USE OF GREP.
+This can be edited and read into your favourite graph plotting program 
+(I use and recommend <a href="http://plasma-gate.weizmann.ac.il/Grace/">xmgrace</a>).  
+</p>
+
+<center>
+<img src="1grm_ooffice_small.jpg" width=410 height=301 alt="HOLE graph">
+</center>
+
+
+<p>
+For the abscissa of the graph it is normal to use the 'channel coordinate'
+- this is dot product of the sphere centre with the channel vector 
+<a href="hole_d03.html#CVECT">CVECT</a>. If the channel is aligned along
+an axis, for instant the y axis (channel vector = {0 1 0}, the channel coordinate
+will simply be the relevant coordinate. An alternative is to use 
+the distance moved along the pore centre-line
+from the initial point. The former representation, which was suggested by Mark Sansom,
+is probably preferable as it allows easy comparison between the results of
+different runs and for the position of important atoms/residues to be marked on
+the graph. The latter representation gives an indication of the straightness of the pore but
+comparison between runs is made more difficult by side to side jumps in the
+centre line.  </p>
+
+<p>
+The pore radius determined should be used for the ordinate of the graph.
+For the <a href="hole_d03.html#CONN">CONN</a> option other information is output.
+The equivalent radius is the radius of a circle with the same area as that
+found to be accessible to a Connolly probe sphere on that plane.
+</p>
+
+
+<p>
+The other useful way of visualization of HOLE results is to use molecular graphics.
+(In fact it may be useful to combine the two - displaying a graph within
+a molecular graphics program - this will be explored in future releases).
+
+
+
+<a name="sph_process"><h3>4.2 sph_process - a program to produce surface 
+                          information from .sph file</h3></a>
+
+<p>This program takes the .sph file,
+output by the <a href="hole_d03.html#SPHPDB">SPHPDB</a> option in the 
+<tt>hole</tt> program,
+and processes it into a dot surface. Currently the default output is .qpt 
+- a binary quanta plot file format. This can be converted
+using the program qpt_conv. (In the future it is intended to change this program
+so that it directly outputs vmd graphics objects)
+</p>
+
+For a full list of the options available in sph_process use the <tt>-h</tt> option on
+the command line:
+<pre>
+<b>sph_process -h | more</b>
+</pre>
+
+
+An example of its use (with the example 01 application on gramicidin supplied with
+hole):
+<pre>
+<b>sph_process -dotden 15 -color example.sph example.qpt</b>
+<small> *** Program sph_process (replacing sphqpt) ***
+ Reads a .sph file produced by hole
+ option SPHPDB which contains sphere centre info,
+ and processes it to a either dot surface or a number of other options
+ either as a dot or grid representation
+ Copyright 1996,1997 by Oliver Smart and Birkbeck College
+ Copyright 2004 by Oliver Smart
+ Program modification number 2.2 001
+ HOLE release 2.2.001(static) (Dec 2004)
+ Program linked at Fri Dec 10 05:41:36 GMT 2004 by user HOLE_DIST
+ For help on hole suite see  http://hole.biop.ox.ac.uk/hole/help
+ 
+Have opened example.sph for input
+        and example.qpt for output
+qpt output option used
+ (Have read   342 records)
+ Outputing centre line to quanta colour 4 (default yellow)
+ Outputing low rad surface to quanta colour 3 (default red)
+ Outputing mid rad surface to quanta colour 7 (default green)
+ Outputing high rad surface to quanta colour 2 (default blue)
+</small>
+</pre>
+<p>
+This will produce a dot suface that is quite dense. It will be colored so 
+parts that are inaccessible to water (pore radius &lt; 1.15 &Aring;) are 
+red, water accessible parts (1.15 &Aring;  &gt; pore radius &lt; 2.30 &Aring;)
+are green and wide areas (pore radius &gt; 2.30 &Aring; are blue).
+<p>
+For solid surfaces then you should use <tt>-sos</tt> option to write an intermediate
+(.sos) file for the sos_triangle program.
+<pre>
+<b>sph_process -sos -dotden 15 -color example.sph example.sos</b>
+</pre>
+</p>
+<a name="qpt_conv"><h3>4.3 qpt_conv - a program to convert .qpt graphics
+                           files for use with a wide variety of molecular graphics
+                           programs </h3></a>
+The program 
+<a href="#sph_process">sph_process</a>.
+currently writes out dot surfaces in
+a old quanta binary plot file format. To use this in other programs
+(for instance vmd) it is necessary to convert. The <tt>qpt_conv</tt>
+program does this.  <tt>qpt_conv</tt> is interactive - it can be used to 
+convert qpt files
+for use by a variety of programs. For instance to convert the example.qpt
+file, produced above, for use in vmd:                              
+<pre>
+$ <b>qpt_conv</b>
+ *** Program qpt_conv ***
+ Copyright 1996,1997 by Oliver Smart and Birkbeck College
+ Copyright 2004 by Oliver Smart
+ Program modification number 2.2 001
+ HOLE release 2.2.001(static) (Dec 2004)
+ Program linked at Fri Dec 10 05:41:35 GMT 2004 by user HOLE_DIST
+ For help on hole suite see  http://hole.biop.ox.ac.uk/hole/help
+  
+ This program converts a .qpt file (as produced by hole)
+  to something else.
+ Output options
+ 'A' to/from ascii version of original .qpt (can then edit)
+ 'C' A .qpt file in which dots are replaced by 3D crosses
+ 'L' A .qpt file with long lines split into smaller sections
+       (useful for proper depth queueing in qplot)
+ 'I' InsightII format
+ 'R' Rasmol format
+ 'S' Sybyl format
+ 'K' to David C. Richardson's kinemage format
+ 'O' for use with O program
+ 'V' to Virtual Reality Markup Language
+ 'D' to VMD format
+  Enter conversion option character &lt;stop program&gt;: <b>D</b>
+ 
+ S/r qptvmd.
+   Reads in a hydra/quanta 3D binary plot and writes
+   out an VMD equivalent.  To use this file in VMD type:
+ source blah.vmd_plot
+   at the vmd prompt
+ Please enter input binary hydra/quanta plot (old) filename
+ defaults &lt;example.qpt&gt; ext:&lt;.qpt&gt; (abort by EXIT or ^D) :
+ Please enter vmd format file (new) filename
+ defaults &lt;example.vmd_plot&gt; ext:&lt;.vmd_plot&gt; (abort by EXIT or ^D) :
+ What width do you want lines to appear &lt;1&gt;:
+STOP FORTRAN STOP qpt_conv: normal completion statement executed
+</pre>
+Note that everything appearing in triangular braces is a default option - so just
+hit return. To use the file produced (example.vmd_plot) in vmd simply type
+"source example.vmd_plot" at the <tt>vmd&gt;</tt> prompt in the vmd console window.
+
+<a name="sos_triangle"><h3>4.4 sos_triangle - a program to produce solid rendered
+                           surfaces for hole objects. </h3></a>
+This program was written by Guy Coates and triangulates the dot surface
+produced by <a href="#sph_process">sph_process</a> (using the <tt>-sos</tt>
+option). The default output type is vmd. To get help on the command invoke
+with the <tt>-h</tt> option.
+<pre>
+sos_triangle -h
+</pre>
+The program is not perfect and can be slow. If you get missing triangles or
+bad joins in the surface then the best thing is to try adjusting dotden
+in  <a href="#sph_process">sph_process</a>.
+
+<p>
+Example application to gramicidin:
+</p>
+<pre>
+<b>time sos_triangle -s &lt; example.sos &gt; example.vmd_tri</b>
+</pre>
+The process is quite slow (around 20 secs on a 1Ghz processor). 
+To use the file produced (example.vmd_plot) in vmd simply type
+"source example.vmd_tri" at the <tt>vmd&gt;</tt> prompt in the vmd console window.
+
+<hr size=2>
+
+
+<a href="hole_d03.html"><img src="buttons/button_prevsec.gif" border=0 alt=" <<Previous Section"></a>
+<a href="index.html#contents"><img src="buttons/button_hole_doc_index.gif" border=0 alt=" Hole Doc. Index^ "></a>
+<a href="http://hole.biop.ox.ac.uk/hole/"><img src="buttons/button_hole_home.gif" border=0 alt=" HOLE home "></a>
+
+
+<a href="hole_d05.html"><img src="buttons/button_nextsec.gif" border=0 alt=" Next Section>> "></a>
+
+
+<hr size=4>
+
+</font>
+</body>
+</html>

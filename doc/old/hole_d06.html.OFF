@@ -1,0 +1,427 @@
+<html>
+<header>
+<TITLE>Documentation for the HOLE: 6.0  Visualization of HOLE results</TITLE>
+</header>
+<body BACKGROUND="raindrop.jpg" TEXT="#009900" VLINK="#aa0000" LINK="#FF0000"><a name="top"></a>
+<font color="000099">
+
+
+Copyright 1997, 2004 by Oliver S. Smart<br>
+<a href="hole_d05.html"><img src="buttons/button_prevsec.gif" border=0 alt=" <<Previous Section"></a>
+<a href="index.html#contents"><img src="buttons/button_hole_doc_index.gif" border=0 alt=" Hole Doc. Index^ "></a>
+<a href="http://hole.biop.ox.ac.uk/hole/"><img src="buttons/button_hole_home.gif" border=0 alt=" HOLE home "></a>
+
+
+<a href="hole_d07.html"><img src="buttons/button_nextsec.gif" border=0 alt=" Next Section>> "></a>
+<p>
+<b>Navigation:</b>
+	<dd>Back to <a href=index.html#contents>contents</a>
+	<dd>Back to  previous section <a href="hole_d05.html">5.0  van der Waals radii files</a>
+	<dd>On to  next section <a href="hole_d07.html">7.0  Ancillary programs</a>
+</dl>
+
+<a name="visualization"><h2>6.0 Visualization of results</h2></a>
+
+
+<a name="graph2D"><h3>6.1 Plotting 2D Graphs</h3>
+
+***to be updated***<p>
+
+One of the more useful ways to visualize the results of HOLE is to plot a graph
+(all those school teachers/university demonstrators must have some influence). 
+Raw data which can be used for this purpose is written at the end of the text
+output file.  This can be read into your favourite graph plotting program (I use
+sigmaplot).  Clearly the pore radius determined should be placed on the y axis. 
+For the x-axis you can either use the distance moved along the pore centre-line
+from the initial point (the first column of the data) or the x, y or z co-ordinates
+of the sphere centre (if the pore lies approximately in one of these directions). 
+The former representation gives an indication of the straightness of the pore but
+comparison between runs is made more difficult by side to side jumps in the
+centre line.  The latter representation, which was suggested by Mark Samson,
+is probably preferable as it allows easy comparison between the results of
+different runs and for the position of important atoms/residues to be marked on
+the graph. <p>
+
+<a name="molgraph"><h3>6.2 Using molecular graphics </h3>
+
+<dl>
+
+<a name="quanta"><dt><b><img alt="*" src="ballbrwn.gif"> Quanta</b>
+	<dd>The first step is to produce a .qpt file of a HOLE run
+	using a <a href="hole_d03.html#PLTOUT">PLTOUT card</a> in hole, 
+	or using the program <a href="hole_d07.html#sphqpt">sphqpt</a>
+	with a .sph file produced by a 
+	<a href="hole_d03.html#SPHPDB">SPHPDB card</a> in HOLE (the hole
+	surface can be produced as a grid and colour coded using this option.<p>
+
+	The QUANTA 3D binary file .qpt can be displayed using QUANTA (or if you
+	have ancient E & S ps300's its predecessor HYDRA).  The procedure for
+	this is first to import the pdb file of your channel into the QUANTA
+	(so that you can see it).  Then use your mouse to select the option
+	"Create objects" (under the heading draw).  You are then confronted
+	with a "dialogue box" asking for what type of object: select "quanta
+	plot file" and a name for the object.  The molecule and the hole
+	through will then be displayed in conjunction.  <p>
+
+	You may find that the dots of the dot surface do not show up very 
+	well in QUANTA.  If this is the case you can use program 
+	<a href="hole_d07.html#qpt_conv">qpt_conv (see section 7.1)</a> to 
+	convert the dots to small crosses (a new .qpt file is produced).  
+<p>
+
+<a name="sybyl"><dt><b><img alt="*" src="ballbrwn.gif"> Sybyl <img align=center src="sybyl_ic.gif"></b>
+
+	<dd>The first step is to produce a .qpt file of a HOLE run
+	using a <a href="hole_d03.html#PLTOUT">PLTOUT card</a> in hole, 
+	or using the program <a href="hole_d07.html#sphqpt">sphqpt</a>
+	with a .sph file produced by a 
+	<a href="hole_d03.html#SPHPDB">SPHPDB card</a> in HOLE (the hole
+	surface can be produced as a grid and colour coded using this option.<p>
+
+	The .qpt file must then be converted into a form suitable for 
+	use with sybyl. Use program 
+	<a href="hole_d07.html#qpt_conv">qpt_conv</a> 
+	(with the option <b>"S"</b>)  to produce .plt2 file. 
+	To use this file within sybyl simply display your
+	molecule <b>without centering on input</b> and then
+	at the <tt>Sybyl&gt;</tt> prompt type:
+<pre>
+Sybyl&gt; take filename.plt2 
+</pre>
+	This works with sybyl6.0.  At Birkbeck with sybyl6.1 the program crashes
+	but this is a problem with the program as it occurs even with
+	plot file produce using sybyl!<p>
+
+	You may find that the dots of the dot surface do not show up very 
+	well in QUANTA.  If this is the case you can use program 
+	<a href="hole_d07.html#qpt_conv">qpt_conv (see section 7.1)</a> to 
+	convert the dots to small crosses (a new .qpt file is produced).  <p>
+
+<a name="O"><dt><b><img alt="*" src="ballbrwn.gif"> O</b>
+	<dd>O is the standard crystallographic refinement package.
+	It runs on Silicon Graphics, Hewlett Packard and Evans & Sutherland
+	workstations and is available at reasonable cost from
+	Prof. Alwyn Jones 
+	(<a href=mailto:alwyn@xray.bmc.uu.se>&lt;alwyn@xray.bmc.uu.se&gt;</a>),
+	for further info see the <a href="http://kaktus.kemi.aau.dk/">
+	O home page</a>.<p>
+
+
+	The first step is to produce a .qpt file of a HOLE run
+	using a <a href="hole_d03.html#PLTOUT">PLTOUT card</a> in hole, 
+	or using the program <a href="hole_d07.html#sphqpt">sphqpt</a>
+	with a .sph file produced by a 
+	<a href="hole_d03.html#SPHPDB">SPHPDB card</a> in HOLE (the hole
+	surface can be produced as a grid and colour coded using this option.<p>
+
+	The .qpt file must then be converted into a form suitable for 
+	use with O. Use program 
+	<a href="hole_d07.html#qpt_conv">qpt_conv</a> 
+	(with the option <b>"O"</b>)  to produce a "draw_object" file
+	which I give the extension of .obo.  This is how I got to display
+	the example molecule and the the converted output of sphqpt
+	(run in the ~/hole2/example directory):
+<pre>
+  O > s_a_i
+ Sam> Name of input file: 1grm_single.pdb
+ Sam> O associated molecule name: gram
+ Sam> File type is PDB
+ Sam>  Nothing marked for deletion, so no compression.
+ Sam> Space for    142656 atoms
+ Sam> Space for     10000 residues
+ Sam> Molecule GRAM contained 34 residues and 272 atoms
+ Sam> Centre of gravity updated for     1   34
+  O > mol
+  O >  Current molecule  has not been loaded.
+ Mol> Molecule code name []: gram
+  O > zone
+ Mol> Zone [all molecule]: 
+  O > end
+  O > draw_object example_grid.obo 
+ As3> O descriptor in computer file system
+  O > 
+</pre>
+<p> 
+	You may find that the dots of the dot surface do not show up very 
+	well in QUANTA.  If this is the case you can use program 
+	<a href="hole_d07.html#qpt_conv">qpt_conv (see section 7.1)</a> to 
+	convert the dots to small crosses (a new .qpt file is produced).  <p>
+
+<a name="mage"><dt><b><img alt="*" src="ballbrwn.gif"> mage <img align=center src="kin_icon_t.gif"></b>
+
+	<dd>Kinemage is a protein display and viewing language developed
+	by David Richardson.  Kinemages can be viewed by the mage
+	program which is available in versions for MS-windows, mac
+	and various unix machines.  Kinemages can be prepared from
+	a pdb file by using the prekin program.  Both programs are
+	public domain and very easy to use.  If you do not have
+	access to a "proper" molecular graphics program or
+	want to use HOLE on a low performance machine (<i>i.e.,</i>
+	PC or mac) then I recommend you use this program.
+	A page on the PPS'96 protein structure course <a href=
+	"http://www.cryst.bbk.ac.uk/PPS2/technology/kinemage.html">
+	gives details</a> where to get copies or try David Richardson's 
+	<a href="ftp://suna.biochem.duke.edu/pub/">ftp site</a>.<p>
+
+	The first step is to produce a .qpt file of a HOLE run
+	using a <a href="hole_d03.html#PLTOUT">PLTOUT card</a> in hole, 
+	or using the program <a href="hole_d07.html#sphqpt">sphqpt</a>
+	with a .sph file produced by a 
+	<a href="hole_d03.html#SPHPDB">SPHPDB card</a> in HOLE (the hole
+	surface can be produced as a grid and colour coded using this option.<p>
+
+	The .qpt file must then be converted into a form suitable for 
+	use with mage. Use program 
+	<a href="hole_d07.html#qpt_conv">qpt_conv</a> 
+	(with the option <b>"K"</b>)  to produce .kin file.
+	This file will contain kinemage instructions for the HOLE
+	objects alone.  To view the HOLE objects in conjunction
+	with the molecule then you should use an editor
+	to merge this file with the output of <tt>prekin</tt> (if you
+	are doing this under ms-windows then use <tt>write</tt> rather
+	than <tt>notepad</tt> as the editor as the files are large).
+        To get decent rotation rates one must reduce the number
+	of lines to be drawn on a screen - so either turn off
+	all HOLE objects when adjusting the view or make
+	sure you use a low dot density (set by a 
+	<a href="hole_d03.html#DOTDEN">DOTDEN card</a> or in sphqpt).
+	Depending on the machine the lines drawn can be rather
+	thick - if this is the case try turning on the "thin line"
+	option in the "Options menu.
+	Note that mage can produce side by side stereo so if you
+	can see stereo directly then put this option on or otherwise
+	try to get a pair of <b>mirror</b> type stereo glasses.<p>
+
+	If you have configured your web browser (if you have this problem
+	look at this 
+	<a href="http://www.prosci.uci.edu/ProSciDocs/WebBrowsers.html">
+	guide</a> from Protein Science) to be able to view
+	kinemages the have a look at this (30kb) 
+	<a href="smallex.kin">example</a>.
+ <p>
+
+
+<a name="insight"><dt><b><img alt="*" src="ballbrwn.gif"> InsightII</b>
+	<dd>The first step is to produce a .qpt file of a HOLE run
+	using a <a href="hole_d03.html#PLTOUT">PLTOUT card</a> in hole, 
+	or using the program <a href="hole_d07.html#sphqpt">sphqpt</a>
+	with a .sph file produced by a 
+	<a href="hole_d03.html#SPHPDB">SPHPDB card</a> in HOLE (the hole
+	surface can be produced as a grid and colour coded using this option.<p>
+
+
+        The .qpt file must then be converted into a form suitable for
+        use with InsightII. Use program
+        <a href="hole_d07.html#qpt_conv">qpt_conv</a>
+        with the option <b>"I"</b>.  Unfortunately I no longer
+	have access to a copy of the program so the conversion program
+	is unaltered from release 1 of HOLE - in which there was little
+	colour coding.  Here are the notes from the previous release:<p>
+
+<i>the routine writes out a Biosym Insight II
+special user format file (.usr). This should allow display of the dot surface and lines produced by HOLE with InsightII.
+There are some differences between the file formats. A single .usr file can contain only dots or lines - not both. Therefore
+you must run the program twice to convert a typical .qpt file produced by HOLE. Also because the .usr file format for text
+records essentially only allow one record per file I haven't bother to convert these. Also the control of colour is very
+different between the two formats. A LINE .usr file does not have any facility for changing colour in the file - all records
+from the .qpt file will therefore be displayed in a single colour. If you don't like this you will have to use an editor to split
+up the files. The DOT .usr file allows the specification of a different colour for each dot (by a number between 0 an 360).
+At present all dots are given the same colour which can be specified by the user. To display the dot surface (or line objects)
+first read in your molecule (from pdb file or similar) and then use the option "get" under the menu "user" to specify the .usr
+file produced by qpt_insight. The "Reference_object" option should be "on" to avoid the object being centred. 
+
+From an
+extremely preliminary use it appears that InsightII suffers from much the same problem as QUANTA in that dots do not
+show up as being very bright - so it may be worth using program 
+	<a href="hole_d07.html#qpt_conv">qpt_conv (see section 7.1)</a> to 
+	convert the dots to small crosses (a new .qpt file is produced).  <p>
+<p>
+<b>If you want to use colour coding etc. then the subroutine qptins
+ will need updating - either does this yourself or e-mail me so that
+ I can do it and you can test it </b>
+
+</i>
+<p>
+<a name="rasmol"><dt><b><img alt="*" src="ballbrwn.gif">
+	 rasmol <img alt="*" align=center src="ras_icon_t.gif"></b>
+	<dd>Rasmol is a very popular molecular viewer written by Roger
+	Sayle of <a href="http://www.glaxowellcome.co.uk/">Glaxo Wellcome</a>.
+	It is free and available in versions for pc's, mac's, unix-boxes and vms,
+	for further information see 
+	<a href="http://www.umass.edu/microbio/rasmol/">The Rasmol
+	Homepage</a>. Note that to be able to use rasmol with HOLE you need
+	to use version 2.6 (version 2.5 will not work).  You can download
+	rasmol from a number of places (see 
+	<a href="http://www.umass.edu/microbio/rasmol/">The Rasmol
+        Homepage</a>), for instance 
+	<a href="ftp://ftp.dcs.ed.ac.uk/pub/rasmol/v2.6beta/">Edinburgh</a>.<p>
+	
+	Unfortunately rasmol does not have any way to import graphical objects
+	as distinct from atoms.  A work around (suggested by Roger Sayle)
+	is to treat the objects as atoms in a pdb file and use "CONECT" 
+	records to join them up.  (Another annoying thing is that rasmol
+	will rework out bonds if there is not at least one bond per atom -
+	which means that each move draw has to be represented by 3 lines not
+	one!) There is yet a further complication -
+	you cannot just append the resulting "object pdb-file" to the end
+	of the molecule's pdb file as rasmol will then work out
+	a new bonding list based on distance (and a mess will result!).
+	At present the only way to see the molecule and hole object
+	is to use the <a href="hole_d03.html#MOLQPT">MOLQPT</a> card to produce a
+	stick plot of the molecule and concatinate the result with the
+	HOLE object .qpt (from HOLE or sphqpt).  This can be converted into
+	a pseudo-pdb file for rasmol.  Note one loses all atom information
+	on the molecule this way.  It would be possible to be more smart
+	about this but it may not be necessary as new versions of
+	rasmol which can read more than one molecule in are being developed
+	which may avoid the problem.  This example (run in ~/hole2/example)
+	shows how you can use it:  
+	<pre>
+jura> cat example.qpt stick.qpt > example_and_stick.qpt
+jura> qpt_conv
+ *** Program qpt_conv ***
+ Version H2alpha1
+ (c) 1996 Oliver Smart & Birkbeck College, All rights reserved.
+ Program linked at Wed Feb 26 13:33:59 GMT 1997  
+ Last modified .f files: 
+        8318 Feb 26 13:33 qptras.f       
+        3726 Feb 24 11:45 qpt_conv.f     
+       27622 Dec  5 14:15 hcapgr.f       
+ 
+ This program converts a .qpt file (as produced by hole) 
+  to something else.
+ Output options
+ 'A' to/from ascii version of original .qpt (can then edit)
+ 'C' A .qpt file in which dots are replaced by 3D crosses
+ 'L' A .qpt file with long lines split into smaller sections
+       (useful for proper depth queueing in qplot)
+ 'I' InsightII format
+ 'R' Rasmol format
+ 'S' Sybyl format
+ 'K' to David C. Richardson's kinemage format
+ 'O' for use with O program
+ 'V' to Virtual Reality Markup Language
+  Enter conversion option character <stop program>: r
+
+ S/r qptras. 
+   Reads in a hydra/quanta 3D binary plot file and writes
+   out a pseudo-pdb file equivalent suitable for rasmol.
+   
+   The only way to see a hole object and the molecule which 
+   produced it is to concatinate the result of a MOLQPT card
+   with the object - see HOLE documentation for details.
+ 
+ Please enter input binary hydra/quanta plot (old) filename
+ defaults <example_and_stick.qpt> ext:<.qpt> (abort by EXIT or ^D) : 
+ Please enter output pseudo-pdb file (new) filename
+ defaults <example_and_stick_rasmol.pdb> ext:<.pdb> (abort by EXIT or ^D) : 
+
+STOP FORTRAN STOP qpt_conv: normal completion statement executed
+jura> 
+</pre>
+to view the file you create start rasmol (assuming you have it on your path)
+<pre>
+jura> rasmol example_and_stick_rasmol.pdb
+RasMol Molecular Renderer
+Roger Sayle, August 1995
+Version 2.6
+[24bit version]
+
+Number of Groups .... 1
+Number of Atoms ..... 5688
+Number of Bonds ..... 5688
+RasMol>
+</pre>
+If you have setup the application type correctly in netscape you can
+see the result by <a href="example_and_stick_rasmol.pdb">clicking this
+link</a>.
+<p> 
+<a name="VRML"><dt><b><img alt="*" src="ballbrwn.gif"> VRML - virtual reality
+markup language</b>
+	<dd>Virtual reality markup language may prove to be very useful 
+	for molecular scientists (for details see <a
+	href="http://chemcomm.clic.ac.uk/VRML/">IChem Virtual Molecular
+	Studio</a> and 
+	<a href="http://ws05.pc.chemie.th-darmstadt.de/vrml/">VRML in
+	Chemistry</a> by Horst Vollhardt).  For one thing it might establish
+	a universal way of communicating 3D objects - avoiding the need to
+	write conversion programs (7 in HOLE so far) and to be able to do
+	good molecular graphics on quite cheap pc's.<p>
+
+	VRML is supported in two ways by HOLE.  The first is an option
+	in qpt_conv (V) which is similar to those described above and
+	converts the simple 3D move/draws so that they can be used in VRML.
+	The second is the program <a href=hole_d07.html#sph2vml>sph2vrml</a> 
+	which allows the production
+	of solid spheres instead of dot surfaces,  this was developed by
+	Xiaonan Wang, a student at Birkbeck.  The program produces a pretty crude output at
+	present - great advances are expected from more sophisticated
+	approaches being introduce by another student Guy Coates.<p>
+	
+	(more to be added).
+
+
+</dl>
+
+<p>
+<hr size=2>
+<a name="hole_colour"><h3>6.3 Colours used in HOLE</h3>
+
+The graphical output of HOLE is in the form of a .qpt file - QUANTA
+binary plot format.  The format of the file is described in the
+discussion for the <a href="hole_d03.html#PLTOUT">PLTOUT</a> card.  
+HOLE objects are divided as follows:
+
+(links are provided to sections which give information how to produce/turn off each kind of object)
+<pre><hr size=3>		
+Object               Quanta    Alternative   Default Quanta   Default <a href="hole_d07.html#qplot">qplot</a> 
+                    Colour #    Colour #         Colour	      colour output
+<hr size=2>		
+<a href="hole_d03.html#CENOFF">Centre line</a>             4         15             Yellow       Thick yellow
+<a href="hole_d03.html#DOTOFF">Normal pore surface</a>     7         17          Bright Green     Open Green
+<a href="hole_d07.html#sphqpt">Low radius surface</a>	3         16              Red           Open Red
+<a href="hole_d07.html#sphqpt">High radius surface</a>     2         18          Light Blue     Open deep blue
+<a href="hole_d03.html#CAPSULE">Capsule vectors</a>		8         19             Purple        Thick Cyan
+<a href="hole_d03.html#LINON">Closest atom lines</a>     10         20		 Salmon	       Thick Grey
+<a href="hole_d03.html#MOLQPT">Stick copy of molecule</a>  5         -              White       White/Magenta
+<hr></pre>
+In general if you use a molecular graphics program other than <tt>quanta</tt>
+then the output of program <a href="hole_d07.html#qpt_conv">qpt_conv</a>
+should conform to these colours as much as possible.<p>
+
+
+<hr size=2>
+<a name="hardcopy"><h3>6.4 Getting hard copy pictures</h3>
+
+Once you have visualized the hole through your ion channel you may wish to
+get a hard copy representation of the results.  Section *** describes program
+qplot which produces publication quality postscript output with options for
+stereo pictures and colour output.
+<p>
+
+<hr size=2>
+<a name="maps">
+<a href="hole_d065.html">
+<h3>6.5 Creating 2D Maps of the internal surface of a pore</h3></a>
+(follow link for details).
+
+<hr size=2>
+<dl>
+<b>Navigation:</b>
+	<dd>Back to <a href=index.html#contents>contents</a>
+	<dd>Back to  previous section <a href="hole_d05.html">5.0  van der Waals radii files</a>
+	<dd>On to  next section <a href="hole_d07.html">7.0  Ancillary programs</a>
+</dl>
+<p>
+<a href="hole_d05.html"><img src="buttons/button_prevsec.gif" border=0 alt=" <<Previous Section"></a>
+<a href="index.html#contents"><img src="buttons/button_hole_doc_index.gif" border=0 alt=" Hole Doc. Index^ "></a>
+<a href="http://hole.biop.ox.ac.uk/hole/"><img src="buttons/button_hole_home.gif" border=0 alt=" HOLE home "></a>
+
+
+<a href="hole_d07.html"><img src="buttons/button_nextsec.gif" border=0 alt=" Next Section>> "></a>
+
+<hr size=4>
+
+</font>
+</body>
+</html>

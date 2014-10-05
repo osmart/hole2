@@ -1,0 +1,169 @@
+<html>
+<header>
+<TITLE>Documentation for the HOLE: 8.0  predicting conductance properties of ion channels</TITLE>
+</header>
+<body BACKGROUND="raindrop.jpg" TEXT="#009900" VLINK="#aa0000" LINK="#FF0000"><a name="top"></a>
+<font color="000099">
+
+Copyright 1997, 2004 by Oliver S. Smart<br>
+<a href="hole_d07.html"><img src="buttons/button_prevsec.gif" border=0 alt=" <<Previous Section"></a>
+<a href="index.html#contents"><img src="buttons/button_hole_doc_index.gif" border=0 alt=" Hole Doc. Index^ "></a>
+<a href="http://hole.biop.ox.ac.uk/hole/"><img src="buttons/button_hole_home.gif" border=0 alt=" HOLE home "></a>
+
+
+<a href="hole_d09.html"><img src="buttons/button_nextsec.gif" border=0 alt=" Next Section>> "></a>
+<p>
+<dl>
+<b>Navigation:</b>
+	<dd>Back to <a href=index.html#contents>contents</a>
+	<dd>Back to  previous section <a href=hole_d07.html>7.0  Ancillary programs</a>
+	<dd>On to  next section <a href="hole_d09.html">9.0 Example run</a>
+</dl>
+
+<h2>8.0  Using HOLE to predict conductance properties of ion channels</h2>
+
+This is a major new feature in release 2.  The science behind the method is
+described in:
+<dl>
+	<dt><a name="smart97">Smart, O. S., Breed, J., Smith, G. R. and Sansom, M. S. P.
+	(1997) 
+	<dd>A novel method for structure-based prediction of ion channel conductance
+	properties. Biophys. J. (March issue). <p> 
+	<dd><i>or</i> A brief description can be found in the J. Mol. Graphics paper 
+	included in this documentation as 
+	<a href="mgms_article/paper.html">section 2.2</a> of this documentation.
+</dl>
+This section will concentrate on the practicalities of 
+how to perform conductance prediction
+calculations on your system.
+
+<a name="abscond"><h3>8.1 Absolute conductance predictions in KCl</h3>
+
+The following input file is taken for one of the runs which was used
+to parameterize the correction functions used to make empirical
+corrections to the macroscopic expected conductance calculated by HOLE.
+For meaningful corrections the conditions used should be followed
+reasonably carefully.
+<pre>
+! calculate conductivity for porin
+coord pdb1omf.pdb               ! Co-ordinates
+radius ~/hole2/rad/simple.rad
+cvect  0 0 1                    ! channel runs approx up Z axis
+cpoint -1.17 49.45 33.72        ! point in pore
+sample 0.25                     ! distance between planes
+capsule
+ignore hoh
+shorto 1
+mcdisp 0.4
+mcstep 10000
+sphpdb test.sph
+</pre>
+<br>
+<u>Notes:</u><p>
+<bl>
+<li>The prediction routines are turned on as part of the 
+<a href="hole_d03.html#CAPSULE">capsule</a> option
+which measures the anisotropy of a channel.<p>
+
+<li>You MUST use the non-united atom AMBER van der Waals radii set included as
+simple.rad.<p>
+
+<li>You must exclude from consideration all waters, ions etc. within
+your channel (done with an <a href="hole_d03.html#IGNORE">ignore</a>  card here).<p>
+
+<li>The <a href="hole_d03.html#MCSTEP">mcstep</a>  10000 means 
+that ten times as many steps as normal are
+done in the Monte Carlo Optimization.  Although this results in long
+runs on all but the fastest work station it is necessary to achieve
+consistent results (in terms of area) between runs.  If you are doing
+multiple files (e.g. averaging the result along a dynamics run) then
+you can reduce the number to 3000 but I wouldn't go any lower.<p>
+
+<li>The value of sample should not be critical but I would use 0.25 for
+consistency.<p>
+
+<li>The value of <a href="hole_d03.html#MCDISP">mcdisp</a>  should be set to about 1/10th of the minimum 
+effective radius of the channel you are looking at.<p>
+
+<li>The <a href="hole_d03.html#SPHPDB">SPHPDB</a> card 
+produces a file which you can use with the sphqpt
+program to visually check the performance of HOLE at the end of the
+run.  It is a good idea to do this to make sure the program is not
+doing anything silly.<p>
+
+<li>Results of the conductance prediction are reported at the end of normal
+HOLE output (written to standard output but normally 
+<a href="hole_d03.html#reass">redirected</a> to a file). 
+These are reasonably self-explanatory.  This output is taken from  run on 
+porin 1omf using input file above.  The run took at total of 1hour 10mins
+cpu on an IRIX indigo2 R4400:
+<pre>
+ The geometric factor F= sum(ds/area) along channel is    0.344 angstroms**-1
+ This yields a macroscopic predicted molar conductance of:
+   (1/rho)*(100/F)= (290/rho) pS,
+   where rho is the conductivity of 1M permeant ion in ohm m.
+ For 1M KCl rho= 1/12 (ohm m), So Gmacro= 3500 pS/M.
+ Empirically derived correction factors:
+    first generation (2 system) on MINRAD=      4.97989
+    2nd generation (8 system) constant=         5.59400
+    2nd generation on length of channel=        5.80046
+    2nd generation on avg elect potential=      6.14517
+      0.00000
+
+    first generation (2 system) on MINRAD= 700 pS/M.
+    2nd generation (8 system) constant=    620 pS/M.
+    2nd generation on length of channel=   600 pS/M.
+    2nd generation on avg elect potential= 570 pS/M.
+ 
+  As a single estimate take average of last 3 so Gpred= 600 pS/M.
+ N.B., The predicted conductances given above are only
+       a crude estimate and should not be over interpreted!
+</pre>
+The experimental conductance of 1omf in 1M KCl is 700 pS (the calculated 
+result is not that surprising considering this was included in the 
+parameterization of the model!).<p>
+
+<li>If you want to make a prediction for an ionic concentration other than
+1M then simply multiply the predicted conductances by the molar concentration
+wanted (i.e. for 0.5M KCl multiply all the numbers by 0.5). <p>
+  
+<li>Please let me know how you get on.
+</bl>
+<p>
+<a name="PEG"><h3>8.2 Predicting the effect of adding non-electrolytes to
+conductance experiments</h3>
+
+The science behind this is explained in the 
+<a href="#smart97">Smart et al. (1997)</a> paper.
+The calculation routines are started by a PEGRAT card:
+<pre>pegrat 0.54 1.18 ! produce PEG graph * 20% PEG</pre>
+The numbers following the card specify the value of theta_NON and 
+theta_PEG as defined in <a href="#smart97">Smart et al. (1997)</a>.
+The <a href="hole_d03.html#CAPSULE">capsule</a> option cannot be used with
+this.  <strong><blink>The calculations are in a very early state of
+development.  Please get in touch with me if you are interested in
+using these.  YOU MUST CHECK WITH ME BEFORE YOU PUBLISH ANY RESULTS USING
+THIS ROUTINE.</blink></strong>
+
+<hr size=2>
+<dl>
+<b>Navigation:</b>
+	<dd>Back to <a href=#top>top of this page</a>
+	<dd>Back to <a href=index.html#contents>contents</a>
+	<dd>Back to  previous section <a href=hole_d07.html>7.0  Ancillary programs</a>
+	<dd>On to  next section <a href="hole_d09.html">9.0 Example run</a>
+</dl>
+<p>
+<a href="hole_d07.html"><img src="buttons/button_prevsec.gif" border=0 alt=" <<Previous Section"></a>
+<a href="index.html#contents"><img src="buttons/button_hole_doc_index.gif" border=0 alt=" Hole Doc. Index^ "></a>
+<a href="http://hole.biop.ox.ac.uk/hole/"><img src="buttons/button_hole_home.gif" border=0 alt=" HOLE home "></a>
+
+
+<a href="hole_d09.html"><img src="buttons/button_nextsec.gif" border=0 alt=" Next Section>> "></a>
+
+
+<hr size=4>
+
+</font> 
+</body>
+</html>

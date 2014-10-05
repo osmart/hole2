@@ -1,0 +1,360 @@
+<html>
+<header>
+<TITLE>Documentation for the HOLE: 7.0 Ancillary programs</TITLE>
+</header>
+<body BACKGROUND="raindrop.jpg" TEXT="#009900" VLINK="#aa0000" LINK="#FF0000"><a name="top"></a>
+<font color="000099">
+
+Copyright 1997, 2004 by Oliver S. Smart<br>
+<a href="hole_d06.html"><img src="buttons/button_prevsec.gif" border=0 alt=" <<Previous Section"></a>
+<a href="index.html#contents"><img src="buttons/button_hole_doc_index.gif" border=0 alt=" Hole Doc. Index^ "></a>
+<a href="http://hole.biop.ox.ac.uk/hole/"><img src="buttons/button_hole_home.gif" border=0 alt=" HOLE home "></a>
+
+
+<a href="hole_d08.html"><img src="buttons/button_nextsec.gif" border=0 alt=" Next Section>> "></a>
+<p>
+<dl>
+<b>Navigation:</b>
+	<dd>Back to <a href=index.html#contents>contents</a>
+	<dd>Back to  previous section <a href=hole_d06.html>6.0  Visualization of HOLE results</a>
+	<dd>On to  next section <a href="hole_d08.html">8.0  Using HOLE to predict conductance properties of ion channels</a>
+</dl>
+
+<a name="ancillary"><h2>7.0 Ancillary programs</h2></a>
+
+All the programs described in this section are designed to be run interactively. 
+If you followed the <a href="hole_d02.html#settingup">setup</a> instruction
+you should be able to start the programs by typing the command at you
+normal unix prompt.
+All the programs
+ask a series of questions to which you can type a reply.  Wherever possible a
+default option is provided, this is indicated in angle brackets <>.  For example
+when a program wants a quanta plot file name (which already exists) it will ask:
+<pre>
+       Please enter input binary quanta plot (old) filename
+       defaults &lt;example.qpt&gt;ext:&lt;.qpt&gt; (abort by EXIT or ^D): 
+</pre>
+where example.qpt is the newest file with extension .qpt in the current directory.  
+If you just hit enter then the filename shown will be used.
+However, if a reply of "file1" is given the
+program will try to open a file with the name "file1.qpt" and if that fails will try just "file1" 
+but if a reply of "file2.dat" is given an attempt will be made to open file2.dat.
+Note that you can now use ~'s in filenames to refer to peoples home directories
+(<i>e.g.,</i> <tt>~mary/hello.txt</tt> refers to a file  <tt>hello.txt</tt> in
+user <tt>mary</tt>'s home directory). 
+If you wish to abort the question enter "exit" (either case) or hit ctrl_D.  
+Normally "abort" stops
+the execution of a program completely but sometimes I use this to jump out of
+a loop e.g. in asking for multiple input files.  Generally you can get any of these
+programs to abort by entering ctrl_D at any question (if you have setup HOLE
+on a non-unix machine then the EOF character is often ctrl-Z).
+
+<p>
+
+<a name=qpt_conv><h3>7.1 qpt_conv</h3></a>
+
+This is a utility program which converts the .qpt (quanta plot file format program)
+into another format. Start it by typing <tt>qpt_conv</tt>. You should see the following
+menu:
+<pre>
+ *** Program qpt_conv ***
+ Version H2alpha0
+ (c) 1996 Oliver Smart & Birkbeck College, All rights reserved.
+ Program linked at Tue Feb 20 16:57:02 GMT 1996  
+ Last modified .f files: 
+        8477 Feb 20 16:56 qptsyb.f       
+         158 Feb 20 14:37 qpto.f         
+        3392 Feb 20 14:36 qpt_conv.f     
+ 
+ This program converts a .qpt file (as produced by hole) 
+  to something else.
+ Output options
+ 'A' to/from ascii version of original .qpt (can then edit)
+ 'C' A .qpt file in which dots are replaced by 3D crosses
+ 'L' A .qpt file with long lines split into smaller sections
+       (useful for proper depth queueing in qplot)
+ 'I' InsightII format
+ 'S' Sybyl format
+ 'K' to David C. Richardson's kinemage format
+ 'O' for use with O program
+  Enter conversion option character <stop program>: 
+</pre>
+Type the conversion type you want and the program will then give
+appropriate prompts.<p>
+
+<i><b>Note for release 1 users:</b> <tt>qpt_conv</tt> incorporates
+and replaces programs <tt>hydasc</tt>, <tt>qptdot</tt> and qpt_insight.</i><p>
+<dl>
+	<dt><h4>Short description of the options</h4>
+
+	<dt><img alt="*" src="ballbrwn.gif">'A' to/from ascii version of original .qpt (can then edit)
+	<dd>This simply converts the binary qpt into an ascii version
+	this can then be edited (e.g., to change the colour number of
+	a particular object).  Once the ascii version has be
+	edited it should be converted back using this option.
+	Also useful when you wish to use a qpt file created on
+	one machine on another with a different architecture -
+	which stores binary files in a different order.
+	This option replaces hydasc program of original HOLE.  <p>
+
+	<dt><img alt="*" src="ballbrwn.gif">
+	'C' outputs another .qpt file in which small 3D crosses replace
+	all dots.
+	<dd>As mentioned in <a href="hole_d06.html#molgraph">section 6.2</a>
+	dots do not show up very well when displayed in <tt>quanta</tt>, and
+	a number of other molecular graphics programs. 
+	You can use this option to convert all the dot records in a quanta
+	3D binary plot file (.qpt) to 3D crosses (like a cross in 2D but 
+	with a third cross bar).  These should then be quite visable.
+	Note the sensible default for the output .qpt filename.  
+	You are prompted for the size of the cross bar to be used - 
+	the default of 0.1 angs gives small crosses
+	which show up well in <tt>quanta</tt>.  Note that using
+	this option will considerably increase the size of the 
+	graphics file (it take 6 records to draw a 3d cross cf
+	to one for a dot).  Also note that <a href="#qplot">qplot</a> 
+	has some nice drawing options for dots when doing hardcopy.<p>
+
+	<dt><img alt="*" src="ballbrwn.gif">
+	'L' A .qpt file with long lines split into smaller sections
+        <dd>Program <a href="#qplot">qplot</a> use a crude depth queueing
+	method in which lines are drawn in order from the lowest Z value
+	to the highest. The centre point of the line is used in the comparison.
+	This can sometimes lead to errors where long lines cross one another.
+        if this occurs then use this option which splits the line up
+	into smaller sections and try again. <p>
+
+        <dt><img alt="*" src="ballbrwn.gif">
+        'S' converts to <tt>sybyl</tt> format.
+        <dd>This produces a .plt2 format file which can be read into
+        <tt>sybyl</tt>.<br>
+	<a href="hole_d06.html#sybyl">For
+        details of how to get <tt>sybyl</tt> to display the file 
+	see section 6.2</a>.<p>
+
+        <dt><img alt="*" src="ballbrwn.gif">
+        'O' produces a file for use with <tt>O</tt>.
+        <dd><a href="hole_d06.html#O">For
+        details of how to get <tt>O</tt> to display the file 
+	see section 6.2</a>.<p>
+
+        <dt><img alt="*" src="ballbrwn.gif">
+        'K' produces a kinemage for use with <tt>mage</tt>.
+        <dd><a href="hole_d06.html#mage">For
+        details of <tt>mage</tt> and how to display the file
+        see section 6.2</a>.<p>
+
+
+        <dt><img alt="*" src="ballbrwn.gif">
+        'I' produces a file for use with <tt>InsightII</tt>.
+        <dd>The output is two .usr files <br>
+	<a href="hole_d06.html#insight">for details and how to display 
+	the file see section 6.2</a>.<p>
+
+
+<p>
+
+
+</dl>
+
+
+<hr size=4>
+<a name=sphqpt><h3>7.2 sphqpt</h3></a>
+
+Occasionally you may wish to add the result of two or more HOLE runs together
+and view the overall surface (as done for annexin V in Smart, Wallace and
+Goodfellow, 1993).  You can use program sphqpt to do this.  It can also be
+used to change the dot density of a result without rerunning the whole procedure
+or edit out unwanted parts of a run.  The program reads a '.sph' file.  This is a
+file containing information about the sphere centres determined in HOLE which
+is in pdb format (with the radius determined lurking as an occupancy.  The file
+is output by HOLE if a 'sphpdb' card is present (see section 3.0).  sphqpt asks
+for and reads in a '.sph' file and opens a QUANTA format 3D binary plot file
+(.qpt).  The program asks the user to supply a dot density (as explain in 'dotden'
+section 3.0).  The program then proceeds to produce an overall dot surface for
+all the sphere centres read.  Optionally the sphere centre line is also written.
+<p>
+When editing the .sph file (or files) bear in mind that the sphqpt needs to
+known when an 'end' sphere centre has been reached.  It does this by detecting
+breaks in the residue numbering in the pseudo-pdb file.  If you are doing
+something relatively sophisticated you may have to play about a bit to achieve
+your desired aim.
+<p>
+
+<hr size=2>
+<a name=qplot><h3>7.3 qplot</h3></a>
+
+
+This is a very much larger program than the previous two.  It is intended to
+allow the production of publication quality stereo diagrams of QUANTA plot files,
+in particular the results of HOLE.  The program outputs postscript files suitable
+for printing on a postscript printer.  The initial version was written in
+collaboration with Valeriu Niculae, a student doing a vocational course in
+computing with work experience at Birkbeck.  Subsequently it has been
+substantially rewritten with support for colour postscript printers and simple
+depth queuing.  The program is a bit of a mess and unfortunately I do not have
+the time to revise it.  I hope that you find it useful and not too much of a pain. 
+If you find things difficult persevere as the output is quite pretty.
+<p>
+
+The program asks a series of questions which you answer to produce an output
+file.  The first question sets the level of complication of the questions to be
+asked.  There are three levels: "amateur" gives very little control (defaults are
+used for practically everything), "normal" gives more control (for instance
+allowing the image to be rotated and "expert" level allows you to control
+everything.  To produce output of the form shown in Smart, Goodfellow and
+Wallace (1993) follow this brief outline.  Before running qplot you must have
+the following files ready:
+(i)    the .qpt file output from HOLE preferably before it has been put through
+       qptdot.
+(ii)   A QUANTA plot file of the part of your ion channel you wish to display. 
+       Generate this using the "generate plots" option under the file menu in
+       QUANTA.  Make sure you select the "stick plot" option from the "identity
+       matrix" view.  If you wish all the molecule to appear as one line type
+       make sure that you are displaying it as one colour before this.
+(iii)  If you wish to have a hard copy from a view other than the identity then
+       use QUANTA to select a view and write it to a view file (using the option
+       "save view" under the "view" menu the default extension is .vew).   At
+       present only the rotation matrix in the view file is used.  In the future I
+       may introduce a feature to read the other data so clipping and scaling
+       could also be used.
+(iv)   Prepare any labels you wish to place on the picture by using program
+       qptlab (see section 7.4).
+Then run qplot by typing qplot at the command line.  As you want to read two
+.qpt files (the stick plot and the HOLE output) you must select the "expert" level. 
+Enter the filename for the stick plot and hit return, answer the subsequent
+question until asked for the next filename when you should enter the name for
+the HOLE output .qpt file).  When asked for yet another filename enter ctrl_D to
+jump out of the loop.  I hope that the rest of the questions asked should be
+fairly self explanatory.  Please also refer to the example_doc.* in the example
+directory for an example of the programs use.
+<p>
+
+The stereo output option produces a picture of reasonable size to be view
+through normal stereo glasses (with lenses) and for publication.  I have produced
+pretty stereo pictures for a poster on an A3 colour postscript printer by editing
+the output postscript file and adding the line "1.7 1.7 scale -50 -50 translate" to
+the top of the file.  If you want to scale the picture try something along this line.
+<p>
+
+
+<hr size=2>
+<a name=labqpt><h3>7.4 labqpt</h3></a>
+
+
+This little program allows the user to produce a quanta 3D binary plot file
+containing labels for chosen atoms.  It was called qptlab in the previous release
+but labqpt seems more logical! The program reads in a .pdb co-ordinate file
+and ask for the user to name an atom (giving atom name and residue number). 
+It then asks the user to enter a label to be written at the atom's position (with
+the default of the atom name and residue number).  Furthermore the user is
+asked for a "positioning integer".  This is integer is written to the quanta plot
+file and is interpreted by program qplot - if the integer is:
+1 the label is placed below the atom to the left
+2 the label is centred below the atom
+...
+5 the label is centred on the atom
+...
+9 the label is placed above the atom to the right.
+An easy way to remember what the integer means is to look at the keypad of
+any keyboard.  Note that this control integer is an extension to the QUANTA
+format so that other programs will not recognize it.  For an example of the use
+of the program see example_doc.*.
+
+
+<hr size=2>
+
+<a name=vdwdot><h3>7.5 vdwdot</h3></a>
+
+This program calculates the "internal" van der Waals dot surface for a given 
+molecule.  The technique used is to consider a number of dots isotropically
+distributed around each atom at the van der Waals radii for the atom.  A dot is
+only output if it lies outside the van der Waals radius of every other atom.  In
+addition a test is made to see whether the dot is "internal".  A dot is defined 
+as internal if it meets the following test.  Extend the dot to a line pointing from
+the centre of the atom to infinity.  If this line crosses any atom then the dot is
+"internal".  Simply put a dot is internal if it opposes some other atom's surface. 
+(In fact the test is slightly different to this but very difficult to explain in
+words!).
+<p>
+vdwdot is intended to complement HOLE by allowing the visualization of the full
+internal van der Waals surface without the outer surface complicating things. 
+It could be used before HOLE to gain a broad idea of the shape of the inside of
+a pore before starting detailed analysis.  Alternatively it can be used in
+conjunction with the surface produced by HOLE to see parts of the internal cavity
+not revealed by the HOLE process.  The same values of van der Waals radii can
+(and should!) be used in vdwdot and HOLE.
+<p>
+Unlike the other ancillary programs in the HOLE suite, vdwdot can be quite cpu
+intensive.  It is therefore controlled like HOLE with a keyworded entry - so that
+it can easily be run in the background.  A number of the cards are in common:
+<dl>
+
+       <dt>COORD fname          
+       <dd>The file containing the co-ordinates of the molecule in
+                            Brookhaven protein databank format. MUST be
+                            specified. <p>                       
+       <dt>RADIUS fname     <dd>    The van der Waals radius filename to be used.  MUST
+                            be specified.<p>
+       <dt>PLTOUT fname         <dd>The filename for graphical (.qpt) output of the dots. 
+                            The dots will be assigned to colour 6.  MUST be
+                            specified.<p>
+       <dt>DOTDEN integer       <dd>The control integer for the density of dots to be used
+                            by the program.  See section 3.2 above for more
+                            details.  For large molecules avoid using high values
+                            as this will result in very slow execution and large
+                            files.  Default value is 10.<p>
+</dl>
+<p>
+One new card has been introduced in the program:
+<dl>
+      <dt> DCUT real_no        <dd> This card can be used to save time in the program. 
+                            The program will only check to see whether a dot
+                            overlaps/opposes a given atom if the distance between
+                            atom centres is less than the sum of the van der Waals
+                            radii and dcut.  When the maximum radius of a
+                            channel is known from HOLE dcut should be set to
+                            over twice this value.  The default value is 10
+                            angstroms.  A special feature is that if dcut is set to
+                            zero then the full van der Waals surface is produced -
+                            i.e. no check is made to see whether a dot is internal.
+</dl>
+<p>
+<hr size=2>
+
+<a name=sph2vrml><h3>7.6 sph2vrml</h3></a>
+
+to be written.
+<p>
+<hr size=2>
+
+<a name=make_post_map><h3>7.7 make_post_map, bln2gnu, capost2gnu, grd2gnu,
+		make_post2gnu</h3></a>
+
+
+All these programs are used when making
+2D Maps of the internal surface of a pore.
+ <a href="hole_d065.html#make_post_map">See section 6.5 for details of use</a>.
+<p>
+
+<hr size=2>
+<dl>
+<b>Navigation:</b>
+	<dd>Back to <a href=index.html#contents>contents</a>
+	<dd>Back to  previous section <a href=hole_d06.html>6.0  Visualization of HOLE results</a>
+	<dd>On to  next section <a href="hole_d08.html">8.0  Using HOLE to predict conductance properties of ion channels</a>
+</dl>
+<p>
+<a href="hole_d06.html"><img src="buttons/button_prevsec.gif" border=0 alt=" <<Previous Section"></a>
+<a href="index.html#contents"><img src="buttons/button_hole_doc_index.gif" border=0 alt=" Hole Doc. Index^ "></a>
+<a href="http://hole.biop.ox.ac.uk/hole/"><img src="buttons/button_hole_home.gif" border=0 alt=" HOLE home "></a>
+
+
+<a href="hole_d08.html"><img src="buttons/button_nextsec.gif" border=0 alt=" Next Section>> "></a>
+
+
+<hr size=4>
+
+</font>
+</body>
+</html>

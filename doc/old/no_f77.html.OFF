@@ -1,0 +1,102 @@
+<html>
+<header>
+<TITLE>Documentation for the HOLE: 2.4.1 Setup if you don't have f77</TITLE>
+</header>
+<body BACKGROUND="raindrop.jpg" TEXT="000099" VLINK="#aa0000" LINK="#FF0000" bgcolor="#ffffff"><a name="top"></a>
+<hr size=4>
+
+Copyright 1997, 2004 by Oliver S. Smart<br>
+<a href="index.html#contents"><img src="buttons/button_hole_doc_index.gif" border=0 alt=" Hole Doc. Index^ "></a>
+<a href="http://hole.biop.ox.ac.uk/hole/"><img src="buttons/button_hole_home.gif" border=0 alt=" HOLE home "></a>
+
+
+<p>
+<dl>
+</dl>
+<hr size=2>
+
+
+<h3>2.4.1 Setup if you don't have f77</h3>
+
+This relies on you being able to run a set of executables compiled on 
+machines which I have access to.  The first thing you need to do is find
+out what operating system your machine runs:
+<pre>
+uname -a
+</pre>
+Hopefully you should see something like this:
+<pre>jura> uname -a
+IRIX jura 5.2 02282016 IP22 mips
+</pre>
+
+Once you have done this then follow these steps:
+<ol>
+   <li>Get to the directory by typing <tt><b>cd ~/hole2/exe</b></tt>
+   <li>Establish ftp access to the Birmingham Biochemistry ftp server by typing
+	<tt><b>ftp windy.bip.bham.ac.uk</b></tt>
+   <li>Use the username <tt><b>anonymous</b></tt> and your email address as a password.
+   <li>Once you have established access type the ftp command:
+       <tt><b>bin</b></tt> to make sure that files are transfered as binary.
+   <li>At the ftp prompt type: 
+       <tt><b>cd pub/hole2</b></tt>
+   <li>See what directories are there by typing <tt><b>ls</b></tt>.
+   N.b. you may get a different result from that shown here as
+   things change with time.
+   <pre>
+ftp> ls
+200 PORT command successful.
+150 Opening ASCII mode data connection for /bin/ls (192.84.212.106,1778).
+total 882
+-rw-r--r--   1 201      15          1199 Feb 29  1996 000README
+drwxr-xr-x   2 201      15          8192 Feb 28 16:56 AIX-2.3
+drwxr-xr-x   2 201      15          8192 Feb 28 16:54 HP-UX-A.09.03
+drwxr-xr-x   2 201      15          8192 Mar 18  1996 IRIX-4.0.1
+drwxr-xr-x   2 201      15          8192 Feb 28 16:54 IRIX-5.3
+-rw-r--r--   1 201      15        852493 Feb 29  1996 hole.tar.Z.crypt
+drwxr-xr-x   2 201      15          8192 Mar  1  1996 ps_doc
+226 Transfer complete.
+ftp> 
+   </pre>
+   <li>Hopefully one of the upper case directory names should be
+   similar to the result of <tt><b>uname -a</b></tt>.  Try to
+   select the version which has a lower number than yours e.g.,
+   for IRIX 5.2 go for IRIX-4.0.1:
+
+<pre>
+cd IRIX-4.0.1 
+</pre>
+
+
+   <li>Get into binary mode by typing <b><tt>bin</tt></b>,  then type
+   <b><tt>get exes.tar.Z.crypt</tt></b> and once the transfer is complete
+   type <b><tt>bye</tt></b>.
+   
+   <li>You should now have the file exes.tar.Z.crypt in the directory
+   ~/hole2/exe.  
+   <li>The file is encrypted.  To return it to its former glory 
+	 type the command 
+	<tt><b>crypt &lt; exes.tar.Z.crypt &gt; exes.tar.Z</b></tt>.
+	You will be prompted  <tt><b>Enter key:</b></tt> enter the key
+	that has been sent to you by e-mail.
+   <li>exes.tar.Z is
+       a compressed tar file.  First uncompress it by typing the command
+       <tt><b>uncompress exes.tar.Z</b></tt>.
+   <li>Unpack the .tar file by typing the command <tt><b>tar xvf exes.tar</b></tt>.  You should
+       see a list of the files created appear on the screen.
+   <li>Now procedure with the rest of the setup by following steps set out
+   in <a href="hole_d02.html#settingup">section 2.5</a> and answering no when the setup script asks you 
+   whether you have a f77 complier.
+</ol>
+<hr size=2>
+
+<p>
+
+<a href="index.html#contents"><img src="buttons/button_hole_doc_index.gif" border=0 alt=" Hole Doc. Index^ "></a>
+<a href="http://hole.biop.ox.ac.uk/hole/"><img src="buttons/button_hole_home.gif" border=0 alt=" HOLE home "></a>
+
+
+<hr size=4>
+
+</body>
+</html>
+
