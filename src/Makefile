@@ -9,7 +9,7 @@
 #
 FC=gfortran
 CC=gcc
-FFLAGS = -fd-lines-as-comments -static-libgfortran  -fbackslash -std=legacy
+FFLAGS = -fd-lines-as-comments -static-libgfortran  -fbackslash -std=legacy -static
 CFLAGS = -static-libgfortran
 MACHINE_DEP=machine_dep.g77
 LIB_NAME = hole.a
