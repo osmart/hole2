@@ -1,0 +1,101 @@
+HOLE documentation
+==================
+:toc2:
+:numbered:
+:icons:
+:My noteicon: icon="./icons/note.png"
+:My tipicon: icon="./icons/tip.png"
+
+Oliver S. Smart
+
+(C) 2014 SmartSci Limited http://www.smartsci.uk
+
+_HOLE release 2.2.003 (06 Oct 2014)_
+
+== Introduction
+
+HOLE is a program that allows the analysis and visualisation of the pore
+dimensions of the holes through molecular structures of ion channels 
+http://dx.doi.org/10.1016/s0263-7855(97)00009-x[Smart et al., 1996].
+It was written by Oliver Smart while a post doc and independent 
+research fellow at Birkbeck College with the assistance of several
+students: 
+http://uk.linkedin.com/pub/guy-coates/3/b5b/9b0[Guy Coates],
+http://uk.linkedin.com/pub/joe-neduvelil/1/141/594[Joe Neduvelil] and 
+Xiaonan Wang.
+
+The first application of HOLE was to analyse the pore dimensions of gramicidin A 
+http://www.sciencedirect.com/science/article/pii/S0006349593812931[Smart et al., 1993]
+working with Prof.'s 
+http://uk.linkedin.com/pub/julia-goodfellow/21/14b/17a[Julia Goodfellow] and 
+http://people.cryst.bbk.ac.uk/~ubcg25a/[Bonnie Wallace]. 
+For many years HOLE was hosted by 
+http://sbcb.bioch.ox.ac.uk/sansom.php[Prof Mark Sansom] at Oxford. However,
+because I was busy doing other things HOLE became unavailable about a year ago.
+
+
+Although it was written over 20 years ago, HOLE remains in demand and its 
+main publications have been cited over 800 times. 
+The founding of SmartSci Limited has provided the opportunity to
+make HOLE available again and to provide some updates and improvements.
+
+== How to setup HOLE
+
+The HOLE suite is now distributed from http://www.smartsci.uk/hole/
+
+Download the compressed tar ball relevant for your system e.g., +hole2.2_003_linux64.tar.gz+ and place it in your home directory.
+Unpacking this tar ball will create the directory hole2 containing files for your distribution. Use the commands:
+
+ cd
+ tar xf hole2.2_003_linux64.tar.gz
+
+These commands will create the directories:
+
+* +hole2/doc/index.html+ is the main documentation (this file).
+* +hole2/exe+ contains the main executables
+* +hole2/rad+ contains a the radius set files needed by hole
+* +hole2/examples+ contains a series of example input files for example runs with hole.
+
+To run the HOLE program and the other executables you can just type the full name of the program. To test that the executable works on your computer by typing at the unix prompt:
+
+ ~/hole2/exe/hole
+ *** Program HOLE ***
+  
+_(edited for brevity)_
+
+  Control variables read:
+
+The hole program should start and wait for input - hit ctrl-d (the control and d keys together) to get out of this or ctrl-c to interupt. If the program fails to load then please email support@smartsci.uk 
+
+It is normally most convenient to add the hole executable directory to the the unix path (this would allow hole to be started by typing "hole"). Suppose user "mary" has set up the package.
+
+If you are a tcsh or csh user add the following line at the end of your +~/.cshrc+ file
+
+        setenv PATH "$PATH":~mary/hole2/exe
+
+or otherwise if you are a bash user add the line that follows to the file that is used to set your ENV. This file is normally called following +\~/.bashrc+ or +\~/.profile+ or +\~/.kshrc+
+
+        PATH=$PATH:~mary/hole2/exe
+
+[{mytipicon}]
+TIP: if unsure which shell you are running enter the command +echo $SHELL+
+
+Open a new shell (if unsure about this logout and then log back into your terminal). You should be able to run the HOLE executables by typing the command name - try it out by typing +hole+ if there is an error then make sure that you have permission to use the executables by typing +ls -l \~mary/hole2/exe+. If you cannot see list the directory then go and speak to Mary who should change the permissions for the top hole2 directory (+chmod a+rx ~/hole2+).
+
+Unless you have installed hole in your own space you will need to modify the
+examples provided to point to the correct radius files. When specifying a file
+for vdw radii (using a RADIUS card) you can use files in mary's area e.g.,
+specify the following line in the
+
+ control file: radius ~mary/hole2/rad/simple.rad
+
+[{mynoteicon}]
+NOTE: HOLE now resolves ~'s for user names. 
+
+== Example HOLE run
+
+foo
+
+== Further information
+
+For further information about control cards, please see the old documentation link:old/index.html[] for now.
