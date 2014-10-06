@@ -1,9 +1,9 @@
 ! example input file run on Arseniev's gramicidin structure
-! note everything preceeded by a "!" is a comment and will be ignored by HOLE
+! note everything preceded by a "!" is a comment and will be ignored by HOLE
 !
 ! follow instructions in doc/index.html to run this job
 !
-! first cards which must be  included for HOLE to work
+! first cards which must be included for HOLE to work
 ! note that HOLE input is case insensitive (except file names)
 coord 1grm_single.pdb           ! Co-ordinates in pdb format
 radius ~/hole2/rad/simple.rad	! Use simple AMBER vdw radii
