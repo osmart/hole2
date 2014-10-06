@@ -10,7 +10,7 @@ radius ~/hole2/rad/simple.rad	! Use simple AMBER vdw radii
 				! n.b. can use ~ in hole
 !
 ! now optional cards
-sphpdb example.sph              ! pdb format output of hole sphere centre info
+sphpdb hole_out.sph             ! pdb format output of hole sphere centre info
 				! (for use in sph_process program)
 endrad 5.			! This is the pore radius that is taken
                                 ! as where channel ends. 5.0 Angstroms is good 
