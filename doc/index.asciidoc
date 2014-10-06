@@ -92,9 +92,66 @@ specify the following line in the
 [{mynoteicon}]
 NOTE: HOLE now resolves ~'s for user names. 
 
-== Example HOLE run
+== Example Application
 
-foo
+The best way to show how to run HOLE is to use an actual example.
+For an example we will use an NMR structural of the gramcidin A channel, determined
+by Arseniev and co-workers http://www.rcsb.org/pdb/explore.do?structureId=1grm[1GRM].
+This supplied as an example with HOLE. So the first thing is to copy the files
+into a convenient convenient directory and then +cd+ into it:
+  
+  cp -a ~/hole2/examples/01_gramicidin_1grm hole_test
+  cd hole_test
+
+The +ls+ command should then show that the directory contains the files 
+
+  01_1grm_single.pdb  01_example_2dmaps.inp  01_example.inp
+
+=== Running HOLE
+
+HOLE is a rather old-style program that by defaults reads from standard input
+(the keyboard) and writes in text type output to standard output (your terminal window).
+So to usefully run HOLE you must redirect both input and output to a file. For
+example:
+
+ hole < 01_example.inp > hole_out.txt
+
+Here the program input is provided by file +01_example.inp+ and all input goes
+to file +hole_out.txt+. The command should complete almost instantly.
+
+[{mytipicon}]
+TIP: If this is all new to you then Google _Command line redirection linux tutorial_. There 
+excellent tutorials available, for instance http://ryanstutorials.net/linuxtutorial/piping.php
+
+
+Lets look at the input file  +01_example.inp+
+
+	! example input file run on Arseniev's gramicidin structure
+	! note everything preceeded by a "!" is a comment and will be ignored by HOLE
+	!
+	! follow instructions in doc/index.html to run this job
+	!
+	! first cards which must be quoted 
+	! (note that HOLE is case insensitive (except file names)
+	coord  01_1grm_single.pdb       ! Co-ordinates in pdb format
+	radius ~/hole2/rad/simple.rad	! Use simple AMBER vdw radii
+					! n.b. can use ~ in hole
+	!
+	! now optional cards
+	sphpdb example.sph              ! pdb format output of hole sphere centre info
+					! (for use in sph_process program)
+	endrad 5.			! This is the pore radius that is taken
+					! as where channel ends. 5.0 Angstroms is good 
+					! for a narrow channel
+
+
+
+
+=== Visualization of the results
+The following diagram summarizes the main methods of visualizing hole results with release 2.2
+of hole using the vmd program. There is clear room for improvement and simplification -
+this will be addressed in the next release.
+
 
 == Further information
 
