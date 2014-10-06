@@ -138,7 +138,7 @@ Lets look at the input file  +hole.inp+
 					! n.b. can use ~ in hole
 	!
 	! now optional cards
-	sphpdb example.sph              ! pdb format output of hole sphere centre info
+	sphpdb hole_out.sph             ! pdb format output of hole sphere centre info
 					! (for use in sph_process program)
 	endrad 5.			! This is the pore radius that is taken
 					! as where channel ends. 5.0 Angstroms is good 
@@ -148,7 +148,11 @@ Lets look at the input file  +hole.inp+
 * The +radius+ card must also be specified (it is normal to use +simple.rad+)
 * The +sphpdb+ card is used to output the sphere centres produced by HOLE to a "pseudo-PDB"
   file this can be directly displayed in a molecular graphics program but is normally
-  used to produce a dot surface or solid-rendered surface (see below).
+  used to produce a dot surface or solid-rendered surface (see below). 
+
+[{mytipicon}]
+TIP: For complicated channels with multiple routes through them it is possible to combine
+a number of HOLE +.sph+ files together.
 
 === Visualization of the results
 
@@ -172,8 +176,8 @@ You can use an editor to extract the information or use +egrep+:
 
  egrep "mid-|sampled" hole_out.txt  > hole_out.tsv  
 
-The +.tsv+ file can be opened in most graph plotters for instance in excel.
-On linux I like xmgrace (but it is a complex) or gnumeric (easier).
+The +.tsv+ file can be opened in most spreadsheets and graphing for instance in
+excel.  On linux I like xmgrace (but it is a complex) or gnumeric (easier).
 
   gnumeric hole_out.tsv
 
@@ -194,6 +198,20 @@ It is simple to add some axis labels in gnumeric.
 image::./hole_test/gnumeric_graph.png["HOLE graph",align="center"]
 *HOLE results on 1grm (spherical probe)*
 
+It can be seen that the pore radius within the gramicidin A channel varies between
+1.15 and 1.5 Angstroms. Gramicidin A is normally occupied by a single file of around 
+8 water molecules.  For a more detailed coverage see 
+http://www.sciencedirect.com/science/article/pii/S0006349593812931[Smart et al., 1993]
+
+
+=== producing a colored dot surface and visualizing in vmd
+Being able to visualize HOLE results together with the ion channel model in a molecular
+graphics program is really useful. HOLE was originally written to work with the Quanta
+program (in fact a predecessor of Quanta called Hydra). It has conversion tools for a variety
+of other programs. HOLE really works well with vmd http://www.ks.uiuc.edu/Research/vmd/ and
+we will look at how to display HOLE graphical objects in vmd. 
+
+The simplest surface to look at is a dot surface. To produce a dot surface
 
 
 == Further information
