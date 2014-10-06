@@ -105,7 +105,7 @@ into a convenient convenient directory and then +cd+ into it:
 
 The +ls+ command should then show that the directory contains the files 
 
-  01_1grm_single.pdb  01_example_2dmaps.inp  01_example.inp
+  1grm_single.pdb hole.inp
 
 === Running HOLE
 
@@ -114,7 +114,7 @@ HOLE is a rather old-style program that by defaults reads from standard input
 So to usefully run HOLE you must redirect both input and output to a file. For
 example:
 
- hole < 01_example.inp > hole_out.txt
+ hole < hole.inp > hole_out.txt
 
 Here the program input is provided by file +01_example.inp+ and all input goes
 to file +hole_out.txt+. The command should complete almost instantly.
@@ -124,16 +124,16 @@ TIP: If this is all new to you then Google _Command line redirection linux tutor
 excellent tutorials available, for instance http://ryanstutorials.net/linuxtutorial/piping.php
 
 
-Lets look at the input file  +01_example.inp+
+Lets look at the input file  +hole.inp+
 
 	! example input file run on Arseniev's gramicidin structure
-	! note everything preceeded by a "!" is a comment and will be ignored by HOLE
+	! note everything preceded by a "!" is a comment and will be ignored by HOLE
 	!
 	! follow instructions in doc/index.html to run this job
 	!
-	! first cards which must be quoted 
-	! (note that HOLE is case insensitive (except file names)
-	coord  01_1grm_single.pdb       ! Co-ordinates in pdb format
+	! first cards which must be  included for HOLE to work
+	! note that HOLE input is case insensitive (except file names)
+	coord 1grm_single.pdb           ! Co-ordinates in pdb format
 	radius ~/hole2/rad/simple.rad	! Use simple AMBER vdw radii
 					! n.b. can use ~ in hole
 	!
@@ -144,13 +144,56 @@ Lets look at the input file  +01_example.inp+
 					! as where channel ends. 5.0 Angstroms is good 
 					! for a narrow channel
 
-
-
+* The +coord+ card must be used to specify the input pdb FILE
+* The +radius+ card must also be specified (it is normal to use +simple.rad+)
+* The +sphpdb+ card is used to output the sphere centres produced by HOLE to a "pseudo-PDB"
+  file this can be directly displayed in a molecular graphics program but is normally
+  used to produce a dot surface or solid-rendered surface (see below).
 
 === Visualization of the results
-The following diagram summarizes the main methods of visualizing hole results with release 2.2
-of hole using the vmd program. There is clear room for improvement and simplification -
-this will be addressed in the next release.
+
+The following diagram summarizes the main methods of visualizing hole results
+with release 2.2 of hole using the vmd program. There is clear room for
+improvement and simplification - this will be addressed in future releases.
+
+image::./old/hole_visualization_2.2.jpg["HOLE visualization flow chart",align="center"]
+
+=== Plotting a 2D graph of pore radius vs channel coordinate
+
+One of the more useful ways to visualize the results of HOLE is to plot a graph 
+(all those school teachers/university demonstrators must have some influence). 
+Raw data which can be used for this purpose is written at the end of the run output
+file. For the gramicidin example text output +link:hole_test/hole_out.txt[hole_out.txt]+ is produced.
+The graph information can be found near the end of the file starting after the line:
+
+  cenxyz.cvec      radius  cen_line_D sum{s/(area point sourc
+
+You can use an editor to extract the information or use +egrep+:
+
+ egrep "mid-|sampled" hole_out.txt  > hole_out.tsv  
+
+The +.tsv+ file can be opened in most graph plotters for instance in excel.
+On linux I like xmgrace (but it is a complex) or gnumeric (easier).
+
+  gnumeric hole_out.tsv
+
+For the abscissa of the graph it is normal to use the 'channel coordinate' -
+this is dot product of the sphere centre with the channel vector CVECT. If the
+channel is aligned along an axis, for instance the y axis (channel vector = {0 1
+0}, the channel coordinate will simply be the relevant coordinate. An
+alternative is to use the distance moved along the pore centre-line from the
+initial point. The former representation, which was suggested by Mark Sansom,
+is probably preferable as it allows easy comparison between the results of
+different runs and for the position of important atoms/residues to be marked on
+the graph. The latter representation gives an indication of the straightness of
+the pore but comparison between runs is made more difficult by side to side
+jumps in the centre line. 
+
+It is simple to add some axis labels in gnumeric.
+
+image::./hole_test/gnumeric_graph.png["HOLE graph",align="center"]
+*HOLE results on 1grm (spherical probe)*
+
 
 
 == Further information
