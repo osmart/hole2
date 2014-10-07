@@ -10,7 +10,7 @@ Oliver S. Smart
 
 (C) 2014 SmartSci Limited http://www.smartsci.uk
 
-_HOLE release 2.2.003 (06 Oct 2014)_
+_HOLE release 2.2.003 (07 Oct 2014)_
 
 == Introduction
 
@@ -114,7 +114,7 @@ HOLE is a rather old-style program that by defaults reads from standard input
 So to usefully run HOLE you must redirect both input and output to a file. For
 example:
 
- hole < hole.inp > hole_out.txt
++*hole < hole.inp > hole_out.txt*+
 
 Here the program input is provided by file +01_example.inp+ and all input goes
 to file +hole_out.txt+. The command should complete almost instantly.
@@ -174,12 +174,12 @@ The graph information can be found near the end of the file starting after the l
 
 You can use an editor to extract the information or use +egrep+:
 
- egrep "mid-|sampled" hole_out.txt  > hole_out.tsv  
++*egrep "mid-|sampled" hole_out.txt  > hole_out.tsv*+
 
 The +.tsv+ file can be opened in most spreadsheets and graphing for instance in
 excel.  On linux I like xmgrace (but it is a complex) or gnumeric (easier).
 
-  gnumeric hole_out.tsv
++*gnumeric hole_out.tsv*+
 
 For the abscissa of the graph it is normal to use the 'channel coordinate' -
 this is dot product of the sphere centre with the channel vector CVECT. If the
@@ -204,14 +204,101 @@ It can be seen that the pore radius within the gramicidin A channel varies betwe
 http://www.sciencedirect.com/science/article/pii/S0006349593812931[Smart et al., 1993]
 
 
-=== producing a colored dot surface and visualizing in vmd
+=== Producing a colored dot surface and visualizing in vmd
 Being able to visualize HOLE results together with the ion channel model in a molecular
 graphics program is really useful. HOLE was originally written to work with the Quanta
 program (in fact a predecessor of Quanta called Hydra). It has conversion tools for a variety
 of other programs. HOLE really works well with vmd http://www.ks.uiuc.edu/Research/vmd/ and
 we will look at how to display HOLE graphical objects in vmd. 
 
-The simplest surface to look at is a dot surface. To produce a dot surface
+The starting point for visualizing HOLE results is to produce a surface from the raw
+HOLE sphere files stored in the +.sph+ file produced by +sphpdb+ option of HOLE. In this example
+the file is called +hole_out.sph+.
+
+The simplest surface to look at is a dot surface. To produce a dot surface from  +hole_out.sph+
+use the +sph_process+ program (supplied with HOLE):
+
++*sph_process -dotden 15 -color hole_out.sph dotsurface.qpt*+
+
+* The +-dotden+ option is used to increase the number of dots on the surface. 
+* The +-color+ option is used to produce a colored surface. Red is where the pore radius 
+  is to tight for a water molecule. Green where there is room for a single water. Blue is where
+  the radius is double the minimum for a single.
+* To see more detail and other options run +*sph_process -h*+
+* The +dotsurface.qpt+ file code be displayed in Quanta but you probably want to use vmd. 
+  So it is necessary to use qpt_conv (at present). This is an interactive program 
+  (it seemed like a good idea many years ago). You have to select option +D+ and hit
+  the _Enter_ key three times to do the conversion:
+
+
++*qpt_conv*+ +
++_initial splash message not shown here_+
+ 
+ This program converts a .qpt file (as produced by hole) 
+  to something else.
+ Output options
+ 'A' to/from ascii version of original .qpt (can then edit)
+ 'C' A .qpt file in which dots are replaced by 3D crosses
+ 'L' A .qpt file with long lines split into smaller sections
+       (useful for proper depth queueing in qplot)
+ 'I' InsightII format
+ 'R' Rasmol format
+ 'S' Sybyl format
+ 'K' to David C. Richardson's kinemage format
+ 'O' for use with O program
+ 'V' to Virtual Reality Markup Language
+ 'D' to VMD format
+
++Enter conversion option character <stop program>: *D*+
+
+ S/r qptvmd. 
+   Reads in a hydra/quanta 3D binary plot and writes
+   out an VMD equivalent.  To use this file in VMD type:
+ source blah.vmd_plot
+   at the vmd prompt
+ Please enter input binary hydra/quanta plot (old) filename
+ defaults <dotsurface.qpt> ext:<.qpt> (abort by EXIT or ^D) : 
+ Please enter vmd format file (new) filename
+ defaults <dotsurface.vmd_plot> ext:<.vmd_plot> (abort by EXIT or ^D) : 
+ What width do you want lines to appear <1>: 
+
+* The end result of this is a file +dotsurface.vmd_plot+ To use this in vmd
+** Start vmd and load +1grm_single.pdb+
+** select a pretty graphical representation (here _liquorice_ with _tube_ colored by chain).
+** Then go to the terminal window where you started vmd. Hit the _Enter_ key. You will then
+   see the vmd command prompt:
+
+ vmd >
+
+** At the prompt enter the command:w
+: +
++*source dotsurface.vmd_plot*+
+** you will then see the dot surface in the VMD window. A great way to make pictures of this
+   is with vmd supplied Tachyon to produce a ray traced result
+
+image::./hole_test/vmd_tachyon.png["vmd rendering of 1grm HOLE dot surface captured with Tachyon",align="center"]
+
+
+=== Producing a triangulated surface and visualizing in vmd
+
+The dot surface is nice (it made me happy in 1993) and
+is still the most useful way to actually visualize results.
+However, if you want a pretty picture for poster/paper a solid
+surface is better.
+
+Producing a triangulated surface is similar to the dot surface. 
+We use +hole_out.sph+ as the starting point and run
+
++*sph_process -sos -dotden 15 -color hole_out.sph solid_surface.sos*+
+
+The +.sos+ is an intermediate file that needs to be processed by +sos_triangle+
+
++*sos_triangle -s <  solid_surface.sos > solid_surface.vmd_plot*+
+
+To load in vmd +source solid_surface.vmd_plot+ at the +vmd >+ prompt (see above). 
+The result is a nice solid surface:
+
+image::./hole_test/1grm_hole_surface_triangulated_tachyon.png["vmd rendering of 1grm HOLE solid surface captured with Tachyon",align="center"]
 
 
 == Further information
