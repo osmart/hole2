@@ -47,7 +47,7 @@ Download the compressed tar ball relevant for your system e.g., +hole2.2_003_lin
 Unpacking this tar ball will create the directory hole2 containing files for your distribution. Use the commands:
 
  cd
- tar xf hole2.2_003_linux64.tar.gz
+ tar xf hole2.2.003.linux64.tar.gz
 
 These commands will create the directories:
 
