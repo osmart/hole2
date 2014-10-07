@@ -32,7 +32,7 @@ C Adapted 21/11/97 to give who linked it as well
      &'     &'' For help on HOLE suite see''//',
      &'     &''  http://www.smartsci.uk/hole/'',',
      &'     &'' '',', 
-     &'     &'' HOLE release 2.2.003 (06 Oct 2014)'',', 
+     &'     &'' HOLE release 2.2.003 (07 Oct 2014)'',', 
      &'     &'' Program linked at '//line(1:index(line,'   ')-1)//''',' 
 
 C find out who linked it
