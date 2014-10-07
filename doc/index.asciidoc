@@ -21,8 +21,8 @@ It was written by Oliver Smart while a post doc and independent
 research fellow at Birkbeck College with the assistance of several
 students: 
 http://uk.linkedin.com/pub/guy-coates/3/b5b/9b0[Guy Coates],
-http://uk.linkedin.com/pub/joe-neduvelil/1/141/594[Joe Neduvelil] and 
-Xiaonan Wang.
+http://uk.linkedin.com/pub/joe-neduvelil/1/141/594[Joe Neduvelil],
+Valeriu Niculae and Xiaonan Wang.
 
 The first application of HOLE was to analyse the pore dimensions of gramicidin A 
 http://www.sciencedirect.com/science/article/pii/S0006349593812931[Smart et al., 1993]
@@ -304,3 +304,20 @@ image::./hole_test/1grm_hole_surface_triangulated_tachyon.png["vmd rendering of 
 == Further information
 
 For further information about control cards, please see the old documentation link:old/index.html[] for now.
+
+
+== Acknowledgements
+
+.Original Release 1993
+
+The support of the UK Science and Engineering Research Council under project grant GR/G49494 and from the Molecular Recognition and Computational Science Initiatives is gratefully acknowledged. I should like to thank Julia Goodfellow and Bonnie Wallace for support and many discussions. Thanks are also due to Mark Sansom and his group at the University of Oxford, and Karen Duca of Brandeis University for testing the first release. In addition thanks to Rod Hubbard and Polygen/Molecular Simulations Inc. for providing the 3D plot file facility in HYDRA and QUANTA. QUANTA is available from Molecular Simulations Inc., Waltham, MA 02154, USA. InsightII is available from Biosym Technologies, 9685 Scranton Road, San Diego, CA 92121 - 2777 USA.
+
+.Release v2 1997
+
+The generous support of the Wellcome Trust by the provision of a Career Development Fellowship for the author is gratefully acknowledged. Much of the work undertaken was encouraged by Dr Mark Sansom and members of his group at the University of Oxford. Thanks to  Guy Coates, Joe Neduvelil, Valeriu Niculae and Xiaonan Wang for contributing to the programming as students at Birkbeck. 
+
+.Relaunch 2014 
+
+Thanks to Global Phasing Ltd for the provision of CentOS5 and OSX hosts for building and testing.
+
+
