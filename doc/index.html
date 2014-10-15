@@ -780,7 +780,7 @@ asciidoc.install(2);
 <div class="sectionbody">
 <div class="paragraph"><p>Oliver S. Smart</p></div>
 <div class="paragraph"><p>&#169; 2014 SmartSci Limited <a href="http://www.smartsci.uk">http://www.smartsci.uk</a></p></div>
-<div class="paragraph"><p><em>HOLE release 2.2.003 (07 Oct 2014)</em></p></div>
+<div class="paragraph"><p><em>HOLE release 2.2.004 (15 Oct 2014)</em></p></div>
 </div>
 </div>
 <div class="sect1">
@@ -963,9 +963,9 @@ The <tt>radius</tt> card must also be specified (it is normal to use <tt>simple.
 </li>
 <li>
 <p>
-The <tt>sphpdb</tt> card is used to output the sphere centres produced by HOLE to a "pseudo-PDB"
-  file this can be directly displayed in a molecular graphics program but is normally
-  used to produce a dot surface or solid-rendered surface (see below).
+The <tt>sphpdb</tt> card is used to output the sphere centres produced by HOLE to a "pseudo-PDB" file.
+  Each of the "ATOM"s in the file has the pore radius in the B-factor and occupancy columns.
+  The <tt>sphpdb</tt> file is normally used to produce a dot surface or solid-rendered surface (see below).
 </p>
 </li>
 </ul></div>
@@ -973,6 +973,26 @@ The <tt>sphpdb</tt> card is used to output the sphere centres produced by HOLE t
 <table><tr>
 <td class="icon">
 <img src="./icons/tip.png" alt="Tip" />
+</td>
+<td class="content">
+<div class="paragraph"><p>It is possible to directly display the <tt>sphpdb</tt> file in a molecular graphics program.
+Load the <tt>.sph</tt> file as a PDB file. For instance, in
+<a href="http://www.pymol.org/">PyMOL</a> a crude representation of the HOLE surface
+can be obtained turning showing the files as spheres and using the command</p></div>
+<div class="literalblock">
+<div class="content">
+<pre><tt>alter hole_out.sph,  vdw=b</tt></pre>
+</div></div>
+<div class="paragraph"><p>to set the vdw radius to be equal to <tt>b</tt> (the pore radius). This results in a "dumbbell" -
+it would be much better to convert HOLE objects to
+<a href="http://pymol.sourceforge.net/newman/user/S0500cgo.html">PyMOL CGO</a>s but this needs a bit of coding!</p></div>
+</td>
+</tr></table>
+</div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img src="./icons/note.png" alt="Note" />
 </td>
 <td class="content">For complicated channels with multiple routes through them it is possible to combine
 a number of HOLE <tt>.sph</tt> files together.</td>
@@ -1182,14 +1202,14 @@ The result is a nice solid surface:</p></div>
 <div class="sectionbody">
 <div class="paragraph"><div class="title">Original Release 1993</div><p>The support of the UK Science and Engineering Research Council under project grant GR/G49494 and from the Molecular Recognition and Computational Science Initiatives is gratefully acknowledged. I should like to thank Julia Goodfellow and Bonnie Wallace for support and many discussions. Thanks are also due to Mark Sansom and his group at the University of Oxford, and Karen Duca of Brandeis University for testing the first release. In addition thanks to Rod Hubbard and Polygen/Molecular Simulations Inc. for providing the 3D plot file facility in HYDRA and QUANTA. QUANTA is available from Molecular Simulations Inc., Waltham, MA 02154, USA. InsightII is available from Biosym Technologies, 9685 Scranton Road, San Diego, CA 92121 - 2777 USA.</p></div>
 <div class="paragraph"><div class="title">Release v2 1997</div><p>The generous support of the Wellcome Trust by the provision of a Career Development Fellowship for the author is gratefully acknowledged. Much of the work undertaken was encouraged by Dr Mark Sansom and members of his group at the University of Oxford. Thanks to  Guy Coates, Joe Neduvelil, Valeriu Niculae and Xiaonan Wang for contributing to the programming as students at Birkbeck.</p></div>
-<div class="paragraph"><div class="title">Relaunch 2014</div><p>Thanks to Global Phasing Ltd for the provision of CentOS5 and OSX hosts for building and testing.</p></div>
+<div class="paragraph"><div class="title">Relaunch 2014</div><p>Thanks to Global Phasing Ltd for the provision of CentOS5 and OSX hosts for building and testing. Thanks to all the initial testers in particular Oliver Clarke.</p></div>
 </div>
 </div>
 </div>
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2014-10-07 09:27:07 BST
+Last updated 2014-10-15 11:19:49 BST
 </div>
 </div>
 </body>
