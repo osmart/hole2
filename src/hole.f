@@ -151,9 +151,9 @@ C vdW radius list
 C logical function which opens file (readonly on vax)
       LOGICAL			OPENRO
 
-C maximum no. of atoms
-      INTEGER			ATMAX
-      PARAMETER(		ATMAX =  50000)
+C maximum no. of atoms, in old days 50 000
+      INTEGER                   ATMAX
+      PARAMETER(                ATMAX =  1 000 000)
 
 C number of atoms read in from each file:
       INTEGER			ATNO
