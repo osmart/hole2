@@ -1,4 +1,5 @@
 #
+#
 # Makefile for hole interfaces (based on TRON versions)
 #
 # environmental vbles to be set before make invoked with this file
@@ -9,7 +10,12 @@
 #
 FC=gfortran
 CC=gcc
-FFLAGS = -fd-lines-as-comments -static-libgfortran  -fbackslash -std=legacy -static
+FFLAGS = -fd-lines-as-comments -static-libgfortran  -fbackslash -std=legacy 
+# for linux we need -static, OSX does not
+UNAME := $(shell uname)
+ifeq ($(UNAME), Linux)
+   FFLAGS +=  -static
+endif
 CFLAGS = -static-libgfortran
 MACHINE_DEP=machine_dep.g77
 LIB_NAME = hole.a
