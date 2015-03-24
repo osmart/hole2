@@ -7,12 +7,12 @@ SmartSci Limited is pleased to make this version of its software available for c
 == HOLE END USER LICENCE AGREEMENT COMMERCIAL VERSION
 
 === GRANT.
-SmartSci Limited ("SmartSci") hereby grants you a non-exclusive licence to use its accompanying software product HOLE (the "Software") for
+SmartSci Limited ("SmartSci") hereby grants your organization a non-exclusive licence to use its accompanying software product HOLE (the "Software") for
 the fee agreed separately.
 
 You may not:
 
-* permit other individuals or organizations to use the Software except under the terms listed below;
+* permit other individuals or organizations to use the Software;
 * modify, translate, reverse engineer, decompile, disassemble (except to the extent applicable laws specifically prohibit such restriction), or create derivative works based on the Software;
 * copy the Software (except for back-up purposes);
 * rent, lease, transfer, or otherwise transfer rights to, the Software;
@@ -20,7 +20,7 @@ You may not:
 
 
 === SOFTWARE.
-The rights to enhancement, updates and support are covered in a separate agreement detailed in the invoice.
+The rights to enhancement, updates and support are covered in a separate agreement as detailed in the invoice/purchase order.
 
 === TITLE.
 Title, ownership rights, and intellectual property rights in and to the Software shall remain in SmartSci and/or its suppliers. The Software is protected by the copyright laws of the United Kingdom, the United States and under international copyright treaties. Title, ownership rights, and intellectual property rights in and to the content accessed through the Software is the property of the applicable content owner and may be protected by applicable copyright or other law. This licence gives you no rights to such content.
