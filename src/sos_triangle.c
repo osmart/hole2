@@ -154,10 +154,11 @@ int main (int argc, char *argv[])
   
   
   
-  fprintf (stderr,"\n\nsos_triangle: A Hole surface generation program\n");
+  fprintf (stderr,"sos_triangle: A Hole surface generation program\n");
   fprintf (stderr,"Copyright 1997-9 Guy M.P. Coates \n");
-  fprintf (stderr,"Copyright 2000,2004   Oliver S. Smart \n"); 
-  fprintf (stderr,"For help on hole suite see  http://hole.biop.ox.ac.uk/hole/help\n");
+  fprintf (stderr,"Copyright 2000, 2004 Oliver S. Smart \n"); 
+  fprintf (stderr,"Copyright 2014-2015 SmartSci Limited, All rights reserved.\n"); 
+  fprintf (stderr,"For help on HOLE suite see  http://www.smartsci.uk/hole/\n");
   
   /* initialize the arrays.... */
   
