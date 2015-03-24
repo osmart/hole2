@@ -1,84 +1,51 @@
-BUSTER Academic Licence Agreement:
+= HOLE Not-For-Profit Licence Agreement
 (Please read carefully. You may want to print a copy for reference)
 
 FOREWORD
-Global Phasing Limited is pleased to make the production version of its software available free of charge to academic users (as defined below). There is no time limit on this availability: our practice of issuing licence keys for 1 year periods is only a means of encouraging users to update their software regularly. The extension of academic licences is a straightforward operation carried out by the users themselves, which is in no way dependent on any form of payment whatsoever.
+SmartSci Limited is pleased to make the production version of its software available free of charge to Not-For-Profit users (as defined below). 
 
-BUSTER END USER LICENCE AGREEMENT
-ACADEMIC VERSION
-GRANT.
-Global Phasing Limited ("GPhL") hereby grants you a non-exclusive licence to use its accompanying software product BUSTER (the "Software") free of charge if and only if
+== HOLE END USER LICENCE AGREEMENT NOT-FOR-PROFIT VERSION
 
-     	you are a student, faculty member or staff member of an educational institution, or an employee of a charitable non-profit organisation, engaged in non-proprietary scientific projects, i.e. projects all results of which will be made public without preferential prior disclosure to a for-profit organisation.
+=== GRANT.
+SmartSci Limited ("SmartSci") hereby grants you a non-exclusive licence to use its accompanying software product HOLE (the "Software") free of charge if and only if 
+you are a student, faculty member or staff member of an educational institution, or an employee of a charitable non-profit organisation, engaged in 
+non-proprietary scientific projects, i.e. projects all results of which will be made public without preferential prior disclosure to a for-profit organisation.
 
 Government agencies are not necessarily considered charitable non-profit organisations for the purposes of this licence agreement.
 
-If you do not fit within the description above, you are not eligible for an academic licence and you should instead apply for a commercial licence. If you are using the Software free of charge, you will not be entitled to support or telephone assistance.
+If you do not fit within the description above, you 
+should not use the not-for-profit version and you should instead apply for a commercial licence. 
+If you are using the Software free of charge, you will not be entitled to support or telephone assistance.
 
 You may not:
 
-    permit other individuals to use the Software except under the terms listed above;
-    modify, translate, reverse engineer, decompile, disassemble (except to the extent applicable laws specifically prohibit such restriction), or create derivative works based on the Software;
-    copy the Software (except for back-up purposes);
-    rent, lease, transfer, or otherwise transfer rights to, the Software;
-    remove any proprietary notices or labels on the Software. 
+* permit other individuals to use the Software except under the terms listed above;
+* modify, translate, reverse engineer, decompile, disassemble (except to the extent applicable laws specifically prohibit such restriction), or create derivative works based on the Software;
+* copy the Software (except for back-up purposes);
+* rent, lease, transfer, or otherwise transfer rights to, the Software;
+* remove any proprietary notices or labels on the Software. 
 
-In addition, the Software may not be utilized by an end-user engaged in activities related to weapons of mass destruction, including but not necessarily limited to, activities related to the design, development, production or use of nuclear materials, nuclear facilities, or nuclear weapons, missiles or support of missile projects, or chemical or biological weapons.
 
-SOFTWARE.
+=== SOFTWARE.
 This licence does not grant you any right to any enhancement or update.
 
-TITLE.
-Title, ownership rights, and intellectual property rights in and to the Software shall remain in GPhL and/or its suppliers. The Software is protected by the copyright laws of the United Kingdom, the United States and under international copyright treaties. Title, ownership rights, and intellectual property rights in and to the content accessed through the Software is the property of the applicable content owner and may be protected by applicable copyright or other law. This licence gives you no rights to such content.
+=== TITLE.
+Title, ownership rights, and intellectual property rights in and to the Software shall remain in SmartSci and/or its suppliers. The Software is protected by the copyright laws of the United Kingdom, the United States and under international copyright treaties. Title, ownership rights, and intellectual property rights in and to the content accessed through the Software is the property of the applicable content owner and may be protected by applicable copyright or other law. This licence gives you no rights to such content.
 
-CITATION.
+=== CITATION.
 You agree to acknowledge the use of the Software in all publications or reports of results obtained using the Software and to cite the following reference:
 
-    Bricogne G., Blanc E., Brandl M., Flensburg C., Keller P., Paciorek W., Roversi P, Sharff A., Smart O.S., Vonrhein C., Womack T.O. (2014). BUSTER version 2.10.1. Cambridge, United Kingdom: Global Phasing Ltd.
+Smart, O.S., Goodfellow, J.M., Wallace, B.A. (1993).  The pore dimensions of gramicidin A.  _Biophys. J._, *65*, 2455-2460. http://dx.doi.org/10.1016%2FS0006-3495(93)81293-1
 
-    and (if used) for LSSR: Smart, O. S., Womack, T. O., Flensburg, C., Keller, P., Paciorek, W., Sharff, A., Vonrhein, C. & Bricogne, G. (2012). Exploiting structure similarity in refinement: automated NCS and target-structure restraints in BUSTER. Acta Cryst. D68, 368-380. 
 
-PUBLICATIONS.
-The following papers are useful references about the evolution of BUSTER and some aspects of the approches used in it:
+=== DISCLAIMER OF WARRANTY.
+Since the Software is provided free of charge, the Software is provided on an "AS IS" basis, without warranty of any kind, including without limitation the warranties of merchant-ability, fitness for a particular purpose and non-infringement. The entire risk as to the quality and performance of the Software is borne by you. Should the Software prove defective, you and not SmartSci assume the entire cost of any service and repair. In addition, the security mechanisms implemented by the Software have inherent limitations, and you must determine that the Software sufficiently meets your requirements. This disclaimer of warranty constitutes an essential part of the agreement.
 
-    G. Bricogne (1993). "Direct Phase Determination by Entropy
-    Maximisation and Likelihood Ranking: Status Report and
-    Perspectives." Acta Cryst. D49, 37-60.
+=== LIMITATION OF LIABILITY.
+UNDER NO CIRCUMSTANCES AND UNDER NO LEGAL THEORY, TORT, CONTRACT, OR OTHERWISE, SHALL SmartSci OR ITS SUPPLIERS OR RE-SELLERS BE LIABLE TO YOU OR ANY OTHER PERSON FOR ANY INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES OF ANY CHARACTER INCLUDING, WITHOUT LIMITATION, DAMAGES FOR LOSS OF GOODWILL, WORK STOPPAGE, COMPUTER FAILURE OR MALFUNCTION, OR ANY AND ALL OTHER COMMERCIAL DAMAGES OR LOSSES. IN NO EVENT WILL SmartSci BE LIABLE FOR ANY DAMAGES IN EXCESS OF THE AMOUNT PAID FOR THIS LICENCE TO THE SOFTWARE, EVEN IF SmartSci SHALL HAVE BEEN INFORMED OF THE POSSIBILITY OF SUCH DAMAGES, OR FOR ANY CLAIM BY ANY OTHER PARTY. THIS LIMITATION OF LIABILITY SHALL NOT APPLY TO LIABILITY FOR DEATH OR PERSONAL INJURY TO THE EXTENT APPLICABLE LAW PROHIBITS SUCH LIMITATION. FURTHERMORE, SOME JURISDICTIONS DO NOT ALLOW THE EXCLUSION OR LIMITATION OF INCIDENTAL OR CONSEQUENTIAL DAMAGES, SO THIS LIMITATION AND EXCLUSION MAY NOT APPLY TO YOU.
 
-    G. Bricogne and J.J. Irwin (1996). "Maximum Likelihood
-    Refinement of Incomplete Models with BUSTER+TNT"  in:
-    `Macromolecular Refinement, Proceedings of the CCP4 Study
-    Weekend', SERC Daresbury Laboratory, Warrington, England,
-    85-92.
-
-    G. Bricogne (1997). "The Bayesian Statistical Viewpoint on
-    Structure Determination: Basic Concepts and Examples", in:
-    "Macromolecular Crystallography", Methods in Enzymology
-    vol 276, Charles W. Carter and R. M. Sweet editors, Academic
-    Press, 361-423
-
-    P. Roversi, E. Blanc, C. Vonrhein, G. Evans and G. Bricogne
-    (2000). "Modelling prior distributions of atoms for macromolecular
-    refinement and completion." Acta Cryst. D56, 1316-1323.
-
-    E. Blanc, P. Roversi, C. Vonrhein, C. Flensburg, S. M. Lea and
-    G. Bricogne (2004). "Refinement of severely incomplete
-    structures with maximum likelihood in BUSTER-TNT" Acta
-    Cryst.D60, 2210-2221.
-
-    D.E. Tronrud (1997). "The TNT Refinement Package.", in:
-    "Macromolecular Crystallography", Methods in Enzymology
-    vol 277, Charles W. Carter and R. M. Sweet editors, Academic
-    Press. 
-
-DISCLAIMER OF WARRANTY.
-Since the Software is provided free of charge, the Software is provided on an "AS IS" basis, without warranty of any kind, including without limitation the warranties of merchant-ability, fitness for a particular purpose and non-infringement. The entire risk as to the quality and performance of the Software is borne by you. Should the Software prove defective, you and not GPhL assume the entire cost of any service and repair. In addition, the security mechanisms implemented by the Software have inherent limitations, and you must determine that the Software sufficiently meets your requirements. This disclaimer of warranty constitutes an essential part of the agreement.
-
-LIMITATION OF LIABILITY.
-UNDER NO CIRCUMSTANCES AND UNDER NO LEGAL THEORY, TORT, CONTRACT, OR OTHERWISE, SHALL GPhL OR ITS SUPPLIERS OR RE-SELLERS BE LIABLE TO YOU OR ANY OTHER PERSON FOR ANY INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES OF ANY CHARACTER INCLUDING, WITHOUT LIMITATION, DAMAGES FOR LOSS OF GOODWILL, WORK STOPPAGE, COMPUTER FAILURE OR MALFUNCTION, OR ANY AND ALL OTHER COMMERCIAL DAMAGES OR LOSSES. IN NO EVENT WILL GPhL BE LIABLE FOR ANY DAMAGES IN EXCESS OF THE AMOUNT PAID FOR THIS LICENCE TO THE SOFTWARE, EVEN IF GPhL SHALL HAVE BEEN INFORMED OF THE POSSIBILITY OF SUCH DAMAGES, OR FOR ANY CLAIM BY ANY OTHER PARTY. THIS LIMITATION OF LIABILITY SHALL NOT APPLY TO LIABILITY FOR DEATH OR PERSONAL INJURY TO THE EXTENT APPLICABLE LAW PROHIBITS SUCH LIMITATION. FURTHERMORE, SOME JURISDICTIONS DO NOT ALLOW THE EXCLUSION OR LIMITATION OF INCIDENTAL OR CONSEQUENTIAL DAMAGES, SO THIS LIMITATION AND EXCLUSION MAY NOT APPLY TO YOU.
-
-TERMINATION.
+=== TERMINATION.
 There is no time limitation to this licence, provided you comply with the conditions stated above. This licence will terminate automatically if you fail to comply with any of those conditions, and on such termination you must destroy all copies of the Software.
 
-MISCELLANEOUS.
+=== MISCELLANEOUS.
 This Agreement represents the complete agreement concerning this licence between the parties and supersedes all prior agreements and representations between them. It may be amended only by a writing executed by both parties. If any provision of this Agreement is held to be unenforceable for any reason, such provision shall be reformed only to the extent necessary to make it enforceable. This Agreement shall be governed by and construed under British law as such law applies to agreements between United Kingdom residents entered into and to be performed within Britain. 
