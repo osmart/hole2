@@ -1,0 +1,2 @@
+# build from source with out variables set
+unset HoleVersion HoleDate HoleBuild HoleBuildDetail HoleRestrict

@@ -1,4 +1,5 @@
-export HoleVersion="2.004"
+export HoleVersion="2.2.004"
 export HoleDate="24 March 2015"
 export HoleBuild="NotForProfit"
-export HoleBuildDetail="http://www.smartsci.uk/hole not-for-profit version\nRESTRICTED TO NOT-FOR-PROFIT USAGE ONLY\n"
+export HoleBuildDetail="http://www.smartsci.uk/hole NOT-FOR-PROFIT version"
+export HoleRestrict="RESTRICTED TO NOT-FOR-PROFIT USAGE ONLY"
