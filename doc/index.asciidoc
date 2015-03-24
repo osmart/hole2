@@ -8,9 +8,9 @@ HOLE documentation
 
 Oliver S. Smart
 
-(C) 2014 SmartSci Limited http://www.smartsci.uk
+(C) 2014,2015 SmartSci Limited http://www.smartsci.uk
 
-_HOLE release 2.2.004 (15 Oct 2014)_
+_HOLE release 2.2.004 (24 March 2015)_
 
 == Introduction
 
