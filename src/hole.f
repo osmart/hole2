@@ -345,8 +345,8 @@ C greetings
 !     &'   Biophys. J. 72, 1109-1126.',
      &' ',
      &' Written by Oliver Smart at Birkbeck College from April 1992.',
-     &' Copyright 1993-2005 by Oliver Smart',
-     &' Copyright 2014 SmartSci Limited, All rights reserved.'
+     &' Copyright 1993-2005 Oliver Smart',
+     &' Copyright 2014-2015 SmartSci Limited, All rights reserved.'
      
 C write link time of program to screen
       CALL VERTIM( NOUT)
