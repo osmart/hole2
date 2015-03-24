@@ -1,5 +1,5 @@
 export HoleVersion="2.2.004"
 export HoleDate="24 March 2015"
 export HoleBuild="Amgen"
-export HoleBuildDetail="Licensed for use by Amgen Inc."
-export HoleRestrict="------------------------------"
+export HoleBuildDetail="Licensed for use by Amgen Inc. Usage subject to conditions"
+export HoleRestrict="set out in \"Licence-commercial.html\" (see documentation)."
