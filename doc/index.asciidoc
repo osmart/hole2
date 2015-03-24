@@ -39,6 +39,13 @@ main publications have been cited over 800 times.
 The founding of SmartSci Limited has provided the opportunity to
 make HOLE available again and to provide some updates and improvements.
 
+== Licence conditions
+The use of HOLE is subject to licence conditions:
+
+* link:Licence-not-for-profit.html[Not-for-profit version licence agreement]
+* link:Licence-commercial.html[Commercial version licence agreement]
+
+
 == How to setup HOLE
 
 The HOLE suite is now distributed from http://www.smartsci.uk/hole/
