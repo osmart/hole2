@@ -1,20 +1,31 @@
-C ********************************************************************
-C *                                                                  *
-C * This software is an unpublished work containing confidential and *
-C * proprietary information of Birkbeck College. Use, disclosure,    *
-C * reproduction and transfer of this work without the express       *
-C * written consent of Birkbeck College are prohibited. This notice  *
-C * must be attached to all copies or extracts of the software.      *
-C *                                                                  *
-C * (c) 1996 Oliver Smart & Birkbeck College, All rights reserved    *
-C * (c) 1997 Oliver Smart                    *
-C * (c) 2014 SmartSci Limited                *
+! (c) 1996 Oliver Smart & Birkbeck College, All rights reserved
+! (c) 1997 Oliver Smart 
+! (c) 2014,2015 SmartSci Limited 
       program makver
       implicit none
-C little program to run which writes s/r vertim giving the time of link of
-C the program tic. Now used for hole as well
-C Adapted 21/11/97 to give who linked it as well
-      character*80		line
+! little program to run which writes s/r vertim giving 
+! header information for the hole executable and other programs
+      character*80 line
+      CHARACTER*300 HoleVersion, HoleDate, HoleBuild, HoleBuildDetail
+! build information for proper release from environment variables
+      CALL GET_ENVIRONMENT_VARIABLE( "HoleVersion", HoleVersion)
+      CALL GET_ENVIRONMENT_VARIABLE( "HoleDate", HoleDate)
+      CALL GET_ENVIRONMENT_VARIABLE( "HoleBuild", HoleBuild)
+      CALL GET_ENVIRONMENT_VARIABLE( "HoleBuildDetail", HoleBuildDetail)
+      IF (LEN_TRIM(HoleVersion).LE.1) HoleVersion = "?.?.?"
+      IF (LEN_TRIM(HoleDate).LE.1) HoleDate = "date unknown"
+      IF (LEN_TRIM(HoleBuild).LE.1) HoleBuild = "3rd party build"
+      IF (LEN_TRIM(HoleBuildDetail).LE.1) HoleBuildDetail = 
+     &"3rd party build, Strictly no distribution to others\n" //
+     &"3rd party build, Strictly no distribution to others\n" //
+     &"3rd party build, Strictly no distribution to others\n" 
+
+      WRITE(*,*) 'debug HoleVersion= ', HoleVersion
+      WRITE(*,*) 'debug HoleDate= ', HoleDate
+      WRITE(*,*) 'debug HoleBuild= ', HoleBuild
+      WRITE(*,*) 'debug HoleBuildDetail= ', HoleBuildDetail
+
+
       call system('date> makver.temp_file')
       call system('rm vertim.f')
       open( 1, file='vertim.f', status='new')
@@ -22,6 +33,8 @@ C Adapted 21/11/97 to give who linked it as well
       read( 2, '(a)') line
       close(2)
       call system('rm makver.temp_file')
+
+
       write( 1, '(a)')
      &'      SUBROUTINE VERTIM( RESOUT)',
      &'      IMPLICIT NONE',
@@ -35,7 +48,7 @@ C Adapted 21/11/97 to give who linked it as well
      &'     &'' HOLE release 2.2.004 (15 Oct 2014)'',', 
      &'     &'' Program linked at '//line(1:index(line,'   ')-1)//''',' 
 
-C find out who linked it
+! find out who linked it
       call system('echo $USER > makver.temp_file')
       open( 2, file='makver.temp_file', status='old')
       read( 2, '(a)') line
@@ -59,9 +72,9 @@ C find out who linked it
      &'      RETURN',
      &'      END'
       close(1)
-C compile this s/r need to know the compilier for now hardcode
+! compile this s/r need to know the compilier for now hardcode
       call system('gfortran -c -O vertim.f')
-C hole version
+! hole version
       call system('ar rv hole.a vertim.o')
       call system('rm makver.temp_file vertim.o')
       end
