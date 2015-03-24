@@ -48,9 +48,10 @@ C turn on VT codes  with bold after prompt-
 C greetings
       WRITE( NOUT,  '(A)')
      &' *** Program qpt_conv ***',
-     &' Copyright 1996,1997 by Oliver Smart and Birkbeck College',
+     &' Written by Oliver Smart at Birkbeck College from 1996.',
+     &' Copyright 1996,1997 by Oliver Smart',
      &' Copyright 2004 by Oliver Smart ',
-     &' Program modification number 2.2 001'
+     &' Copyright 2014-2015 SmartSci Limited, All rights reserved.'
 
 
 C write link time of program to screen

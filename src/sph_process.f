@@ -257,10 +257,10 @@ C write greeting
      &' and processes it to a either dot surface or a number'//
      &                                     ' of other options',
      &' either as a dot or grid representation',
-     &' Copyright 1996,1997 by Oliver Smart and Birkbeck College',
-     &' Copyright 2004 by Oliver Smart ',
-     &' Program modification number 2.2 001'
-
+     &' Written by Oliver Smart at Birkbeck College from 1996.',
+     &' Copyright 1996,1997 Oliver Smart ',
+     &' Copyright 2004 Oliver Smart ',
+     &' Copyright 2014-2015 SmartSci Limited, All rights reserved.'
 
 C write link time of program to screen
       CALL VERTIM( NOUT)

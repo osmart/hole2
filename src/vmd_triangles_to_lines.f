@@ -77,10 +77,8 @@ C
 
       WRITE( NOUT,  '(A)') ! greetings
      &' *** Program vmd_triangles_to_lines ***',
-     &' Copyright 2004 by Oliver Smart',
-     &' Report bugs to o.s.smart@bham.ac.uk',
-     &' Program modification number 2.2 001'
-
+     &' Copyright 2000,2004 by Oliver Smart',
+     &' Copyright 2014-2015 SmartSci Limited, All rights reserved.'
       CALL VERTIM( NOUT) !  write link time of program to screen
 
       ! establish values for s/r get

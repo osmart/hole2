@@ -132,9 +132,9 @@ C greet user
       WRITE( NOUT, '(A)')
      &' This is program qplot which reads quanta plot files',
      &'   and produces postscript output',
-     &' Copyright 1993,1997 by Oliver Smart and Birkbeck College',
+     &' Copyright 1993,1997 by Oliver Smart',
      &' Copyright 2004 by Oliver Smart ',
-     &' Program modification number 2.2 001'
+     &' Copyright 2014-2015 SmartSci Limited, All rights reserved.'
 
 
 C write link time of program to screen
