@@ -19,7 +19,7 @@ If you are using the Software free of charge, you will not be entitled to suppor
 
 You may not:
 
-* permit other individuals to use the Software except under the terms listed above;
+* permit other individuals to use the Software except under the terms listed below;
 * modify, translate, reverse engineer, decompile, disassemble (except to the extent applicable laws specifically prohibit such restriction), or create derivative works based on the Software;
 * copy the Software (except for back-up purposes);
 * rent, lease, transfer, or otherwise transfer rights to, the Software;
