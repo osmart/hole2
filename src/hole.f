@@ -1,19 +1,21 @@
       PROGRAM HOLE
       IMPLICIT NONE
-C ********************************************************************
-C *                                                                  *
-C * This software is an unpublished work containing confidential and *
-C * proprietary information of Birkbeck College. Use, disclosure,    *
-C * reproduction and transfer of this work without the express       *
-C * written consent of Birkbeck College are prohibited. This notice  *
-C * must be attached to all copies or extracts of the software.      *
-C *                                                                  *
-C * (c) 1993, 1996 Oliver Smart & Birkbeck College,                  *
-C * All rights reserved                                              *
-C * (c) 1997 Oliver Smart                    *
-C *                                                                  *
-C ********************************************************************
+C Copyright 1993, 1996 Oliver Smart
+C           1997 Oliver Smart
+C           2016 Oliver Smart
 C
+C Licensed under the Apache License, Version 2.0 (the "License");
+C you may not use this file except in compliance with the License.
+C You may obtain a copy of the License at
+C
+C http://www.apache.org/licenses/LICENSE-2.0
+C
+C Unless required by applicable law or agreed to in writing, software
+C distributed under the License is distributed on an "AS IS" BASIS,
+C WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+C See the License for the specific language governing permissions and
+C limitations under the License.
+
 C Modification history:
 C
 C Date	Author		Modification
@@ -344,9 +346,12 @@ C greetings
 !     &'   ion channel conductance properties. ',
 !     &'   Biophys. J. 72, 1109-1126.',
      &' ',
-     &' Written by Oliver Smart at Birkbeck College from April 1992.',
+     &' Originally written by Oliver Smart at Birkbeck College from '//
+     &                                                 'April 1992.',
      &' Copyright 1993-2005 Oliver Smart',
-     &' Copyright 2014-2015 SmartSci Limited, All rights reserved.'
+     &' Copyright 2014-2015 SmartSci Limited.',
+     &' Copyright 2016 Oliver Smart.'
+
      
 C write link time of program to screen
       CALL VERTIM( NOUT)

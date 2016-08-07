@@ -1,6 +1,19 @@
-! (c) 1996 Oliver Smart & Birkbeck College, All rights reserved
-! (c) 1997 Oliver Smart 
-! (c) 2014,2015 SmartSci Limited 
+C Copyright 1996 Oliver Smart & Birkbeck College
+C           1997 Oliver Smart
+C           2014-2015 SmartSci Ltd.
+C           2016 Oliver Smart
+C
+C Licensed under the Apache License, Version 2.0 (the "License");
+C you may not use this file except in compliance with the License.
+C You may obtain a copy of the License at
+C
+C http://www.apache.org/licenses/LICENSE-2.0
+C
+C Unless required by applicable law or agreed to in writing, software
+C distributed under the License is distributed on an "AS IS" BASIS,
+C WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+C See the License for the specific language governing permissions and
+C limitations under the License.
       PROGRAM MAKVER
       IMPLICIT NONE
 ! little program to run which writes s/r vertim giving 
@@ -32,7 +45,7 @@
      &'      WRITE(RESOUT, ''(A)'') ',
      &'     &'' '',', 
      &'     &'' For help on HOLE suite see''//',
-     &'     &''  http://www.smartsci.uk/hole/'',',
+     &'     &''  http://www.holeprogram.org/'',',
      &'     &'' '',' 
 
       WRITE( 1, '(A)')
