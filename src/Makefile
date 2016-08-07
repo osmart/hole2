@@ -10,11 +10,15 @@
 #
 FC=gfortran
 CC=gcc
-FFLAGS = -fd-lines-as-comments -static-libgfortran  -fbackslash -std=legacy 
+FFLAGS = -fd-lines-as-comments -fbackslash -std=legacy 
 # for linux we need -static, OSX does not
 UNAME := $(shell uname)
+# linux needs -static but OSX needs -static-libgfortran
 ifeq ($(UNAME), Linux)
    FFLAGS +=  -static
+endif
+ifeq ($(UNAME), Darwin)
+   FFLAGS +=  -static-libgfortran
 endif
 CFLAGS = -static-libgfortran
 MACHINE_DEP=machine_dep.g77
