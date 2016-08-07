@@ -8,9 +8,10 @@ HOLE documentation
 
 Oliver S. Smart
 
-(C) 2014,2015 SmartSci Limited http://www.smartsci.uk
+(c) 2014,2015 SmartSci Limited 
+(c) 2016 Oliver Smart
 
-_HOLE release 2.2.004 (24 March 2015)_
+_HOLE release 2.2.005 (07 August 2016)_
 
 == Introduction
 
@@ -36,19 +37,24 @@ because I was busy doing other things HOLE became unavailable about a year ago.
 
 Although it was written over 20 years ago, HOLE remains in demand and its 
 main publications have been cited over 800 times. 
-The founding of SmartSci Limited has provided the opportunity to
-make HOLE available again and to provide some updates and improvements.
 
 == Licence conditions
-The use of HOLE is subject to licence conditions:
 
-* link:Licence-not-for-profit.html[Not-for-profit version licence agreement]
-* link:Licence-commercial.html[Commercial version licence agreement]
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at 
 
+http://www.apache.org/licenses/LICENSE-2.0
 
-== How to setup HOLE
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License
 
-The HOLE suite is now distributed from http://www.smartsci.uk/hole/
+== How to setup HOLE from a binary distribution
+
+The HOLE suite is now distributed from its homepage http://www.holeprogram.org and you can get binary distribution from there.
 
 Download the compressed tar ball relevant for your system e.g., +hole2.2_003_linux64.tar.gz+ and place it in your home directory.
 Unpacking this tar ball will create the directory hole2 containing files for your distribution. Use the commands:
@@ -72,7 +78,8 @@ _(edited for brevity)_
 
   Control variables read:
 
-The hole program should start and wait for input - hit ctrl-d (the control and d keys together) to get out of this or ctrl-c to interupt. If the program fails to load then please email support@smartsci.uk 
+The hole program should start and wait for input - hit ctrl-d (the control and d keys together) to get out of this or ctrl-c to interupt. If the program fails to load then please 
+ask for help see http://www.holeprogram.org.
 
 It is normally most convenient to add the hole executable directory to the the unix path (this would allow hole to be started by typing "hole"). Suppose user "mary" has set up the package.
 
@@ -199,7 +206,7 @@ You can use an editor to extract the information or use +egrep+:
 +*egrep "mid-|sampled" hole_out.txt  > hole_out.tsv*+
 
 The +.tsv+ file can be opened in most spreadsheets and graphing for instance in
-excel.  On linux I like xmgrace (but it is a complex) or gnumeric (easier).
+excel.  On linux I like xmgrace (but it is rather complex) or gnumeric (easier).
 
 +*gnumeric hole_out.tsv*+
 

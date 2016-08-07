@@ -779,8 +779,9 @@ asciidoc.install(2);
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph"><p>Oliver S. Smart</p></div>
-<div class="paragraph"><p>&#169; 2014,2015 SmartSci Limited <a href="http://www.smartsci.uk">http://www.smartsci.uk</a></p></div>
-<div class="paragraph"><p><em>HOLE release 2.2.004 (24 March 2015)</em></p></div>
+<div class="paragraph"><p>(c) 2014,2015 SmartSci Limited
+(c) 2016 Oliver Smart</p></div>
+<div class="paragraph"><p><em>HOLE release 2.2.005 (07 August 2016)</em></p></div>
 </div>
 </div>
 <div class="sect1">
@@ -804,33 +805,27 @@ For many years HOLE was hosted by
 <a href="http://sbcb.bioch.ox.ac.uk/sansom.php">Prof Mark Sansom</a> at Oxford. However,
 because I was busy doing other things HOLE became unavailable about a year ago.</p></div>
 <div class="paragraph"><p>Although it was written over 20 years ago, HOLE remains in demand and its
-main publications have been cited over 800 times.
-The founding of SmartSci Limited has provided the opportunity to
-make HOLE available again and to provide some updates and improvements.</p></div>
+main publications have been cited over 800 times.</p></div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_licence_conditions">2. Licence conditions</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>The use of HOLE is subject to licence conditions:</p></div>
-<div class="ulist"><ul>
-<li>
-<p>
-<a href="Licence-not-for-profit.html">Not-for-profit version licence agreement</a>
-</p>
-</li>
-<li>
-<p>
-<a href="Licence-commercial.html">Commercial version licence agreement</a>
-</p>
-</li>
-</ul></div>
+<div class="paragraph"><p>Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at</p></div>
+<div class="paragraph"><p><a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a></p></div>
+<div class="paragraph"><p>Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_how_to_setup_hole">3. How to setup HOLE</h2>
+<h2 id="_how_to_setup_hole_from_a_binary_distribution">3. How to setup HOLE from a binary distribution</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>The HOLE suite is now distributed from <a href="http://www.smartsci.uk/hole/">http://www.smartsci.uk/hole/</a></p></div>
+<div class="paragraph"><p>The HOLE suite is now distributed from its homepage <a href="http://www.holeprogram.org">http://www.holeprogram.org</a> and you can get binary distribution from there.</p></div>
 <div class="paragraph"><p>Download the compressed tar ball relevant for your system e.g., <tt>hole2.2_003_linux64.tar.gz</tt> and place it in your home directory.
 Unpacking this tar ball will create the directory hole2 containing files for your distribution. Use the commands:</p></div>
 <div class="literalblock">
@@ -872,7 +867,8 @@ tar xf hole2.2.003.linux64.tar.gz</tt></pre>
 <div class="content">
 <pre><tt>Control variables read:</tt></pre>
 </div></div>
-<div class="paragraph"><p>The hole program should start and wait for input - hit ctrl-d (the control and d keys together) to get out of this or ctrl-c to interupt. If the program fails to load then please email <a href="mailto:support@smartsci.uk">support@smartsci.uk</a></p></div>
+<div class="paragraph"><p>The hole program should start and wait for input - hit ctrl-d (the control and d keys together) to get out of this or ctrl-c to interupt. If the program fails to load then please
+ask for help see <a href="http://www.holeprogram.org">http://www.holeprogram.org</a>.</p></div>
 <div class="paragraph"><p>It is normally most convenient to add the hole executable directory to the the unix path (this would allow hole to be started by typing "hole"). Suppose user "mary" has set up the package.</p></div>
 <div class="paragraph"><p>If you are a tcsh or csh user add the following line at the end of your <tt>~/.cshrc</tt> file</p></div>
 <div class="literalblock">
@@ -1042,7 +1038,7 @@ The graph information can be found near the end of the file starting after the l
 <div class="paragraph"><p>You can use an editor to extract the information or use <tt>egrep</tt>:</p></div>
 <div class="paragraph"><p><tt><strong>egrep "mid-|sampled" hole_out.txt  &gt; hole_out.tsv</strong></tt></p></div>
 <div class="paragraph"><p>The <tt>.tsv</tt> file can be opened in most spreadsheets and graphing for instance in
-excel.  On linux I like xmgrace (but it is a complex) or gnumeric (easier).</p></div>
+excel.  On linux I like xmgrace (but it is rather complex) or gnumeric (easier).</p></div>
 <div class="paragraph"><p><tt><strong>gnumeric hole_out.tsv</strong></tt></p></div>
 <div class="paragraph"><p>For the abscissa of the graph it is normal to use the <em>channel coordinate</em> -
 this is dot product of the sphere centre with the channel vector CVECT. If the
@@ -1227,7 +1223,7 @@ The result is a nice solid surface:</p></div>
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-03-24 15:48:55 GMT
+Last updated 2016-08-07 21:20:48 BST
 </div>
 </div>
 </body>
