@@ -20,12 +20,18 @@ C limitations under the License.
 ! header information for the hole executable and other programs
       CHARACTER*300 HoleVersion, HoleDate, HoleBuild, HoleBuildDetail
       CHARACTER*300 HoleRestrict
+! Fortran compiler in environment variable FC      
+      CHARACTER*256 FC
 ! build information for proper release from environment variables
       CALL GET_ENVIRONMENT_VARIABLE( "HoleVersion", HoleVersion)
       CALL GET_ENVIRONMENT_VARIABLE( "HoleDate", HoleDate)
       CALL GET_ENVIRONMENT_VARIABLE( "HoleBuild", HoleBuild)
       CALL GET_ENVIRONMENT_VARIABLE( "HoleBuildDetail", HoleBuildDetail)
       CALL GET_ENVIRONMENT_VARIABLE( "HoleRestrict", HoleRestrict)
+      
+      CALL GET_ENVIRONMENT_VARIABLE( "FC", FC)
+      IF (LEN_TRIM(FC).LE.1) FC = "gfortran"
+      
       IF (LEN_TRIM(HoleVersion).LE.1) HoleVersion = 
      &"SOURCE DISTRIBUTION"
       IF (LEN_TRIM(HoleDate).LE.1) HoleDate = "?"
@@ -63,7 +69,7 @@ C limitations under the License.
       CLOSE(1)
 
 ! compile this s/r need to know the compilier for now hardcode
-      call system('gfortran -c -O vertim.f')
+      call system(TRIM(FC) // ' -c -O vertim.f')
 ! hole version
       call system('ar rv hole.a vertim.o')
       call system('rm vertim.o')
