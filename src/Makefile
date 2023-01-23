@@ -18,6 +18,8 @@ DATA_DIR:= $(PREFIX)/share/hole2#
 #     OPTFLAGS = -O -c -w -mp1 -r8 
 #
 FC := gfortran
+# FC is used by makver.exe
+export FC
 CC := gcc
 FFLAGS := -fd-lines-as-comments -fbackslash -std=legacy -static-libgfortran
 CFLAGS := -static-libgfortran
@@ -215,7 +217,7 @@ vertim.o: vertim.f
 
 ../exe/qpt_conv:  $(FILES)
 	$(RUN_MAKVER)
-	$(FC)  $(FFLAGS) $(LFLAGS)qpt_conv.o $(LIB_NAME) -o ../exe/qpt_conv
+	$(FC)  $(FFLAGS) $(LFLAGS) qpt_conv.o $(LIB_NAME) -o ../exe/qpt_conv
 
 ../exe/qplot: $(FILES)
 	$(RUN_MAKVER)
