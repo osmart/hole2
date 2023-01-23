@@ -19,16 +19,7 @@ DATA_DIR:= $(PREFIX)/share/hole2#
 #
 FC := gfortran
 CC := gcc
-FFLAGS := -fd-lines-as-comments -fbackslash -std=legacy 
-# for linux we need -static, OSX does not
-UNAME := $(shell uname)
-# linux needs -static but OSX needs -static-libgfortran
-ifeq ($(UNAME), Linux)
-   FFLAGS +=  -static
-endif
-ifeq ($(UNAME), Darwin)
-   FFLAGS +=  -static-libgfortran
-endif
+FFLAGS := -fd-lines-as-comments -fbackslash -std=legacy -static-libgfortran
 CFLAGS := -static-libgfortran
 MACHINE_DEP := machine_dep.g77
 LIB_NAME := hole.a

@@ -31,3 +31,6 @@
 # hole2
 exe
 *.tar.gz
+
+src/machine_dep.f
+src/vertim.f
