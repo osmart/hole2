@@ -209,50 +209,50 @@ vertim.o: vertim.f
 
 ../exe/labqpt: $(FILES)
 	$(RUN_MAKVER)
-	$(FC)  $(FFLAGS) $(LFLAGS) labqpt.o $(LIB_NAME) -o ../exe/labqpt
+	$(FC)  $(FFLAGS) $(LFLAGS) labqpt.o $(LIB_NAME) -o $@
 
 ../exe/hole: $(FILES)
 	$(RUN_MAKVER)
-	$(FC)  $(FFLAGS) $(LFLAGS) hole.o $(LIB_NAME) -o ../exe/hole
+	$(FC)  $(FFLAGS) $(LFLAGS) hole.o $(LIB_NAME) -o $@
 
 ../exe/qpt_conv:  $(FILES)
 	$(RUN_MAKVER)
-	$(FC)  $(FFLAGS) $(LFLAGS) qpt_conv.o $(LIB_NAME) -o ../exe/qpt_conv
+	$(FC)  $(FFLAGS) $(LFLAGS) qpt_conv.o $(LIB_NAME) -o $@
 
 ../exe/qplot: $(FILES)
 	$(RUN_MAKVER)
-	$(FC)  $(FFLAGS) $(LFLAGS) qplot.o $(LIB_NAME) -o ../exe/qplot
+	$(FC)  $(FFLAGS) $(LFLAGS) qplot.o $(LIB_NAME) -o $@
 
 ../exe/sph_process: $(FILES)
 	$(RUN_MAKVER)
-	$(FC)  $(FFLAGS) $(LFLAGS) sph_process.o $(LIB_NAME) -o ../exe/sph_process
+	$(FC)  $(FFLAGS) $(LFLAGS) sph_process.o $(LIB_NAME) -o $@
 
 ../exe/vdwdot: $(FILES)
 	$(RUN_MAKVER)
-	$(FC)  $(FFLAGS) $(LFLAGS) vdwdot.o $(LIB_NAME) -o ../exe/vdwdot
+	$(FC)  $(FFLAGS) $(LFLAGS) vdwdot.o $(LIB_NAME) -o $@
 
 ../exe/vmd_triangles_to_lines: $(FILES)
 	$(RUN_MAKVER)
-	$(FC)  $(FFLAGS) $(LFLAGS)vmd_triangles_to_lines.o $(LIB_NAME) -o ../exe/vmd_triangles_to_lines
+	$(FC)  $(FFLAGS) $(LFLAGS) vmd_triangles_to_lines.o $(LIB_NAME) -o $@
 
 ../exe/sos_triangle: sos_triangle.c
-	$(CC) $(CFLAGS) sos_triangle.c -O2 -o  ../exe/sos_triangle -lm 
+	$(CC) $(CFLAGS) sos_triangle.c -O2 -o  $@ -lm 
 
 ../exe/2dmap/make_post_map: $(FILES)
 	$(RUN_MAKVER)
-	$(FC)  $(FFLAGS) $(LFLAGS) make_pmap.o $(LIB_NAME) -o ../exe/2dmap/make_post_map
+	$(FC)  $(FFLAGS) $(LFLAGS) make_pmap.o $(LIB_NAME) -o $@
 
 ../exe/2dmap/bln2gnu: $(FILES) 2dmap_with_gnuplot/bln2gnu.f
-	$(FC)  $(FFLAGS) $(LFLAGS) 2dmap_with_gnuplot/bln2gnu.f $(LIB_NAME) -o ../exe/2dmap/bln2gnu
+	$(FC)  $(FFLAGS) $(LFLAGS) 2dmap_with_gnuplot/bln2gnu.f $(LIB_NAME) -o $@
 
 ../exe/2dmap/make_post2gnu: $(FILES) 2dmap_with_gnuplot/make_post2gnu.f
-	$(FC)  $(FFLAGS) $(LFLAGS) 2dmap_with_gnuplot/make_post2gnu.f $(LIB_NAME) -o ../exe/2dmap/make_post2gnu
+	$(FC)  $(FFLAGS) $(LFLAGS) 2dmap_with_gnuplot/make_post2gnu.f $(LIB_NAME) -o $@
 
 ../exe/2dmap/capost2gnu: $(FILES) 2dmap_with_gnuplot/capost2gnu.f
-	$(FC)  $(FFLAGS) $(LFLAGS) 2dmap_with_gnuplot/capost2gnu.f $(LIB_NAME) -o ../exe/2dmap/capost2gnu
+	$(FC)  $(FFLAGS) $(LFLAGS) 2dmap_with_gnuplot/capost2gnu.f $(LIB_NAME) -o $@
 
 ../exe/2dmap/grd2gnu: $(FILES) 2dmap_with_gnuplot/grd2gnu.f
-	$(FC)  $(FFLAGS) $(LFLAGS) 2dmap_with_gnuplot/grd2gnu.f $(LIB_NAME) -o ../exe/2dmap/grd2gnu
+	$(FC)  $(FFLAGS) $(LFLAGS) 2dmap_with_gnuplot/grd2gnu.f $(LIB_NAME) -o $@
 
 .phony: install install-data install-opt install-2dmap install-all
 
