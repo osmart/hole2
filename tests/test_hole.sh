@@ -44,7 +44,7 @@ EOF
 PDB="1grm.pdb"
 
 test -e $PDB \
-    || curl https://files.rcsb.org/download/1grm.pdb.gz | gzip -dc > $PDB \\
+    || curl https://files.rcsb.org/download/1grm.pdb.gz | gzip -dc > $PDB \
     || failed "Failed to get PDB test file $PDB" 255
 
 # clean up
