@@ -34,3 +34,9 @@ exe
 
 src/machine_dep.f
 src/vertim.f
+
+# editor files
+*~
+
+# macOS junk
+.DS_Store
