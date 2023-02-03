@@ -13,6 +13,12 @@ Oliver S. Smart
 
 _HOLE release 2.2.005 (07 August 2016)_
 
+[{mynoteicon}]
+NOTE: This documentation may be out of date. Please check
+https://github.com/osmart/hole2/
+
+
+
 == Introduction
 
 HOLE is a program that allows the analysis and visualisation of the pore
