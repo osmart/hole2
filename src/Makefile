@@ -25,7 +25,7 @@ FFLAGS := -fd-lines-as-comments -fbackslash -std=legacy -static-libgfortran
 CFLAGS := -static-libgfortran
 MACHINE_DEP := machine_dep.g77
 LIB_NAME := hole.a
-AR := ar -rcv
+AR := ar
 RANLIB := ranlib
 #L_ARCH   = $(ARCH)
 #LIB_NAME = d-$(L_ARCH).a
@@ -161,12 +161,12 @@ $(2DMAP_D):
 src: $(LIB_NAME)
 
 $(LIB_NAME): $(FILES) 
-	$(AR) $(LIB_NAME) $(FILES)  
+	$(AR) -rcv $(LIB_NAME) $(FILES)  
 	$(RANLIB) $(LIB_NAME)
 
 .f.o:
 	$(FC) $(FFLAGS) -c $*.f
-	$(AR) $(LIB_NAME) $*.o
+	$(AR) -rcv $(LIB_NAME) $*.o
 
 clean:
 	- rm -f *.o
