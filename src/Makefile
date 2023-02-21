@@ -19,7 +19,6 @@ DATA_DIR:= $(PREFIX)/share/hole2#
 #
 FC := gfortran
 # FC is used by makver.exe
-export FC
 CC := gcc
 FFLAGS := -fd-lines-as-comments -fbackslash -std=legacy -static-libgfortran
 CFLAGS := -static-libgfortran
@@ -27,6 +26,11 @@ MACHINE_DEP := machine_dep.g77
 LIB_NAME := hole.a
 AR := ar
 RANLIB := ranlib
+
+export FC
+export FFLAGS
+export LFLAGS
+export AR
 #L_ARCH   = $(ARCH)
 #LIB_NAME = d-$(L_ARCH).a
 #FFLAGS = $(OPTFLAGS)
@@ -193,11 +197,12 @@ machine_dep.f:
 	ln -s $(MACHINE_DEP) machine_dep.f
 
 makver.exe: makver.f
-	$(FC) makver.f -o makver.exe
+	$(FC) $(FFLAGS) $(LFLAGS) makver.f -o makver.exe
 
 # makver.exe uses environment variable FC to set Fortran compiler
 # (note: 256 character limit to the path length of FC)
-RUN_MAKVER := FC=$(FC) ./makver.exe
+# makver uses environment variables FC, AR, FFLAGS, LFLAGS
+RUN_MAKVER := ./makver.exe
 
 vertim.f: makver.exe
 	$(RUN_MAKVER)
