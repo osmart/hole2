@@ -20,8 +20,8 @@ DATA_DIR:= $(PREFIX)/share/hole2#
 FC := gfortran
 # FC is used by makver.exe
 CC := gcc
-FFLAGS := -fd-lines-as-comments -fbackslash -std=legacy -static-libgfortran
-CFLAGS := -static-libgfortran
+FFLAGS += -fd-lines-as-comments -fbackslash -std=legacy -static-libgfortran
+CFLAGS += -static-libgfortran
 MACHINE_DEP := machine_dep.g77
 LIB_NAME := hole.a
 AR := ar
