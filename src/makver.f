@@ -22,6 +22,9 @@ C limitations under the License.
       CHARACTER*300 HoleRestrict
 ! Fortran compiler in environment variable FC      
       CHARACTER*256 FC
+      CHARACTER*256 AR
+      CHARACTER*1024 FFLAGS
+      CHARACTER*1024 LFLAGS
 ! build information for proper release from environment variables
       CALL GET_ENVIRONMENT_VARIABLE( "HoleVersion", HoleVersion)
       CALL GET_ENVIRONMENT_VARIABLE( "HoleDate", HoleDate)
@@ -30,8 +33,13 @@ C limitations under the License.
       CALL GET_ENVIRONMENT_VARIABLE( "HoleRestrict", HoleRestrict)
       
       CALL GET_ENVIRONMENT_VARIABLE( "FC", FC)
+      CALL GET_ENVIRONMENT_VARIABLE( "AR", AR)
+      CALL GET_ENVIRONMENT_VARIABLE( "FFLAGS", FFLAGS)
+      CALL GET_ENVIRONMENT_VARIABLE( "LFLAGS", LFLAGS)
       IF (LEN_TRIM(FC).LE.1) FC = "gfortran"
-      
+      IF (LEN_TRIM(FC).LE.1) AR = "ar"
+      IF (LEN_TRIM(FC).LE.1) FFLAGS = ""
+      IF (LEN_TRIM(FC).LE.1) LFLAGS = ""
       IF (LEN_TRIM(HoleVersion).LE.1) HoleVersion = 
      &"SOURCE DISTRIBUTION"
       IF (LEN_TRIM(HoleDate).LE.1) HoleDate = "?"
@@ -69,8 +77,10 @@ C limitations under the License.
       CLOSE(1)
 
 ! compile this s/r need to know the Fortran compiler: get from env var FC
-      call system(TRIM(FC) // ' -c -O vertim.f')
+      call system(TRIM(FC) // ' ' // TRIM(FFLAGS) // ' ' //
+     &            TRIM(LFLAGS) // ' ' //
+     &            ' -c -O vertim.f')
 ! hole version
-      call system('ar rv hole.a vertim.o')
+      call system(TRIM(AR) // ' rv hole.a vertim.o')
       call system('rm vertim.o')
       end
