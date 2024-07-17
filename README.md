@@ -18,7 +18,7 @@ Installation
 
 * For **Linux**, the [hole2 conda-forge package](https://anaconda.org/conda-forge/hole2) is available and can be installed with
   ```bash
-  conda -c conda-forge install hole2
+  conda install -c conda-forge hole2
   ```
 * For **macOS** with *Intel chips*  an _experimental_ conda-forge [hole2 package](https://anaconda.org/conda-forge/hole2) is also available. (The newer ARM64 (M1/M2) chips are currently not supported as a conda-forge package, see issue [#3](https://github.com/osmart/hole2/issues/3).)
 
