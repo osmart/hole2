@@ -1,0 +1,659 @@
+C ********************************************************************
+C *                                                                  *
+C * Windows 64-bit port of machine_dep for HOLE2                     *
+C * Based on machine_dep.g77 with Windows adaptations                *
+C *                                                                  *
+C * Ported 2026 for gfortran on Windows (MinGW-w64)                  *
+C *                                                                  *
+C * Original (c) 1993 Oliver Smart & Birkbeck College                *
+C *                                                                  *
+C ********************************************************************
+C
+C File machine_dep.f contains all machine dependent routines
+C Windows 64-bit version for gfortran (MinGW-w64)
+      INTEGER FUNCTION IMACH( IDUM)
+      IMPLICIT NONE 
+C this fn. returns a number to indicate which machine being run on
+C -1: IBM pc under ms dos
+C 0:  Vax under VMS
+C 1:  Convex, hp's
+C 2:  IBM RS6000, sg's (these machines need to have the input
+C			(stream rewound after EOF entered)
+C N.B. numbers gt zero for EOF = ctrl_D le zero for ctrl_Z
+C Windows: use 2 for compatibility (gfortran handles rewind fine)
+      INTEGER			IDUM
+      IMACH = 2 
+      RETURN
+      END
+C
+      SUBROUTINE DISKFF (ISTR)
+      IMPLICIT NONE
+      SAVE
+C
+C this s/r updates a file to disk
+C it closes the file, opens it once more for append
+      CHARACTER*200		FNAME
+      INTEGER			ISTR
+      LOGICAL 			LEXIST
+
+C if unit is six this means screen so return
+      IF (ISTR.EQ.6) GOTO 55555
+
+C check that unit exists
+      INQUIRE( UNIT= ISTR, EXIST= LEXIST)
+
+      IF (LEXIST) THEN
+C find out filename
+      	INQUIRE( UNIT= ISTR, NAME= FNAME)
+      	CLOSE(ISTR)
+C gfortran supports ACCESS='APPEND'
+      	OPEN( ISTR, FILE= FNAME, 
+     1        STATUS='OLD', ACCESS= 'APPEND')
+
+      ELSE
+C tell output stream
+        WRITE(*,99900) ISTR
+      ENDIF
+
+
+55555 RETURN
+99900 FORMAT(
+     1' *** WARNING ***',/
+     1' s/r DISKFF has been called with non-existent unit no.:',I5)
+      END
+C
+      SUBROUTINE DISKFB (ISTR)
+      IMPLICIT NONE
+      SAVE
+C
+C this s/r updates a BINARY file to disk
+      CHARACTER*200		FNAME
+      INTEGER			ISTR
+      LOGICAL 			LEXIST
+
+C check that unit exists
+      INQUIRE( UNIT= ISTR, EXIST= LEXIST)
+
+      IF (LEXIST) THEN
+C find out filename
+      	INQUIRE( UNIT= ISTR, NAME= FNAME)
+      	CLOSE(ISTR)
+      	OPEN( ISTR, FILE= FNAME, FORM= 'UNFORMATTED', 
+     1        STATUS='OLD', ACCESS= 'APPEND')
+
+      ELSE
+C tell output stream
+        WRITE(*,99900) ISTR
+      ENDIF
+
+
+55555 RETURN
+99900 FORMAT(
+     1' *** WARNING ***',/
+     1' s/r DISKFB has been called with non-existent unit no.:',I5)
+      END
+C
+      SUBROUTINE INTERF( USERI, USERO, 
+     &		         LOLD, ISTR, FTYPE, FNAME, LABORT, DEFEXT)
+      IMPLICIT NONE
+      SAVE
+C
+C this s/r is designed to be used in an interactive setting
+C to ask user for a filename and open it.
+C
+C Windows version - adapted from g77 version
+
+C input/output/file streams
+      INTEGER				USERI,
+     &				        USERO,
+     &					ISTR
+
+C old file/ abort flag
+      LOGICAL				LOLD, LABORT
+
+C ftype is the type of file to be opened 
+      CHARACTER*(*)			FTYPE
+C filename
+      CHARACTER*(*)			FNAME
+C default extension
+      CHARACTER*(*)			DEFEXT
+
+C internal vbles
+
+C to open files read only, same for readonly & binary
+      LOGICAL				OPENRO, OPENRB
+
+C fail to open indicator
+      LOGICAL				LFAIL
+
+C store for default filename.
+      CHARACTER*200			FDEF
+C store for originaly specified filename
+      CHARACTER*200			FORIG
+
+C the last character of: fname, ftype, defext
+      INTEGER				IEND, ENDTYP, ENDDEF
+
+C to supply old/new message
+      CHARACTER*3			COLD
+
+C to supply abort message
+      CHARACTER*21			CABORT
+      INTEGER				ENDABO
+
+C dummy integer
+      INTEGER				IDUM
+
+C binary file?
+      LOGICAL				LBIN
+
+C IMACH is a fn indicating machine type.
+      INTEGER				IMACH
+
+C dumchar for prompt
+      CHARACTER*80			DUMCHR
+
+C four character command
+      CHARACTER*4			COM4
+
+C Do prompt for initial filename?
+      LOGICAL				LPROMP
+
+C codes to control vt
+      INCLUDE 'VTCONTROLINC'
+
+C end of decs **************************
+
+C prompt for initial filename?
+      IF (FNAME(1:3).EQ.'!*!') THEN
+        LPROMP = .FALSE.
+        CALL CHREND( FNAME, IEND)
+C strip off first three characters
+        FNAME(1:IEND) = FNAME(4:IEND)
+        IEND = 0
+      ELSE
+        LPROMP = .TRUE.
+      ENDIF
+
+C modification - if ftype contains the string 'binary'
+C then deal with a binary file
+      LBIN = .FALSE.
+      IF ( (INDEX(FTYPE,'BINARY').NE.0) .OR.
+     &     (INDEX(FTYPE,'binary').NE.0)     ) LBIN = .TRUE.
+
+C find a free stream no
+      CALL STREAM( ISTR)
+
+C reset fail indicator
+      LFAIL = .FALSE.
+C do we want an old or new file
+      IF (LOLD) THEN
+        COLD = 'old'
+      ELSE
+        COLD = 'new'
+      ENDIF
+C file type
+      CALL CHREND( FTYPE, ENDTYP)
+C default extension
+      CALL CHREND( DEFEXT, ENDDEF)
+
+C if a default extension has been supplied
+      IF (ENDDEF.GE.1) THEN
+C Add default extension to default filename.
+C Look for path separator - Windows uses backslash and forward slash
+        IDUM = MAX(INDEX(FNAME,']'),INDEX(FNAME,'/'),
+     &             INDEX(FNAME,'\'),1)
+
+C Where to place extension if extension already on filename:
+        IDUM = INDEX(FNAME(IDUM:200),'.') + IDUM - 2
+C If no extension found place at the end:
+        IF (IDUM.LE.0) CALL CHREND( FNAME, IDUM)
+C Add default extension to filename:
+        FNAME = FNAME(1:IDUM)//DEFEXT
+      ENDIF
+
+C store default filename
+      FDEF = FNAME
+
+C Allow abort?
+      IF (LABORT) THEN
+        IF (IMACH(0).GT.0) THEN
+C Windows/unix uses ctrl-D (in mintty) or ctrl-Z
+	  CABORT= '(abort by EXIT or ^Z)'
+	  ENDABO = 21
+        ELSE
+C vms ctrl-Z
+	  CABORT= '(abort by EXIT or ^Z)'
+	  ENDABO = 21
+        ENDIF
+      ELSE
+        CABORT= ' '
+        ENDABO = 0
+      ENDIF
+
+C ask for filename ************
+
+C Jump back here if we cannot open specified file.
+10    CONTINUE
+
+C rewind input stream after an EOF has occured.
+      IF (IMACH(0).EQ.2) REWIND( USERI, ERR= 25105)
+25105 CONTINUE
+
+C If this is the 2nd time around - tell user cannot open & bleep.
+      IF (LFAIL) THEN
+	CALL CHREND( FNAME, IEND)
+        WRITE( USERO, '(A,A)')
+     &VTNORM//' Sorry unable to open file: ', FNAME(1:IEND)
+C now also try to open original name specified for old files
+        IF (LOLD) THEN
+	  CALL CHREND( FORIG, IEND)
+          WRITE( USERO, '(A,A)')
+     &VTNORM//'                   or file: ', FORIG(1:IEND)
+        ENDIF
+        WRITE( USERO, '(A,A)')
+     &VTNORM//' Please try again!', CHAR(7)
+C revert to original default
+        FNAME = FDEF
+      ENDIF	
+
+C prompt for file?
+      IF (LPROMP) THEN
+        CALL CHREND( FNAME, IEND) 
+        WRITE( USERO, '(A,A,A,A,A)' )
+     &VTNORM//
+     &' Please enter ', FTYPE(1:ENDTYP), ' (', COLD, ') filename'
+C prompting now dealt with in seperate routine
+        DUMCHR =
+     &'defaults <'//FNAME(1:IEND)//'> ext:<'//DEFEXT(1:ENDDEF)//
+     &   '> '//CABORT(1:ENDABO)//' :'
+        CALL PROMPT( USERO, DUMCHR)
+
+C read reply line 900 for abort
+        CALL READSE( USERI, USERO, *900, *900, FNAME)
+C abort by exit
+        IF ((FNAME(1:4).EQ.'exit').OR.(FNAME(1:4).EQ.'EXIT'))
+     &						     GOTO 900
+      ENDIF
+
+C make sure that prompting on if we fail and need to
+C ask for name
+      LPROMP = .TRUE.
+
+C fail indicator
+      LFAIL = .TRUE.
+
+C reply blank?
+      CALL CHREND( FNAME, IEND)
+      IF (IEND.EQ.0) THEN
+C default to fdef
+        FNAME = FDEF
+        FORIG = FDEF
+      ELSE
+C Have specified filename.
+        FORIG = FNAME
+C Put on extension?
+        IDUM = MAX(INDEX(FNAME,']'),INDEX(FNAME,'/'),
+     &             INDEX(FNAME,'\'),1)
+        IDUM = INDEX(FNAME(IDUM:200),'.')
+        IF (IDUM.EQ.0) THEN
+          CALL CHREND( FNAME, IDUM)
+          FNAME = FNAME(1:IDUM)//DEFEXT
+        ENDIF
+      ENDIF
+
+C Windows: skip tilde expansion (not applicable)
+      CALL DTILDA( FNAME)
+      CALL DTILDA( FORIG)
+
+C open as old or new?
+      IF (LOLD) THEN
+C Open as a readonly file.
+        IF (LBIN) THEN
+          IF (.NOT.OPENRB( ISTR, FNAME, USERO)) THEN
+            IF (.NOT.OPENRB( ISTR, FORIG, USERO)) GOTO 10
+          ENDIF
+        ELSE
+          IF (.NOT.OPENRO( ISTR, FNAME, USERO)) THEN
+            IF (.NOT.OPENRO( ISTR, FORIG, USERO)) GOTO 10
+          ENDIF
+        ENDIF
+
+      ELSE
+
+C Open a new file.
+C Test to see whether file already exists
+        IF (IMACH(0).GT.0) THEN
+          OPEN( ISTR, FILE= FNAME, STATUS= 'OLD', ERR= 35)
+C close file
+          CLOSE( ISTR)
+C The file already exists!
+          CALL CHREND( FNAME, IEND)
+          WRITE( USERO, '(A,A,A,A/ A/ A/ A)')
+     &VTNORM//' File: ', FNAME(1:IEND), ' already exists', CHAR(7),
+     &' What do you want to do?  Options: ',
+     &'   * Specify new file name     - hit return',
+     &'   * Overwrite old file        - enter "o"'
+          WRITE( USERO, '(A,A,A/ A/ A)')
+     &'   * Keep old file as: ', FNAME(1:IEND), '.old',
+     &'                               - enter "k"',
+     &'   * Append to old file        - enter "a"'
+          IF (LABORT) WRITE(USERO,'(A,A)')
+     &'   * Abort:                    '//CABORT(1:ENDABO)
+          CALL PROMPT( USERO,
+     & 'Enter option <respecify file name>:')
+          CALL READSE( USERI, USERO, *900, *900, COM4)
+C make upper case
+          CALL UCASE( COM4)
+
+C option - overwrite old file.
+          IF (COM4(1:1).EQ.'O') THEN
+C reopen file
+            OPEN( ISTR, FILE= FNAME, STATUS= 'OLD')
+C delete file
+            CLOSE( ISTR, STATUS= 'DELETE')
+C proceed
+
+C option - append to old file
+          ELSEIF (COM4(1:1).EQ.'A') THEN
+            IF (LBIN) THEN
+              OPEN( ISTR, FILE= FNAME, STATUS= 'OLD', 
+     &              FORM= 'UNFORMATTED', ACCESS= 'APPEND')
+            ELSE
+              OPEN( ISTR, FILE= FNAME, STATUS= 'OLD', 
+     &              ACCESS= 'APPEND')
+      	    ENDIF
+
+C return without error
+            GOTO 55
+
+C option - keep old file as .old
+          ELSEIF (COM4(1:1).EQ.'K') THEN
+C Windows: use rename command instead of mv
+            DUMCHR = 'rename '//FNAME(1:IEND)//' '
+     &                   //FNAME(1:IEND)//'.old'
+            CALL SYSTEM( DUMCHR)
+C proceed
+
+C option - abort
+          ELSEIF (COM4.EQ.'EXIT') THEN
+            GOTO 900
+
+C unrecognized option or blank return
+          ELSE
+
+C reset failure to open indicator
+            LFAIL = .FALSE.
+C revert to original default
+            FNAME = FDEF
+C get new file name
+            GOTO 10
+
+          ENDIF
+        ENDIF
+
+C Jump here if file does not yet exist.
+35      CONTINUE
+        IF (LBIN) THEN
+C unformatted
+          OPEN( ISTR, FILE= FNAME, STATUS= 'NEW', 
+     &          FORM= 'UNFORMATTED', ERR= 10)
+        ELSE
+	OPEN( ISTR, FILE= FNAME, STATUS= 'NEW', 
+     &                                ERR= 10)
+      	ENDIF
+      ENDIF
+
+C jump to here to return without error
+55    CONTINUE
+
+C return the fname as result of inquire
+      INQUIRE( ISTR, NAME = FNAME)
+
+C normal return - file is opened
+      LABORT = .FALSE.
+
+55555 RETURN
+
+C abort to here
+900   CONTINUE
+      IF (LABORT) THEN
+C jump to return
+        GOTO 55555
+      ELSE
+        WRITE( USERO, *) VTNORM//'abort not available', CHAR(7)
+        GOTO 10
+      ENDIF
+
+      END
+C 
+      LOGICAL FUNCTION OPENRO( ISTR, FNAME, IMESS)
+      IMPLICIT NONE
+C logical fn. openro(nstream,filename)
+C opens file as old - no READONLY on Windows/gfortran
+      INTEGER			ISTR, IMESS
+      CHARACTER*(*)		FNAME
+      CHARACTER*200		FDUM
+
+C end of decs ******************
+
+C find an availible stream no.
+      CALL STREAM(ISTR)
+
+      OPENRO = .FALSE.
+C Windows/gfortran: no READONLY keyword needed
+      OPEN( UNIT= ISTR, FILE= FNAME, STATUS= 'OLD',
+     &		      ERR= 10)
+      OPENRO = .TRUE.
+      GOTO 55555
+
+C try again without shared
+10    OPEN( UNIT= ISTR, FILE= FNAME, STATUS= 'OLD',
+     &			      ERR= 20)
+      WRITE( IMESS, 99900) 
+      OPENRO = .TRUE.
+      GOTO 55555
+
+C Windows is case insensitive so no need to try lowercase
+C but keep for compatibility with mixed-case paths
+20    CONTINUE
+      FDUM = FNAME
+      CALL LCASE(FDUM)
+      OPEN( UNIT= ISTR, FILE= FDUM, STATUS= 'OLD',
+     &		      ERR= 30)
+      OPENRO = .TRUE.
+      GOTO 55555
+
+30    OPEN( UNIT= ISTR, FILE= FDUM, STATUS= 'OLD',
+     &			      ERR= 55555)
+      WRITE( IMESS, 99900) 
+      OPENRO = .TRUE.
+      GOTO 55555
+
+99900 FORMAT('  ** Warning file currently opened by another user')
+
+
+55555 RETURN
+      END
+C
+      LOGICAL FUNCTION OPENRB( ISTR, FNAME, IMESS)
+      IMPLICIT NONE
+C logical fn. openrB - opens binary file as old
+      INTEGER			ISTR, IMESS
+      CHARACTER*(*)		FNAME
+      CHARACTER*200		FDUM
+
+C end of decs ******************
+
+      CALL STREAM(ISTR)
+
+      OPENRB = .FALSE.
+      OPEN( UNIT= ISTR, FILE= FNAME, STATUS= 'OLD',
+     &		      FORM= 'UNFORMATTED', ERR= 10)
+      OPENRB = .TRUE.
+      GOTO 55555
+
+10    OPEN( UNIT= ISTR, FILE= FNAME, STATUS= 'OLD',
+     &			      FORM= 'UNFORMATTED', ERR= 20)
+      WRITE( IMESS, 99900) 
+      OPENRB = .TRUE.
+      GOTO 55555
+
+20    CONTINUE
+      FDUM = FNAME
+      CALL LCASE(FDUM)
+      OPEN( UNIT= ISTR, FILE= FDUM, STATUS= 'OLD',
+     &		      FORM= 'UNFORMATTED', ERR= 30)
+      OPENRB = .TRUE.
+      GOTO 55555
+
+30    OPEN( UNIT= ISTR, FILE= FDUM, STATUS= 'OLD',
+     &			      FORM= 'UNFORMATTED', ERR= 55555)
+      WRITE( IMESS, 99900) 
+      OPENRB = .TRUE.
+      GOTO 55555
+
+99900 FORMAT('  ** Warning file currently opened by another user')
+
+
+55555 RETURN
+      END
+C
+      SUBROUTINE STREAM(ISTR)
+      IMPLICIT NONE
+C finds the first stream no. not open (but not stream 0, 5 or 6)
+      INTEGER			ISTR
+      LOGICAL			LOPEN
+
+      DO 10 ISTR = 1, 99
+        IF ((ISTR.EQ.5) .OR. (ISTR.EQ.6)) GOTO 10
+        INQUIRE( UNIT = ISTR, OPENED = LOPEN)
+        IF (.NOT.LOPEN) GOTO 55555
+10    CONTINUE
+
+C no availible unit
+      STOP
+     1's/r stream has found that no unit is availible to be opened'
+55555 RETURN
+      END
+C
+C RANDOM NUMBER ROUTINES ********************
+      SUBROUTINE GSEED( ISEED)
+      IMPLICIT NONE
+C this routine returns a seed integer for random number generator
+C Windows version: uses Fortran intrinsic DATE_AND_TIME
+C instead of Unix 'date' shell command
+
+C seed integer to be returned
+      INTEGER			ISEED
+
+C DATE_AND_TIME values array
+      INTEGER			IVALUES(8)
+
+C end of decs *******************
+
+C Use portable Fortran 90 intrinsic
+C IVALUES: year, month, day, tz_minutes, hour, minute, second, ms
+      CALL DATE_AND_TIME(VALUES=IVALUES)
+
+C Combine day, hour, minute, second, millisecond into seed
+C This gives a unique-enough integer for random seeding
+      ISEED = IVALUES(3) * 1000000 + IVALUES(5) * 10000 +
+     &        IVALUES(6) * 100 + IVALUES(7)
+C Add milliseconds for extra randomness
+      ISEED = ISEED + IVALUES(8)
+
+      RETURN
+      END
+C
+      SUBROUTINE dRAND( RANDOM)
+      IMPLICIT NONE
+      SAVE
+C returns a random number 
+C gfortran version using RAND intrinsic
+      DOUBLE PRECISION		RANDOM
+
+C first call vbles:
+      LOGICAL                   LFIRST
+
+C seed for RAN
+      REAL			RAN
+
+C seed for RAND this can be controlled via common block CSEED
+      INTEGER                   ISEED, FSEED
+
+C common block for first value of seed
+      COMMON /CSEED/		FSEED
+
+C end of decs ******************
+
+      IF (.NOT.LFIRST) THEN
+        LFIRST = .TRUE.
+C can set seed value by first seed value FSEED
+        IF (FSEED.NE.0) THEN
+          ISEED = FSEED
+        ELSE
+C get seed value - from date and time:
+          CALL GSEED( ISEED)
+C requires seed to be odd
+          IF (MOD(ISEED,2).EQ.0) ISEED = ISEED +1
+          FSEED = ISEED
+        ENDIF
+C requires seed to be odd
+        IF (MOD(ISEED,2).EQ.0) ISEED = ISEED +1
+        RANDOM = RAND(ISEED)
+      ENDIF
+
+C produce a random number
+C gfortran: RAND(0) returns next random number
+      ISEED = 0
+      RANDOM = RAND(ISEED)
+
+      RETURN
+      END
+C (next routine not actually machine dependent but included for completeness)
+      SUBROUTINE dURAN3( VEC)
+      IMPLICIT NONE
+C returns a random unit vector
+      DOUBLE PRECISION		VEC(3)
+
+C three random numbers between 0.0 and 1.0
+      CALL dRAND( VEC(1))
+      CALL dRAND( VEC(2))
+      CALL dRAND( VEC(3))
+
+C make no.'s lie between -0.5 and 0.5
+      VEC(1) = VEC(1) - 0.5
+      VEC(2) = VEC(2) - 0.5
+      VEC(3) = VEC(3) - 0.5
+
+C unit them
+      CALL dUVEC2( VEC)
+
+      RETURN
+      END
+C 
+      SUBROUTINE FLUSH6
+      IMPLICIT NONE
+C this s/r flushes stream 6 the default output stream
+C gfortran supports FLUSH intrinsic
+      CALL FLUSH(6)
+      RETURN
+      END
+      SUBROUTINE DTILDA( FNAME )
+      IMPLICIT NONE
+C ********************************************************************
+C * Windows version - tilde expansion is not applicable              *
+C * This is a no-op stub that just returns                           *
+C ********************************************************************
+C
+C filename
+      CHARACTER*(*)   		FNAME
+
+C end of decs ******************
+
+C On Windows, tilde (~) is not used for home directory paths.
+C Just return without doing anything.
+
+55555 RETURN
+      END

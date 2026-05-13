@@ -1,5 +1,11 @@
 #include <stdio.h>
-int flush ()
+/* flush callable from Fortran - gfortran uses trailing underscore */
+void flush_(void)
 {
-fflush( stdout);
+  fflush(stdout);
+}
+/* Also provide without underscore for compatibility */
+void flush(void)
+{
+  fflush(stdout);
 }
