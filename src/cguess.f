@@ -106,6 +106,8 @@ C vbles for grid search
       INTEGER			NCYCLE
       DOUBLE PRECISION		BESTXYZ(3), BESTRAD
 
+C loop counter for RCOUNT replacement (avoid REAL DO loop variable)
+      INTEGER			IRCOUNT
 
 C end of decs ******************
 
@@ -213,8 +215,10 @@ C vector to test
 C starting at the initial point
 C now look at points from -5 to +5 along proposed cvect
 C find hole radius of points
+C Windows fix: avoid REAL DO loop control variable (crashes gfortran 16)
           SUM_PRAD =  0.
-          DO RCOUNT = -5.,5.001,1. 
+          DO IRCOUNT = -5, 5
+            RCOUNT = DBLE(IRCOUNT)
 	    TSTXYZ(1) = CPOINT(1) + RCOUNT*CVECT(1)
 	    TSTXYZ(2) = CPOINT(2) + RCOUNT*CVECT(2)
 	    TSTXYZ(3) = CPOINT(3) + RCOUNT*CVECT(3)
@@ -237,8 +241,8 @@ C best direction?
         CVECT(2) = 0.
         CVECT(3) = 0.
         CVECT(XYZBEST) = 1.
-        IF (SHORTO.LE.1) WRITE( NOUT, '(A,I5)')
-     &' Best direction is found to be ', XYZBEST, '(1=X,2=Y,3=Z)'
+        IF (SHORTO.LE.1) WRITE( NOUT, '(A,I5,A)')
+     &' Best direction is found to be ', XYZBEST, ' (1=X,2=Y,3=Z)'
         
       ENDIF ! end of whether we should guess cpoint
 
